@@ -1,0 +1,273 @@
+/* RESET BROWSER HTML5 */
+html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video{border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent;margin:0;padding:0}body{line-height:1}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}nav blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:none}a{font-size:100%;vertical-align:baseline;background:transparent;margin:0;padding:0}ins{background-color:#ff9;color:#000;text-decoration:none}mark{background-color:#ff9;color:#000;font-style:italic;font-weight:700}del{text-decoration:line-through}abbr[title],dfn[title]{border-bottom:1px dotted;cursor:help}table{border-collapse:collapse;border-spacing:0}input,select{vertical-align:middle}ul{list-style-type:none;}
+
+/* FONTS */
+@font-face {
+  font-family: 'montserratblack';
+  src: url("../fonts/montserrat-black-webfont.woff2") format("woff2"), url("../fonts/montserrat-black-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'montserratbold';
+  src: url("../fonts/montserrat-bold-webfont.woff2") format("woff2"), url("../fonts/montserrat-bold-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'montserratextra_bold';
+  src: url("../fonts/montserrat-extrabold-webfont.woff2") format("woff2"), url("../fonts/montserrat-extrabold-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'montserrathairline';
+  src: url("../fonts/montserrat-hairline-webfont.woff2") format("woff2"), url("../fonts/montserrat-hairline-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'montserratlight';
+  src: url("../fonts/montserrat-light-webfont.woff2") format("woff2"), url("../fonts/montserrat-light-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'montserratregular';
+  src: url("../fonts/montserrat-regular-webfont.woff2") format("woff2"), url("../fonts/montserrat-regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'montserratsemi_bold';
+  src: url("../fonts/montserrat-semibold-webfont.woff2") format("woff2"), url("../fonts/montserrat-semibold-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'montserratultra_light';
+  src: url("../fonts/montserrat-ultralight-webfont.woff2") format("woff2"), url("../fonts/montserrat-ultralight-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal; }
+
+/* BAR */
+div.brand-nav { width: 100%; background: rgba(0, 0, 0, 0.15); position: fixed; height: 57px; z-index: 1000; top:0;}
+/* div.brand-nav { width: 100%; background: linear-gradient(to bottom, rgba(0,0,0,.7) 0, rgba(0,0,0,.5) 50%, rgba(0,0,0,.0) 200%); position: fixed; height: 57px; z-index: 1000;} */
+div.brand-nav.normal { width: 100%; background: #ffffff; /*background: linear-gradient(to right, #fff 50%,  #d8d6d6 100%);*/ border-bottom: 1px solid #eaeaea;}
+
+/* NAVBAR HIDE EFFECT CLASSES (HEADROOM.JS) */
+div.headroom { transition: transform 200ms linear; }
+div.headroom--pinned { transform: translateY(0%); -webkit-transition: all 0.2s ease-in; -moz-transition: all 0.2s ease-in; transition: all 0.2s ease-in; opacity: 1;}
+div.headroom--unpinned { transform: translateY(-100%); -webkit-transition: all 0.2s ease-in; -moz-transition: all 0.2s ease-in; transition: all 0.2s ease-in; opacity: 0;}
+
+/* IF NAVBAR HAS "LOCKED" CLASS, IT DOESNT HIDE ANYMORE (set in variable.json) */
+div.brand-nav.headroom.is-locked { transform: translateY(0%) !important; opacity: 1 !important; }
+div.brand-nav.headroom.is-locked div.brand-logo-wrapper { transform: translateX(0%) !important; }
+div.brand-nav.headroom.is-locked div.brand-social-wrapper { transform: translateX(0%) !important; }
+
+/* BRAND LOGO WRAPPER + SLIDE LEFT EFFECT CLASSES */
+div.brand-nav div.brand-logo-wrapper { height: 100%; float: left; }
+div.brand-nav div.brand-logo-wrapper.is-slided { transform: translateX(-20%); -webkit-transition: all 0.2s cubic-bezier(.6,-1.09,.36,1.72); -moz-transition: all 0.2s cubic-bezier(.6,-1.09,.36,1.72); transition: all 0.2s cubic-bezier(.6,-1.09,.36,1.72); }
+div.brand-nav div.brand-logo-wrapper.isnot-slided { transform: translateX(0%); -webkit-transition: all 0.25s ease-in; -moz-transition: all 0.25s ease-in; transition: all 0.25s ease-in; }
+div.brand-nav div.brand-logo-wrapper a { height: 100%; float: left; display: block; margin-left: 30px; text-decoration: none; border: none;}
+div.brand-nav div.brand-logo-wrapper svg#brand-logo { height: 100%; height: auto; }
+div.brand-nav.normal div.brand-logo-wrapper svg#brand-logo path { fill: #930025; }
+div.brand-nav div.brand-logo-wrapper .partner-brand-logo { width: auto; height: 35px; margin-top: 12px; }
+
+hr.separator{
+  height: 6px;
+  border: 0;
+  box-shadow: inset 0 6px 6px -6px rgba(0, 0, 0, 0.4);
+}
+#suggest, .result, #missingTexts{
+  display: none;
+}
+.ui-widget.ui-autocomplete{
+  border-radius: 3px;
+  margin-top: 2px;
+  border: 1px solid #ccc;
+}
+.ui-menu-item{
+  background: #fff;
+  /* border: 1px solid #ccc; */
+}
+.ui-menu-item .ui-menu-item-wrapper.ui-state-active {
+  font-weight: bold !important;
+}
+
+body {
+	margin: 90px 0 0 0;
+	background-color: #ffffff;
+	color: #6d6c6c;
+	font-family: 'Montserrat', sans-serif;
+	line-height: 1.5;
+}
+
+.content {
+	margin-top: 50px;
+	background-color: #E9F0F5;
+}
+
+nav {
+	background: none repeat scroll 0 0 white;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+	font-family: verdana;
+	left: 0;
+	line-height: 40px;
+	height: 40px;
+	padding-left: 10px;
+	position: fixed;
+	right: 0;
+	top: 0;
+	vertical-align: middle;
+	z-index: 999;
+}
+
+nav .logo {
+	border: 0 dotted #fff;
+	float: left;
+	height: 20px;
+	margin-right: 19px;
+	margin-top: 10px;
+	height: 20px;
+}
+
+nav a {
+	border: medium none;
+	text-decoration: none;
+}
+
+nav .share-button {
+	line-height: normal;
+	position: absolute;
+	right: 35px;
+	top: 10px;
+}
+
+nav ul {
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+footer {
+	margin:100px 0 -12px 0!important;
+	padding: 40px 10px;
+	box-shadow: 0px -4px 8px -4px rgb(0, 0, 0, 0.7);
+	background: none repeat scroll 0px 0px #FFF;
+	line-height: 30px;
+}
+
+.footer-container {
+	width:60%;
+	margin:auto;
+	font-size:16px;
+}
+
+.footer-container a {
+	color:#5C5959;
+	border-bottom:1px dotted #5C5959;
+}
+
+.footer-container a:hover {
+	color:#950728;
+	border-bottom:1px dotted #950728;
+	text-decoration:none;
+}
+
+h1.intro {
+  color: #787878;
+  color: #000;
+  text-shadow: none;
+  text-align: left;
+  font-size: 2.2rem;
+	font-weight: bold;
+  line-height: 2.3rem;
+  margin-bottom: 1.2rem;
+  margin-top: 1.2rem;
+}
+h1, h2, h3{
+  font-weight: bold;
+}
+h2 {
+	margin-top: 60px;
+	margin-bottom: 30px;
+  font-weight: bold;
+}
+h5{
+	margin-top: 30px;
+	font-family: 'montserratsemi_bold';
+  color: #555;
+}
+h6{
+	margin-top: 10px;
+	font-family: 'montserratsemi_bold';
+  color: #555;
+}
+
+p {
+	margin-bottom: 20px;
+	font-size: 17px;
+}
+
+.padding-bottom{
+	padding-bottom: 40px;
+}
+.margin-top{
+	margin-top: 30px;
+}
+.margin-bottom{
+	margin-bottom: 40px;
+}
+
+
+.source{
+  font-size: .9em;
+}
+ul {
+  list-style: disc;
+}
+li {
+  margin-left: 2em;
+}
+
+/* TODO passer au SCSS */
+
+.outline{
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
+
+.chart-background{
+	margin-left: -4px;
+	margin-right: -4px;
+	padding: 0 8px;
+	background: #f9f9f9;
+	border: 2px solid #eee;
+	border-radius: 3px;
+}
+
+/* style qu'on mettra après mise au point des graphiques */
+/*
+.axis line {
+	fill: none;
+	shape-rendering: crispEdges;
+	stroke-width: 1px;
+}
+
+.axis text {
+	font-family: 'Raleway', sans-serif;
+	font-size: 13px;
+	pointer-events: none;
+	fill: #7e7e7e;
+}
+
+.y.axis text {
+	text-anchor: end !important;
+	font-size:14px;
+	fill: #7e7e7e;
+}
+
+.x .domain, .x line {
+	display: none;
+}
+*/
