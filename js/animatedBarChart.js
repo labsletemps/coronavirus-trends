@@ -14,7 +14,7 @@ $( document ).ready(function() {
   "shortDays": ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."],
   "months": ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"],
   "shortMonths": ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."]
-}
+  }
   d3.timeFormatDefaultLocale(locale);
   var format = d3.timeFormat("%c");
   var filter_china = 'Chine';
