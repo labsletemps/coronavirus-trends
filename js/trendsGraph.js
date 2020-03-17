@@ -56,7 +56,8 @@ $( document ).ready(function() {
     .select("#chartTop")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom);
+    .attr("height", height + margin.top + margin.bottom)
+    .attr("id", "chartTopSVG");
 
   // Get the data
   d3.csv("data/GTrendsVsTweetsVsCorona.csv").then(function(data) {
@@ -140,7 +141,27 @@ $( document ).ready(function() {
     // Add the Y Axis
     //svg.append("g")
     //    .call(d3.axisLeft(y));
-  
+ 
+    const annotations = [
+      {
+        note: {
+          label: "Here is the annotation label",
+        },
+        color: ["#e83e8c"],
+        x: 40,
+        y: 230,
+        dy: -70,
+        dx: 0
+      }
+    ]
+    
+    // Add annotation to the chart
+    const makeAnnotations = d3.annotation()
+      .annotations(annotations)
+    d3.select("#chartTopSVG")
+      .append("g")
+      .call(makeAnnotations)
+
   });
   
 });
