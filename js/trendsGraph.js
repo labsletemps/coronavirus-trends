@@ -138,8 +138,8 @@ $( document ).ready(function() {
         .call(d3.axisBottom(x));
   
     // Add the Y Axis
-    svg.append("g")
-        .call(d3.axisLeft(y));
+    //svg.append("g")
+    //    .call(d3.axisLeft(y));
   
   });
   
