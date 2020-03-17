@@ -13,7 +13,7 @@ $( document ).ready(function() {
   //d3.timeFormatDefaultLocale(locale);
 
   // set the dimensions and margins of the graph
-  var margin = { top: 40, bottom: 10, left: 124, right: 20 };
+  var margin = { top: 40, bottom: 10, left: 20, right: 20 };
 
   var width = parseInt(d3.select("#chartTop").style("width")) - margin.left - margin.right;
 
@@ -161,6 +161,16 @@ $( document ).ready(function() {
     d3.select("#chartTopSVG")
       .append("g")
       .call(makeAnnotations)
+
+    // Handmade legend
+    svg.append("circle").attr("cx",20).attr("cy",280).attr("r", 6).style("fill", "#3498db")
+    svg.append("circle").attr("cx",140).attr("cy",280).attr("r", 6).style("fill", "#e74c3c")
+    svg.append("circle").attr("cx",260).attr("cy",280).attr("r", 6).style("fill", "#2ecc71")
+    svg.append("circle").attr("cx",380).attr("cy",280).attr("r", 6).style("fill", "#ff9214")
+    svg.append("text").attr("x", 40).attr("y", 280).text("variable A").style("font-size", "13px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x", 160).attr("y", 280).text("variable B").style("font-size", "13px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x", 280).attr("y", 280).text("variable B").style("font-size", "13px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x",400).attr("y", 280).text("variable B").style("font-size", "13px").attr("alignment-baseline","middle")
 
   });
   
