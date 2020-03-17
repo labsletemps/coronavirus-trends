@@ -251,6 +251,14 @@ li {
   stroke-width: 3px;
 }
 
+.domain {
+  display: none;
+}
+
+#chartTopSVG {
+  color: lightgrey;
+}
+
 /* style qu'on mettra après mise au point des graphiques */
 /*
 .axis line {
