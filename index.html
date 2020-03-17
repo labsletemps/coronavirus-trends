@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-
+	<meta charset="utf-8">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<title>Coronavirus Trends</title>
@@ -14,6 +14,9 @@
 	<!-- A intégrer en local -->
 	<link href='https://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,600,800" rel="stylesheet">
+	<script src="https://d3js.org/d3.v4.js"></script>
+	<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 
 	<!-- TODO: webpack, SCSS-->
 	<link rel="stylesheet" href="css/bootstrap.min.css">
@@ -42,6 +45,26 @@
 
 				<p>Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. </p>
 
+			</div>
+		</div>
+		
+
+		<!-- bloc données – on peut bien sûr mettre en pleine largeur, au choix -->
+		<div class="row chart padding-bottom">
+			<div class="offset-md-2 col-md-8 col-sm-12 group-label text-center">
+				<h5>Supertitre</h5>
+				<p>Superpabeau mais j’arrangerai le style.</p>
+			</div>
+
+			<div class="offset-md-2 col-md-8 col-sm-12">
+				<p class="text-center no-margin"><b>Date:</b> <span class="date">mercredi 19 février 2020</span> <span class="horizontal-spacer"></span><i class="fa fa-undo reload" aria-hidden="true"></i></p>
+
+				<!-- Create an element where the map will take place -->
+				<svg id="europeMap" width="730" height="350"></svg>
+
+				<div class="source">
+					Source:<a target="_blank" href="https://gisanddata.maps.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6">Université Johns-Hopkins</a>, données retraitées par xyz, couvrant la période du x au x.
+				</div>
 			</div>
 		</div>
 
@@ -88,9 +111,10 @@
 	</div><!-- end container -->
 	<script src="lib/jquery-3.4.1.slim.min.js"></script>
 	<script src="lib/d3.min.js"></script>
-  <script src="lib/d3-annotation.min.js"></script>
+	<!--
+  	<script src="lib/d3-annotation.min.js"></script> -->
 	<script src="js/main.js"></script>
-  <script src="js/trendsGraph.js"></script>
-
+    <script src="js/trendsGraph.js"></script>
+    <script src="js/europeMap.js"></script>
 </body>
 </html>
