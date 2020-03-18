@@ -9,20 +9,36 @@ Et on peut concaténer tous les scripts (avec webpack / CodeKit etc.), je peux l
 
 $( document ).ready(function() {
 
+    media_graph("CH");
     trend_graph("CH");
 
-    d3.select("#country-option").on("change", change)
-    function change() {
-      $("#chartTop").empty();
-      console.log(this.selectedIndex);
-      if (this.selectedIndex == 0){
+  $('.nav  li').click(function(e) {
+    if(!$(e.target).hasClass('active')) {
+      if (e.target.id == "public-CH"){
+        $("#chartTop").empty();
         trend_graph("CH");
-      } else if (this.selectedIndex == 1){
+      } else if (e.target.id == "public-IT"){
+        $("#chartTop").empty();
         trend_graph("IT");
-      } else if (this.selectedIndex == 2){
+      } else if (e.target.id == "public-DE"){
+        $("#chartTop").empty();
         trend_graph("DE");
-      } else if (this.selectedIndex == 3){
+      } else if (e.target.id == "public-FR"){
+        $("#chartTop").empty();
         trend_graph("FR");
+      } else if (e.target.id == "media-CH"){
+        $("#chartMedia").empty();
+        media_graph("CH");
+      } else if (e.target.id == "media-IT"){
+        $("#chartMedia").empty();
+        media_graph("IT");
+      } else if (e.target.id == "media-DE"){
+        $("#chartMedia").empty();
+        media_graph("DE");
+      } else if (e.target.id == "media-FR"){
+        $("#chartMedia").empty();
+        media_graph("FR");
       }
     }
+  });
 });

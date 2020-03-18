@@ -240,7 +240,7 @@ li {
 .chart-background{
 	margin-left: -4px;
 	margin-right: -4px;
-	padding: 0 8px;
+	/*padding: 0 8px;*/
 	/*background: #f9f9f9;*/
 	/*border: 2px solid #eee;*/
 	/*border-radius: 3px;*/
@@ -259,6 +259,14 @@ li {
   color: lightgrey;
 }
 
+
+.nav-link {
+    padding: .2rem 0.5rem;
+}
+
+.nav-item {
+  margin: 0;
+}
 
 /* style qu'on mettra après mise au point des graphiques */
 /*
