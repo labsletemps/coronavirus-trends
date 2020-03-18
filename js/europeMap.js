@@ -27,7 +27,7 @@ var projection = d3.geoMercator()
     .scale(1000)                       
     .translate([ width/2, height/2 ])
 
-Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv"), d3.csv("/data/coronavirus.csv")]).then(function(data) {
+Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv"), d3.csv("/data/coronavirus_2020-03-18.csv")]).then(function(data) {
 
   var dataGeo = data[0];
   var dataTweets = data[1];
@@ -52,17 +52,16 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
   var newDataCorona = dataCorona.filter(function(d) {
     return d.date == parseDate(startDate);
   })
-
+ 
+ console.log(newDataCorona)
  var dataMap = {};
   newDataCorona.forEach(function(d){
-    dataMap[d.country] = {}
-    dataMap[d.country]['Date'] = d.date;
-    dataMap[d.country]['Confirmed'] = d.Confirmed;
-    dataMap[d.country]['Recovered'] = d.Recovered;
-    dataMap[d.country]['Deaths'] = d.Deaths;
-    dataMap[d.country]['Province/State'] = d['Province/State'];
+    dataMap[d['alpha-3']] = {}
+    dataMap[d['alpha-3']]['Date'] = d.date;
+    dataMap[d['alpha-3']]['Confirmed'] = d.cumsum_cases;
+    dataMap[d['alpha-3']]['Name'] = d.country;
+    dataMap[d['alpha-3']]['Deaths'] = d.cumsum_deaths;
   });
-
   dataMap = d3.map(dataMap)
 
   // Color scales
@@ -70,16 +69,6 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
     .range(["#b8b8b8", "red"]);
   var colorScaleTweets = d3.scaleLinear().domain([0,10000])
     .range(["#b8b8b8", "blue"]);
-
-  var tooltip = d3.select("#tooltip")
-    .style("position", "absolute")
-    .style("top", height/2 + "px")
-    .style("left", "-200px")
-    .style("z-index", "5000")
-
-    .style("visibility", "visible")
-    .style("background", "#000")
-    .html("a simple tooltip");
 
   // Draw the map
   svg.append("g")
@@ -104,7 +93,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
     }).on("click", function(d) {
       displayDetail(d);
     })
-    .style("opacity", .3)
+    .style("opacity", .5)
     .exit()
     .transition().duration(200)
     .attr("r",1)
@@ -115,12 +104,9 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
     d3.select(".map-details")
     .html(function() {
       var location = d.properties.name;  
-
-      var infos = d3.map(dataMap.get(location)) || d3.map();
-
+      var infos = d3.map(dataMap.get(d.id)) || d3.map();
       return `<h4>${location}</h4>
         <p><span class="stats">Cas confirmés cumulés</span> ${infos.get('Confirmed') || 0  }</p>
-        <p><span class="stats">Guérisons</span> ${infos.get('Recovered') || 0  }</p>
         <p><span class="stats">Décès</span> ${infos.get('Deaths') || 0  }</p>
         <p><span class="stats">Date</span> ${parseDate(currentDate)}</p>
       `;})
@@ -130,12 +116,13 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
   // Update the map
   var displayMap = function(data){
     svg.selectAll("path").attr("fill", function (d) {
-      var infos = d3.map(data.get(d.properties.name)) || d3.map();
+      var infos = d3.map(data.get(d.id));
       d.total = infos.get('Confirmed') || 0;
         return colorScaleCorona(d.total);
       })
       .attr("d", d3.geoPath()
       .projection(projection))
+      
   }
   
    // Add a scale for bubble size
@@ -271,17 +258,16 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
         return d.date == parseDate(h);
       })
 
-      dataMap = {};
-      newDataCorona.forEach(function(d){
-        dataMap[d.country] = {}
-        dataMap[d.country]['Date'] = d.date;
-        dataMap[d.country]['Confirmed'] = d.Confirmed;
-        dataMap[d.country]['Recovered'] = d.Recovered;
-        dataMap[d.country]['Deaths'] = d.Deaths;
-        dataMap[d.country]['Province/State'] = d['Province/State'];
-      });
+    dataMap = {};
+    newDataCorona.forEach(function(d){
+      dataMap[d['alpha-3']] = {}
+      dataMap[d['alpha-3']]['Date'] = d.date;
+      dataMap[d['alpha-3']]['Confirmed'] = d.cumsum_cases;
+      dataMap[d['alpha-3']]['Name'] = d.country;
+      dataMap[d['alpha-3']]['Deaths'] = d.cumsum_deaths;
+    });
 
-      dataMap = d3.map(dataMap)
+    dataMap = d3.map(dataMap)
   }
 
   function update(h) {
