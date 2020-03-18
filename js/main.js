@@ -11,13 +11,13 @@ $( document ).ready(function() {
 
   var controller = new ScrollMagic.Controller();
 
-  var chartTrendScene = new ScrollMagic.Scene({triggerElement: "#chartTop", duration: 1000})
-    .setClassToggle("#chartTop", "bounce")
+  var chartTrendScene = new ScrollMagic.Scene({triggerElement: "#trendsChart", duration: 1000})
+    .setClassToggle("#trendsChart", "bounce")
     .addTo(controller)
     .addIndicators({'name': 'chart-1'}) // debug
     .on("enter", function(){
       console.log('enter')
-      $("#chartTop").empty();
+      $("#trendsChart").empty();
       trend_graph("IT");
     })
     .on("leave", function(){
@@ -32,16 +32,16 @@ $( document ).ready(function() {
   $('.nav  li').click(function(e) {
     if(!$(e.target).hasClass('active')) {
       if (e.target.id == "public-CH"){
-        $("#chartTop").empty();
+        $("#trendsChart").empty();
         trend_graph("CH");
       } else if (e.target.id == "public-IT"){
-        $("#chartTop").empty();
+        $("#trendsChart").empty();
         trend_graph("IT");
       } else if (e.target.id == "public-DE"){
-        $("#chartTop").empty();
+        $("#trendsChart").empty();
         trend_graph("DE");
       } else if (e.target.id == "public-FR"){
-        $("#chartTop").empty();
+        $("#trendsChart").empty();
         trend_graph("FR");
       } else if (e.target.id == "media-CH"){
         $("#chartMedia").empty();

@@ -13,7 +13,7 @@ function trend_graph(country="CH") {
   d3.timeFormatDefaultLocale(locale);
 
   // set the dimensions and margins of the graph
-  var get_width = parseInt(d3.select("#chartTop").style("width"));
+  var get_width = parseInt(d3.select("#trendsChart").style("width"));
   if (get_width>450) {
       var margin = { top: 5, bottom: 40, left: 20, right: 20};
   } else {
@@ -43,11 +43,11 @@ function trend_graph(country="CH") {
       .y(function(d) { return yl(d.GTrend); });
 
   var svg = d3
-    .select("#chartTop")
+    .select("#trendsChart")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
-    .attr("id", "chartTopSVG")
+    .attr("id", "trendsChartSVG")
   .append('g')
     .attr("transform", "translate(" + 0 + "," + margin.top + ")");
 
@@ -192,7 +192,7 @@ function trend_graph(country="CH") {
         // Add annotation to the chart
         const makeAnnotations = d3.annotation()
           .annotations(annotations_lombardie)
-        d3.select("#chartTopSVG")
+        d3.select("#trendsChartSVG")
           .append("g")
           .call(makeAnnotations)
     }
@@ -213,7 +213,7 @@ function trend_graph(country="CH") {
     // Add annotation to the chart
     const makeAnnotations = d3.annotation()
       .annotations(annotations)
-    d3.select("#chartTopSVG")
+    d3.select("#trendsChartSVG")
       .append("g")
       .call(makeAnnotations)
 
