@@ -4,9 +4,11 @@
 	<meta charset="utf-8">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<title>Coronavirus Trends</title>
+	<title>Covid-19: histoire d’une médiatisation – Le Temps</title>
 	<meta name="description" content="" />
 	<meta name="author" content="">
+	<meta name="robots" content="noindex">
+
 	<link rel="shortcut icon" href="https://assets.letemps.ch/sites/default/files/favicon.ico" type="image/vnd.microsoft.icon" />
 
 	<!-- ICI: HEAD VIA UN BLOCK TWIG -->
@@ -19,6 +21,22 @@
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
 	<link rel="stylesheet" type="text/css" href="css/map.css" />
+	<style>
+	.highlight{
+		font-weight: bold;
+	}
+	.highlight-red{
+		background: rgba(231, 76, 60, 0.2);
+		color: rgb(231, 76, 60);
+	}
+	.highlight-blue{
+		background: rgba(52, 152, 219, 0.2);
+		color: rgb(52, 152, 219);
+	}
+	.legend{
+		font-size: .9em;
+	}
+	</style>
 </head>
 
 <body>
@@ -35,53 +53,28 @@
 		<div class="row text">
 			<div class="offset-md-2 col-md-8 col-sm-12">
 				<p>(textes de travail)</p>
-				<h1 class="intro">Covid-19: couverture médiatique et prise de conscience du public</h1>
+				<h1 class="intro">Covid-19: histoire d’une médiatisation</h1>
 
-				<p class="lead">Des chercheurs de l’EPFL ont étudié les liens entre articles en ligne, recherches Google et mentions du virus sur les réseaux sociaux</p>
+				<p class="lead">Une équipe de recherche de l’EPFL a étudié les liens entre articles en ligne, recherches Google et mentions du virus sur les réseaux sociaux</p>
 
-				<p>Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. </p>
-
-				<p>Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. </p>
+				<p>«Coronavirus symptômes», «virus», «svizzera coronavirus» ou simplement «symptômes»: ces recherches Google grimpent en flèche en Suisse, d’après le service Trends (tendances) de Google. Les internautes des cantons latins sont plus assidus que les alémaniques, avec un volume de recherche particulièrement élevé vers Lausanne, Genève et Coire.</p>
+				<p>Pour étudier comment le Covid-19 s’est médiatisé, une équipe de chercheur des Laboratoire des systèmes d’information répartis de l’EPFL a comparé trois phénomènes: ces volumes de recherches, le volume des articles publiés en ligne par les médias, et celui des mentions du coronavirus sur Twitter.<p/>
 
 			</div>
 		</div>
-		
 
-		<!-- bloc données – on peut bien sûr mettre en pleine largeur, au choix -->
-		<div class="row padding-bottom">
-			<div class="offset-md-1 col-lg-10 col-sm-12">
-			<center><button id="play-button">Play</button>	</center>
-		</div>
-		</div>
-		<div class="row">
-			<div class="offset-md-1 col-lg-10 col-sm-12">
-				<!-- Create an element where the map will take place -->
-				<div id="sliderEuropeMap"></div>	
-				<div id="map", class=""></div>
-			</div>
-		</div>
-		<div class="row padding-bottom">
-			<div class="offset-md-1 col-lg-10 col-sm-12">
-				<div class="map-details">
-					<h4></h4>
-					<p>Survoler/toucher un cercle pour plus d’informations.</p>
-				</div>
-			</div>
-		</div>
 
 		<!-- bloc texte -->
 		<div class="row text">
 			<div class="offset-md-2 col-md-8 col-sm-12">
 
-				<p class="lead">Des chercheurs de l’EPFL ont étudié les liens entre articles en ligne, recherches Google et mentions du virus sur les réseaux sociaux</p>
+				<p>«La Suisse est un cas particulier puisque le premier cas a été annoncé près d’un mois après les autres pays considérés, remarque Jérémie Rappaz. Le grand volume d’<span class="highlight highlight-red">articles de presse</span> concernant le virus alors que celui-ci n’était pas présent sur le territoire a pu contribuer au sentiment des gens que la presse en fait trop.» [<span class="highlight highlight-blue">Twitter</span> c’est un problème de données ou c’est vraiment à zéro jusqu’au 23 février en Suisse!?]</p>
 
-				<p>Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. </p>
-
-				<p>Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. </p>
+				<p><i>Effet de scroll prévu: on passe sur chaque pays. Code couleur à ajouter peut-être </i></p>
 
 			</div>
 		</div>
-		
+
 
 		<!-- bloc données – on peut bien sûr mettre en pleine largeur, au choix -->
 		<div class="row chart padding-bottom">
@@ -89,26 +82,36 @@
 			</div>
 
 			<div class="offset-md-2 col-md-8 col-sm-12">
-
+				<h5>La flambée des cas en Italie a provoqué des pics des recherches dans les pays voisins</h5>
+				<p class="legend">Les recherches Google sont mesurées sur une échelle de 0 à 100. Un indice de 100 correspond à la recherche la plus fréquente.</p>
 				<div id="chartTop" class="chart-background"></div>
 
-        <ul class="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" id="public-CH" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Suisse</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="public-IT" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Italie</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="public-DE" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Allemagne</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="public-FR" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">France</a>
-          </li>
-        </ul>
+				<ul class="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
+					<li class="nav-item">
+						<a class="nav-link active" id="public-CH" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Suisse</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="public-IT" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Italie</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="public-DE" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Allemagne</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" id="public-FR" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">France</a>
+					</li>
+				</ul>
 				<!--<div class="source">
-          <b>Source: </b>Google Trends, Twitter API. <b>Période:</b> 2020.01.20 - 2020.03.11.
-        </div>-->
+					<b>Source: </b>Google Trends, Twitter API. <b>Période:</b> 2020.01.20 - 2020.03.11.
+				</div>-->
+			</div>
+		</div>
+
+		<!-- bloc texte -->
+		<div class="row text">
+			<div class="offset-md-2 col-md-8 col-sm-12">
+
+				<p><i>A REMANIER – XXXXX Le graphique suivant compare évolution de l’épidémie et tendance des recherches du X février au X mars. «En Italie, on observe un pic de recherche lorsque les infections confirmées passent de 3 à 60 en deux jours, le 22 février. Dans les pays voisins, la courbe monte en flèche quelques jours après cet événement», commente François Quellec, étudiant de master 2 et participant du projet de recherche.</i></p>
+
 			</div>
 		</div>
 
@@ -143,16 +146,68 @@
 		<div class="row text">
 			<div class="offset-md-2 col-md-8 col-sm-12">
 
-				<p>Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. </p>
+				<p><i>XXXX PLUS VALABLE Zoom sur l’Italie, où les recherches se sont multipliées plus tôt. En comptant le nombre d’articles publiés au sujet du Covid-19 sur 50 sites de médias italiens, on constate que le pic de recherches est concomitant à un pic de publication d’articles: jusqu’à [~1000 – préciser] publications en un jour le X février.</i></p>
+
+			</div>
+		</div>
+
+		<!-- bloc données – on peut bien sûr mettre en pleine largeur, au choix -->
+		<div class="row padding-bottom">
+			<div class="offset-md-1 col-lg-10 col-sm-12">
+			<center><button id="play-button">Play</button>	</center>
+		</div>
+		</div>
+		<div class="row">
+			<div class="offset-md-1 col-lg-10 col-sm-12">
+				<!-- Create an element where the map will take place -->
+				<div id="sliderEuropeMap"></div>
+				<div id="map", class=""></div>
+			</div>
+		</div>
+		<div class="row padding-bottom">
+			<div class="offset-md-1 col-lg-10 col-sm-12">
+				<div class="map-details">
+					<h4></h4>
+					<p>Survoler/toucher un cercle pour plus d’informations.</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- bloc texte -->
+		<div class="row text">
+			<div class="offset-md-2 col-md-8 col-sm-12">
+
+
+				<p>Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. </p>
 
 				<p>Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. </p>
 
 			</div>
 		</div>
 
+
+
+
+
+
+		<!-- bloc texte -->
+		<div class="row text">
+			<div class="offset-md-2 col-md-8 col-sm-12">
+
+				<p><b>Recherche</b> Jérémie Rappaz, François Quellec<br>
+
+				<b>Texte</b> Paul Ronga<br>
+
+				<b>Données</b> Johns-Hopkins, à compléter</p>
+
+				<p>Ce projet a bénéficié d’un soutien de l’<a target="_blank" href="https://www.media-initiative.ch/">Initiative for Media Innovation (IMI)</a>.</p>
+
+			</div>
+		</div>
+
 		<div class="row">
 			<div class="offset-md-2 col-md-8 col-sm-12">
-				<p class="source">Le code source de cette page est TODO UPDATE <a target="_blank" href="https://github.com/labsletemps/sar-request-helper">disponible en licence libre</a>.</p>
+				<p class="source">Le code source de cette page est <a target="_blank" href="https://github.com/labsletemps/coronavirus-trends">disponible en licence libre</a>.</p>
 			</div>
 		</div>
 

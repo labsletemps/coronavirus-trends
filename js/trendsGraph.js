@@ -10,7 +10,7 @@ function trend_graph(country="CH") {
     "months": ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"],
     "shortMonths": ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."]
   }
-  //d3.timeFormatDefaultLocale(locale);
+  d3.timeFormatDefaultLocale(locale);
 
   // set the dimensions and margins of the graph
   var get_width = parseInt(d3.select("#chartTop").style("width"));
@@ -24,10 +24,10 @@ function trend_graph(country="CH") {
 
   //var width = 800 - margin.left - margin.right;
   var height = 240 - margin.top - margin.bottom;
- 
+
   // parse the date / time
   var parseTime = d3.timeParse("%Y-%m-%d");
-  
+
   // set the ranges
   var x = d3.scaleTime()
     .range([margin.left, width-margin.right]);
@@ -37,7 +37,7 @@ function trend_graph(country="CH") {
   var line_Tweets = d3.line()
       .x(function(d) { return x(d.date); })
       .y(function(d) { return yr(d.Tweets); });
-  
+
   var line_GTrend = d3.line() //.curve(d3.curveStepAfter)
       .x(function(d) { return x(d.date); })
       .y(function(d) { return yl(d.GTrend); });
@@ -53,40 +53,40 @@ function trend_graph(country="CH") {
 
   // Get the data
   d3.csv("data/MediasVsGTrendsVsTweetsVsCorona_filt.csv").then(function(data) {
-  
+
     // format the data
     data.forEach(function(d) {
         d.date = parseTime(d.date);
 
         if (country=="CH") {
             d.Infections  = +d.Infections_CH;
-            d.Tweets = +d.Tweets_CH; 
-            d.Medias = +d.Medias_CH; 
+            d.Tweets = +d.Tweets_CH;
+            d.Medias = +d.Medias_CH;
             d.GTrend = +d.GTrend_CH;
         } else if (country=="DE") {
             d.Infections  = +d.Infections_DE;
-            d.Tweets = +d.Tweets_DE; 
-            d.Medias = +d.Medias_DE; 
+            d.Tweets = +d.Tweets_DE;
+            d.Medias = +d.Medias_DE;
             d.GTrend = +d.GTrend_DE;
         } else if (country=="FR") {
             d.Infections  = +d.Infections_FR;
-            d.Tweets = +d.Tweets_FR; 
-            d.Medias = +d.Medias_FR; 
+            d.Tweets = +d.Tweets_FR;
+            d.Medias = +d.Medias_FR;
             d.GTrend = +d.GTrend_FR;
         } else if (country=="IT"){
             d.Infections  = +d.Infections_IT;
-            d.Tweets = +d.Tweets_IT; 
-            d.Medias = +d.Medias_IT; 
+            d.Tweets = +d.Tweets_IT;
+            d.Medias = +d.Medias_IT;
             d.GTrend = +d.GTrend_IT;
         }
     });
-  
+
     // Scale the range of the data
     x.domain(d3.extent(data, function(d) { return d.date; }));
     //x.domain([,d3.max(data, function(d) {
   	//  return d.date; })])
 
-    yl.domain([0, d3.max(data, function(d) { 
+    yl.domain([0, d3.max(data, function(d) {
   	  return d.GTrend; })]);
     yr.domain([0, d3.max(data, function(d) {
   	  return Math.max(d.Tweets,d.Medias); })]);
@@ -99,14 +99,14 @@ function trend_graph(country="CH") {
     //    .style("stroke-dasharray", ("3, 3"))
     //    .style("stroke-width", "2px")
     //    .attr("d", line_Infections);
-    
+
     // Add the X Axis
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x));
-  
+
     // Add the Y Axis
-    
+
     if (get_width>480) {
       svg.append("g")
           .attr('transform', 'translate(' + (margin.left) + ',0)')
@@ -126,42 +126,43 @@ function trend_graph(country="CH") {
     svg.append("path")
         .data([data])
         .attr("class", "line")
-        .style("stroke", "#fff") 
+        .style("stroke", "#fff")
         .style("stroke-width", "5px")
         .attr("d", line_Tweets);
     svg.append("path")
         .data([data])
         .attr("class", "line")
-        .style("stroke", "#3498db") 
+        .style("stroke", "#3498db")
         .attr("d", line_Tweets);
     svg.append("path")
         .data([data])
         .attr("class", "line")
-        .style("stroke", "#fff") 
+        .style("stroke", "#fff")
         .style("stroke-width", "5px")
         .attr("d", line_GTrend);
     svg.append("path")
         .data([data])
         .attr("class", "line")
-        .style("stroke", "#e74c3c") 
+        .style("stroke", "#e74c3c")
         .attr("d", line_GTrend);
     //svg.append("path")
     //    .data([data])
     //    .attr("class", "line")
-    //    .style("stroke", "#fff") 
+    //    .style("stroke", "#fff")
     //    .style("stroke-width", "5px")
     //    .attr("d", line_Medias);
     //svg.append("path")
     //    .data([data])
     //    .attr("class", "line")
-    //    .style("stroke", "#2ecc71") 
+    //    .style("stroke", "#2ecc71")
     //    .attr("d", line_Medias);
- 
+
 
 
     if (country=="CH") {
         var date_first_case = x(new Date(2020,1,25));
-        var label_first_case = "1er cas";
+        // var label_first_case = "1er cas";
+        var label_first_case = "1er cas en Suisse"; // si tu permets! et j'aurais tendance à ajouter l'Italie pour rendre le graphique plus lisible
         var dx_dir = -1;
     } else if (country=="DE") {
         var date_first_case = x(new Date(2020,0,27));
@@ -187,7 +188,7 @@ function trend_graph(country="CH") {
             dx: -1
           }
         ]
-        
+
         // Add annotation to the chart
         const makeAnnotations = d3.annotation()
           .annotations(annotations_lombardie)
@@ -208,7 +209,7 @@ function trend_graph(country="CH") {
         dx: dx_dir
       }
     ]
-    
+
     // Add annotation to the chart
     const makeAnnotations = d3.annotation()
       .annotations(annotations)
@@ -217,7 +218,7 @@ function trend_graph(country="CH") {
       .call(makeAnnotations)
 
     // Handmade legend
-    var legend_pos_y = 223; 
+    var legend_pos_y = 223;
     svg.append("line").attr("x1",20).attr("y1",legend_pos_y).attr("x2",30).attr("y2",legend_pos_y).style("stroke", "#3498db").style("stroke-width", "5px")
     svg.append("line").attr("x1",100).attr("x2",110).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#e74c3c").style("stroke-width", "5px")
     //svg.append("line").attr("x1",230).attr("x2",240).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#2ecc71").style("stroke-width", "5px")
@@ -228,6 +229,5 @@ function trend_graph(country="CH") {
     //svg.append("text").attr("x",330).attr("y", legend_pos_y).text("Infections").style("font-size", "13px").attr("alignment-baseline","middle")
 
   });
-  
-}
 
+}

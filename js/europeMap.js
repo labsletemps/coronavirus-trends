@@ -1,12 +1,12 @@
 /*
  * Bubble Map
  * Implementation based on official template from https://www.d3-graph-gallery.com/graph/bubblemap_template.html,  Yan Holtz
-*/ 
+*/
 
 // The svg
  var svg = d3.select("#map")
    // Container class to make it responsive.
-   .classed("svg-container", true) 
+   .classed("svg-container", true)
    .append("svg")
    // Responsive SVG needs these 2 attributes and no width and height attr.
    .attr("preserveAspectRatio", "xMinYMin meet")
@@ -23,12 +23,11 @@ height = svg.attr('height');
 
 // Map and projection/Zoom
 var projection = d3.geoMercator()
-    .center([10,48])                
-    .scale(1000)                       
+    .center([10,48])
+    .scale(1000)
     .translate([ width/2, height/2 ])
 
 Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv"), d3.csv("/data/coronavirus_2020-03-18.csv")]).then(function(data) {
-
   var dataGeo = data[0];
   var dataTweets = data[1];
   var dataCorona = data[2];
@@ -44,7 +43,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
 
   var currentCountry = null;
 
-  // filter data set 
+  // filter data set
   var newDataTweets = dataTweets.filter(function(d) {
     return d.date == parseDate(startDate);
   })
@@ -124,11 +123,11 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
       .projection(projection))
       
   }
-  
+
    // Add a scale for bubble size
   var valueExtent = d3.extent(dataTweets, function(d) { return +d.count; })
   var size = d3.scaleSqrt()
-    .domain(valueExtent)  
+    .domain(valueExtent)
     .range([ 1, 50])  // Size in pixel
 
   // Add circles:
@@ -151,7 +150,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
         .style("fill", function(d){ return colorScaleTweets(d.count) })
           .attr("stroke", function(d){ if(d.count>20){return "black"}else{return "none"}  })
           .attr("stroke-width", 1)
-          .attr("fill-opacity", 0.4);      
+          .attr("fill-opacity", 0.4);
   };
 
   /* SLIDER */
@@ -167,10 +166,10 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
       .clamp(true);
 
 
- 
+
   var slider = d3.select("#sliderEuropeMap")
    // Container class to make it responsive.
-   .classed("svg-container", true) 
+   .classed("svg-container", true)
    .append("svg")
    // Responsive SVG needs these 2 attributes and no width and height attr.
    .attr("preserveAspectRatio", "xMinYMin meet")
@@ -183,7 +182,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
    .attr("height", 150)
    .attr("class", "slider")
     .attr("transform", "translate(" + 50 + "," + 100/2 + ")");
-      
+
 
   slider.append("line")
       .attr("class", "track")
@@ -193,11 +192,11 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
           .on("start.interrupt", function() { slider.interrupt(); })
           .on("start drag", function() {
             currentValue = d3.event.x;
-            update(x.invert(currentValue)); 
+            update(x.invert(currentValue));
           })
       )
       .attr("class", "track-inset");
-      
+
   slider.insert("g", ".track-overlay")
       .attr("class", "ticks")
       .attr("transform", "translate(0," + 18 + ")")
@@ -214,13 +213,13 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
       .attr("class", "handle")
       .attr("r", 9);
 
-  var label = slider.append("text")  
+  var label = slider.append("text")
       .attr("class", "label")
       .attr("text-anchor", "middle")
       .text(formatDateIntoDay(startDate))
       .attr("transform", "translate(0," + (-25) + ")")
 
-  
+
   playButton
     .on("click", function() {
       var button = d3.select(this);
@@ -235,7 +234,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
       }
       console.log("Slider moving: " + moving);
   });
-    
+
   function step() {
     update(x.invert(currentValue));
     currentValue = currentValue + (targetValue/151);
@@ -323,8 +322,8 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
     .append("text")
       .attr('x', xLabel)
       .attr('y', function(d){ return yCircle - size(d) } )
-      .text( function(d){ 
-        return d + ' tweets' 
+      .text( function(d){
+        return d + ' tweets'
       } )
       .style("font-size", 12)
       .attr('alignment-baseline', 'middle')
