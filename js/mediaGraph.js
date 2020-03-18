@@ -1,4 +1,4 @@
-function trend_graph(country="CH") {
+function media_graph(country) {
   // localisation
   var locale = {
     "dateTime": "%A %e %B %Y",
@@ -15,7 +15,7 @@ function trend_graph(country="CH") {
   // set the dimensions and margins of the graph
   var margin = { top: 40, bottom: 10, left: 40, right: 40 };
 
-  var width = parseInt(d3.select("#chartTop").style("width")) - margin.left - margin.right;
+  var width = parseInt(d3.select("#chartMedia").style("width")) - margin.left - margin.right;
 
   //var width = 800 - margin.left - margin.right;
   var height = 300 - margin.top - margin.bottom;
@@ -30,75 +30,34 @@ function trend_graph(country="CH") {
   var yr = d3.scaleLinear().range([height, 0]);
   var yl = d3.scaleLinear().range([height, 0]);
 
-  if (country=="CH") {
-      //var line_Infections = d3.line()
-      //    .x(function(d) { return x(d.date); })
-      //    .y(function(d) { return yl(d.Infections_CH); });
+  var line_Infections_CH = d3.line()
+      .x(function(d) { return x(d.date); })
+      .y(function(d) { return yl(d.Infections_CH); });
+  var line_Infections_FR = d3.line()
+      .x(function(d) { return x(d.date); })
+      .y(function(d) { return yl(d.Infections_FR); });
+  var line_Infections_DE = d3.line()
+      .x(function(d) { return x(d.date); })
+      .y(function(d) { return yl(d.Infections_DE); });
+  var line_Infections_IT = d3.line()
+      .x(function(d) { return x(d.date); })
+      .y(function(d) { return yl(d.Infections_IT); });
 
-      var line_Tweets = d3.line()
-          .x(function(d) { return x(d.date); })
-          .y(function(d) { return yr(d.Tweets_CH,); });
-
-      var line_Medias = d3.line()
-          .x(function(d) { return x(d.date); })
-          .y(function(d) { return yr(d.Medias_CH); });
-
-      var line_GTrend = d3.line()
-          .x(function(d) { return x(d.date); })
-          .y(function(d) { return yl(d.GTrend_CH); });
-  } else if (country=="DE") {
-      //var line_Infections = d3.line()
-      //    .x(function(d) { return x(d.date); })
-      //    .y(function(d) { return yl(d.Infections_DE); });
-
-      var line_Tweets = d3.line()
-          .x(function(d) { return x(d.date); })
-          .y(function(d) { return yr(d.Tweets_DE,); });
-
-      var line_Medias = d3.line()
-          .x(function(d) { return x(d.date); })
-          .y(function(d) { return yr(d.Medias_DE); });
-
-      var line_GTrend = d3.line()
-          .x(function(d) { return x(d.date); })
-          .y(function(d) { return yl(d.GTrend_DE); });
-  } else if (country=="FR") {
-      //var line_Infections = d3.line()
-      //    .x(function(d) { return x(d.date); })
-      //    .y(function(d) { return yl(d.Infections_FR); });
-
-      var line_Tweets = d3.line()
-          .x(function(d) { return x(d.date); })
-          .y(function(d) { return yr(d.Tweets_FR,); });
-
-      var line_Medias = d3.line()
-          .x(function(d) { return x(d.date); })
-          .y(function(d) { return yr(d.Medias_FR); });
-
-      var line_GTrend = d3.line()
-          .x(function(d) { return x(d.date); })
-          .y(function(d) { return yl(d.GTrend_FR); });
-  } else if (country=="IT"){
-      //var line_Infections = d3.line()
-      //    .x(function(d) { return x(d.date); })
-      //    .y(function(d) { return yl(d.Infections_IT); });
-
-      var line_Tweets = d3.line()
-          .x(function(d) { return x(d.date); })
-          .y(function(d) { return yr(d.Tweets_IT,); });
-
-      var line_Medias = d3.line()
-          .x(function(d) { return x(d.date); })
-          .y(function(d) { return yr(d.Medias_IT); });
-
-      var line_GTrend = d3.line()
-          .x(function(d) { return x(d.date); })
-          .y(function(d) { return yl(d.GTrend_IT); });
-  } else {
-  } 
+  var line_Medias_CH = d3.line()
+      .x(function(d) { return x(d.date); })
+      .y(function(d) { return yr(d.Medias_CH); });
+  var line_Medias_FR = d3.line()
+      .x(function(d) { return x(d.date); })
+      .y(function(d) { return yr(d.Medias_FR); });
+  var line_Medias_DE = d3.line()
+      .x(function(d) { return x(d.date); })
+      .y(function(d) { return yr(d.Medias_DE); });
+  var line_Medias_IT = d3.line()
+      .x(function(d) { return x(d.date); })
+      .y(function(d) { return yr(d.Medias_IT); });
 
   var svg = d3
-    .select("#chartTop")
+    .select("#chartMedia")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -106,32 +65,24 @@ function trend_graph(country="CH") {
 
   // Get the data
   d3.csv("data/MediasVsGTrendsVsTweetsVsCorona_filt.csv").then(function(data) {
-  
+       
     // format the data
     data.forEach(function(d) {
         d.date = parseTime(d.date);
-
-        if (country=="CH") {
+         if (country=="CH") {
             d.Infections  = +d.Infections_CH;
-            d.Tweets = +d.Tweets_CH; 
             d.Medias = +d.Medias_CH; 
-            d.GTrend = +d.GTrend_CH;
         } else if (country=="DE") {
             d.Infections  = +d.Infections_DE;
-            d.Tweets = +d.Tweets_DE; 
             d.Medias = +d.Medias_DE; 
-            d.GTrend = +d.GTrend_DE;
         } else if (country=="FR") {
             d.Infections  = +d.Infections_FR;
-            d.Tweets = +d.Tweets_FR; 
             d.Medias = +d.Medias_FR; 
-            d.GTrend = +d.GTrend_FR;
         } else if (country=="IT"){
             d.Infections  = +d.Infections_IT;
-            d.Tweets = +d.Tweets_IT; 
             d.Medias = +d.Medias_IT; 
-            d.GTrend = +d.GTrend_IT;
         }
+
     });
   
     // Scale the range of the data
@@ -140,53 +91,31 @@ function trend_graph(country="CH") {
   	//  return d.date; })])
 
     yl.domain([0, d3.max(data, function(d) { 
-  	  return d.GTrend; })]);
+  	  return Math.max(d.Infections_CH,d.Infections_FR,d.Infections_DE,d.Infections_IT); })]);
     yr.domain([0, d3.max(data, function(d) {
-  	  return Math.max(d.Tweets,d.Medias); })]);
+  	  return Math.max(d.Medias); })]);
 
     // Add the valueline path.
-    //svg.append("path")
-    //    .data([data])
-    //    .attr("class", "line")
-    //    .style("stroke", "#3498db")
-    //    .style("stroke-dasharray", ("3, 3"))
-    //    .style("stroke-width", "2px")
-    //    .attr("d", line_Infections);
+    svg.append("path")
+        .data([data])
+        .attr("class", "line")
+        .style("stroke", "#3498db")
+        .style("stroke-dasharray", ("3, 3"))
+        .style("stroke-width", "2px")
+        .attr("d", line_Infections_FR);
 
     svg.append("path")
         .data([data])
         .attr("class", "line")
         .style("stroke", "#fff") 
         .style("stroke-width", "5px")
-        .attr("d", line_Tweets);
+        .attr("d", line_Medias_CH);
     svg.append("path")
         .data([data])
         .attr("class", "line")
         .style("stroke", "#3498db") 
-        .attr("d", line_Tweets);
-    svg.append("path")
-        .data([data])
-        .attr("class", "line")
-        .style("stroke", "#fff") 
-        .style("stroke-width", "5px")
-        .attr("d", line_GTrend);
-    svg.append("path")
-        .data([data])
-        .attr("class", "line")
-        .style("stroke", "#e74c3c") 
-        .attr("d", line_GTrend);
-    svg.append("path")
-        .data([data])
-        .attr("class", "line")
-        .style("stroke", "#fff") 
-        .style("stroke-width", "5px")
-        .attr("d", line_Medias);
-    svg.append("path")
-        .data([data])
-        .attr("class", "line")
-        .style("stroke", "#2ecc71") 
-        .attr("d", line_Medias);
- 
+        .attr("d", line_Medias_CH);
+
     // Add the X Axis
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")

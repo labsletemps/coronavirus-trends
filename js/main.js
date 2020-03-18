@@ -9,7 +9,8 @@ Et on peut concaténer tous les scripts (avec webpack / CodeKit etc.), je peux l
 
 $( document ).ready(function() {
 
-    trend_graph("CH");
+    media_graph("FR");
+    trend_graph("FR");
 
     d3.select("#country-option").on("change", change)
     function change() {
