@@ -9,6 +9,23 @@ Et on peut concaténer tous les scripts (avec webpack / CodeKit etc.), je peux l
 
 $( document ).ready(function() {
 
+  var controller = new ScrollMagic.Controller();
+
+  var chartTrendScene = new ScrollMagic.Scene({triggerElement: "#chartTop", duration: 1000})
+    .setClassToggle("#chartTop", "bounce")
+    .addTo(controller)
+    .addIndicators({'name': 'chart-1'}) // debug
+    .on("enter", function(){
+      console.log('enter')
+      $("#chartTop").empty();
+      trend_graph("IT");
+    })
+    .on("leave", function(){
+      console.log('leave')
+      // chart1.unload(['Apple Watch**']);
+    });
+
+
     media_graph("CH");
     trend_graph("CH");
 
