@@ -15,9 +15,9 @@ function media_graph(country) {
   // set the dimensions and margins of the graph
   var get_width = parseInt(d3.select("#chartTop").style("width"));
   if (get_width>450) {
-      var margin = { top: 40, bottom: 10, left: 30, right: 20};
+      var margin = { top: 5, bottom: 40, left: 30, right: 20};
   } else {
-      var margin = { top: 40, bottom: 10, left: 0, right: 0};
+      var margin = { top: 5, bottom: 40, left: 0, right: 0};
   }
 
   var width = parseInt(d3.select("#chartMedia").style("width")) - margin.left - margin.right;
@@ -48,7 +48,9 @@ function media_graph(country) {
     .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
-    .attr("id", "chartTopSVG");
+    .attr("id", "chartTopSVG")
+  .append('g')
+    .attr("transform", "translate(" + 0 + "," + margin.top + ")");
 
   // Get the data
   d3.csv("data/MediasVsGTrendsVsTweetsVsCorona_filt.csv").then(function(data) {
@@ -143,11 +145,11 @@ function media_graph(country) {
     //  .call(makeAnnotations)
 
     // Handmade legend
-    var legend_pos_y = 220; 
+    var legend_pos_y = 223; 
     svg.append("line").attr("x1",20).attr("y1",legend_pos_y).attr("x2",30).attr("y2",legend_pos_y).style("stroke", "#3498db").style("stroke-width", "5px")
-    svg.append("line").attr("x1",150).attr("x2",165).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#3498db").style("stroke-width", "2px").style("stroke-dasharray", ("3, 3"))
-    svg.append("text").attr("x", 40).attr("y", legend_pos_y).text("Media articles").style("font-size", "13px").attr("alignment-baseline","middle")
-    svg.append("text").attr("x",170).attr("y", legend_pos_y).text("Infections").style("font-size", "13px").attr("alignment-baseline","middle")
+    svg.append("line").attr("x1",165).attr("x2",175).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#3498db").style("stroke-width", "2px").style("stroke-dasharray", ("3, 3"))
+    svg.append("text").attr("x", 40).attr("y", legend_pos_y).text("Articles de presse").style("font-size", "13px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x",180).attr("y", legend_pos_y).text("Infections").style("font-size", "13px").attr("alignment-baseline","middle")
 
   });
   

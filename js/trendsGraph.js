@@ -15,9 +15,9 @@ function trend_graph(country="CH") {
   // set the dimensions and margins of the graph
   var get_width = parseInt(d3.select("#chartTop").style("width"));
   if (get_width>450) {
-      var margin = { top: 40, bottom: 10, left: 20, right: 20};
+      var margin = { top: 5, bottom: 40, left: 20, right: 20};
   } else {
-      var margin = { top: 40, bottom: 10, left: 0, right: 0};
+      var margin = { top: 5, bottom: 40, left: 0, right: 0};
   }
 
   var width = get_width - margin.left - margin.right;
@@ -41,79 +41,15 @@ function trend_graph(country="CH") {
   var line_GTrend = d3.line() //.curve(d3.curveStepAfter)
       .x(function(d) { return x(d.date); })
       .y(function(d) { return yl(d.GTrend); });
-  //if (country=="CH") {
-  //    //var line_Infections = d3.line()
-  //    //    .x(function(d) { return x(d.date); })
-  //    //    .y(function(d) { return yl(d.Infections_CH); });
-
-  //    var line_Tweets = d3.line()
-  //        .x(function(d) { return x(d.date); })
-  //        .y(function(d) { return yr(d.Tweets_CH,); });
-
-  //    var line_Medias = d3.line()
-  //        .x(function(d) { return x(d.date); })
-  //        .y(function(d) { return yr(d.Medias_CH); });
-
-  //    var line_GTrend = d3.line()
-  //        .x(function(d) { return x(d.date); })
-  //        .y(function(d) { return yl(d.GTrend_CH); });
-  //} else if (country=="DE") {
-  //    //var line_Infections = d3.line()
-  //    //    .x(function(d) { return x(d.date); })
-  //    //    .y(function(d) { return yl(d.Infections_DE); });
-
-  //    var line_Tweets = d3.line()
-  //        .x(function(d) { return x(d.date); })
-  //        .y(function(d) { return yr(d.Tweets_DE,); });
-
-  //    var line_Medias = d3.line()
-  //        .x(function(d) { return x(d.date); })
-  //        .y(function(d) { return yr(d.Medias_DE); });
-
-  //    var line_GTrend = d3.line()
-  //        .x(function(d) { return x(d.date); })
-  //        .y(function(d) { return yl(d.GTrend_DE); });
-  //} else if (country=="FR") {
-  //    //var line_Infections = d3.line()
-  //    //    .x(function(d) { return x(d.date); })
-  //    //    .y(function(d) { return yl(d.Infections_FR); });
-
-  //    var line_Tweets = d3.line()
-  //        .x(function(d) { return x(d.date); })
-  //        .y(function(d) { return yr(d.Tweets_FR,); });
-
-  //    var line_Medias = d3.line()
-  //        .x(function(d) { return x(d.date); })
-  //        .y(function(d) { return yr(d.Medias_FR); });
-
-  //    var line_GTrend = d3.line()
-  //        .x(function(d) { return x(d.date); })
-  //        .y(function(d) { return yl(d.GTrend_FR); });
-  //} else if (country=="IT"){
-  //    //var line_Infections = d3.line()
-  //    //    .x(function(d) { return x(d.date); })
-  //    //    .y(function(d) { return yl(d.Infections_IT); });
-
-  //    var line_Tweets = d3.line()
-  //        .x(function(d) { return x(d.date); })
-  //        .y(function(d) { return yr(d.Tweets_IT,); });
-
-  //    var line_Medias = d3.line()
-  //        .x(function(d) { return x(d.date); })
-  //        .y(function(d) { return yr(d.Medias_IT); });
-
-  //    var line_GTrend = d3.line()
-  //        .x(function(d) { return x(d.date); })
-  //        .y(function(d) { return yl(d.GTrend_IT); });
-  //} else {
-  //} 
 
   var svg = d3
     .select("#chartTop")
     .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
-    .attr("id", "chartTopSVG");
+    .attr("id", "chartTopSVG")
+  .append('g')
+    .attr("transform", "translate(" + 0 + "," + margin.top + ")");
 
   // Get the data
   d3.csv("data/MediasVsGTrendsVsTweetsVsCorona_filt.csv").then(function(data) {
@@ -281,7 +217,7 @@ function trend_graph(country="CH") {
       .call(makeAnnotations)
 
     // Handmade legend
-    var legend_pos_y = 220; 
+    var legend_pos_y = 223; 
     svg.append("line").attr("x1",20).attr("y1",legend_pos_y).attr("x2",30).attr("y2",legend_pos_y).style("stroke", "#3498db").style("stroke-width", "5px")
     svg.append("line").attr("x1",100).attr("x2",110).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#e74c3c").style("stroke-width", "5px")
     //svg.append("line").attr("x1",230).attr("x2",240).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#2ecc71").style("stroke-width", "5px")
