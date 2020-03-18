@@ -81,6 +81,22 @@ function media_graph(country) {
     yr.domain([0, d3.max(data, function(d) {
   	  return Math.max(d.Medias); })]);
 
+    // Add the Y Axis
+    if (get_width>480) {
+      svg.append("g")
+          .attr('transform', 'translate(' + (margin.left) + ',0)')
+          .call(d3.axisLeft(yl).tickValues([1,10,100,1000]).tickArguments([5,".0s"]));
+      svg.append("g")
+          .attr("transform", "translate( " + (width-margin.right) + ", 0 )")
+          .call(d3.axisRight(yr));
+     } else {
+       svg.append("g")
+          .attr('transform', 'translate(' + (margin.left+20) + ',0)')
+          .call(d3.axisLeft(yl).tickValues([1,10,100,1000]).tickArguments([5,".0s"]));
+      svg.append("g")
+          .attr("transform", "translate( " + (width-margin.right-35) + ", 0 )")
+          .call(d3.axisRight(yr));
+    }
     // Add the valueline path.
     svg.append("path")
         .data([data])
@@ -106,14 +122,6 @@ function media_graph(country) {
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x));
   
-    // Add the Y Axis
-    svg.append("g")
-        .attr('transform', 'translate(' + (margin.left) + ',0)')
-        .call(d3.axisLeft(yl).tickValues([1,10,100,1000]).tickArguments([5,".0s"]));
-    svg.append("g")
-        .attr("transform", "translate( " + (width-margin.right) + ", 0 )")
-        .call(d3.axisRight(yr));
-
     const annotations = [
       {
         note: {
