@@ -23,7 +23,7 @@ function media_graph(country) {
   var width = parseInt(d3.select("#chartMedia").style("width")) - margin.left - margin.right;
 
   //var width = 800 - margin.left - margin.right;
-  var height = 300 - margin.top - margin.bottom;
+  var height = 240 - margin.top - margin.bottom;
  
   // parse the date / time
   var parseTime = d3.timeParse("%Y-%m-%d");
@@ -109,7 +109,7 @@ function media_graph(country) {
     // Add the Y Axis
     svg.append("g")
         .attr('transform', 'translate(' + (margin.left) + ',0)')
-        .call(d3.axisLeft(yl).tickValues([1,10,100,1000,10000]).tickArguments([5,".0s"]));
+        .call(d3.axisLeft(yl).tickValues([1,10,100,1000]).tickArguments([5,".0s"]));
     svg.append("g")
         .attr("transform", "translate( " + (width-margin.right) + ", 0 )")
         .call(d3.axisRight(yr));
@@ -135,7 +135,7 @@ function media_graph(country) {
     //  .call(makeAnnotations)
 
     // Handmade legend
-    var legend_pos_y = 280; 
+    var legend_pos_y = 220; 
     svg.append("line").attr("x1",20).attr("y1",legend_pos_y).attr("x2",30).attr("y2",legend_pos_y).style("stroke", "#3498db").style("stroke-width", "5px")
     svg.append("line").attr("x1",150).attr("x2",165).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#3498db").style("stroke-width", "2px").style("stroke-dasharray", ("3, 3"))
     svg.append("text").attr("x", 40).attr("y", legend_pos_y).text("Media articles").style("font-size", "13px").attr("alignment-baseline","middle")

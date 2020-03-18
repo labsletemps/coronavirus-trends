@@ -23,7 +23,7 @@ function trend_graph(country="CH") {
   var width = get_width - margin.left - margin.right;
 
   //var width = 800 - margin.left - margin.right;
-  var height = 300 - margin.top - margin.bottom;
+  var height = 240 - margin.top - margin.bottom;
  
   // parse the date / time
   var parseTime = d3.timeParse("%Y-%m-%d");
@@ -231,7 +231,7 @@ function trend_graph(country="CH") {
         color: ["#e83e8c"],
         x: date_first_case,
         y: height,
-        dy: -200,
+        dy: -140,
         dx: dx_dir
       }
     ]
@@ -244,7 +244,7 @@ function trend_graph(country="CH") {
       .call(makeAnnotations)
 
     // Handmade legend
-    var legend_pos_y = 280; 
+    var legend_pos_y = 220; 
     svg.append("line").attr("x1",20).attr("y1",legend_pos_y).attr("x2",30).attr("y2",legend_pos_y).style("stroke", "#3498db").style("stroke-width", "5px")
     svg.append("line").attr("x1",100).attr("x2",110).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#e74c3c").style("stroke-width", "5px")
     //svg.append("line").attr("x1",230).attr("x2",240).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#2ecc71").style("stroke-width", "5px")
