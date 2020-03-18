@@ -315,6 +315,14 @@ li {
   stroke-width: 1.25px;
 }
 
+.nav-link {
+    padding: .2rem 0.5rem;
+}
+
+.nav-item {
+  margin: 0;
+}
+
 /* style qu'on mettra après mise au point des graphiques */
 /*
 .axis line {

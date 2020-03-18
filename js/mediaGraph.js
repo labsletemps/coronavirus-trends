@@ -13,7 +13,12 @@ function media_graph(country) {
   //d3.timeFormatDefaultLocale(locale);
 
   // set the dimensions and margins of the graph
-  var margin = { top: 40, bottom: 10, left: 40, right: 40 };
+  var get_width = parseInt(d3.select("#chartTop").style("width"));
+  if (get_width>450) {
+      var margin = { top: 40, bottom: 10, left: 20, right: 20};
+  } else {
+      var margin = { top: 40, bottom: 10, left: 0, right: 0};
+  }
 
   var width = parseInt(d3.select("#chartMedia").style("width")) - margin.left - margin.right;
 
@@ -104,7 +109,7 @@ function media_graph(country) {
     // Add the Y Axis
     svg.append("g")
         .attr('transform', 'translate(' + (margin.left) + ',0)')
-        .call(d3.axisLeft(yl).tickValues([1,10,100,1000,10000]).tickArguments([6,".0s"]));
+        .call(d3.axisLeft(yl).tickValues([1,10,100,1000,10000]).tickArguments([5,".0s"]));
     svg.append("g")
         .attr("transform", "translate( " + (width-margin.right) + ", 0 )")
         .call(d3.axisRight(yr));

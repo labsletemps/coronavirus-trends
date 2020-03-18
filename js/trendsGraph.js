@@ -13,9 +13,14 @@ function trend_graph(country="CH") {
   //d3.timeFormatDefaultLocale(locale);
 
   // set the dimensions and margins of the graph
-  var margin = { top: 40, bottom: 10, left: 40, right: 40 };
+  var get_width = parseInt(d3.select("#chartTop").style("width"));
+  if (get_width>450) {
+      var margin = { top: 40, bottom: 10, left: 20, right: 20};
+  } else {
+      var margin = { top: 40, bottom: 10, left: 0, right: 0};
+  }
 
-  var width = parseInt(d3.select("#chartTop").style("width")) - margin.left - margin.right;
+  var width = get_width - margin.left - margin.right;
 
   //var width = 800 - margin.left - margin.right;
   var height = 300 - margin.top - margin.bottom;
@@ -202,19 +207,19 @@ function trend_graph(country="CH") {
 
     if (country=="CH") {
         var date_first_case = x(new Date(2020,1,25));
-        var label_first_case = "premier cas";
+        var label_first_case = "1er cas";
         var dx_dir = -1;
     } else if (country=="DE") {
         var date_first_case = x(new Date(2020,0,27));
-        var label_first_case = "premier cas";
+        var label_first_case = "1er cas";
         var dx_dir = 0;
     } else if (country=="FR") {
         var date_first_case = x(new Date(2020,0,24));
-        var label_first_case = "premier cas";
+        var label_first_case = "1er cas";
         var dx_dir = 0;
     } else if (country=="IT"){
         var date_first_case  = x(new Date(2020,0,31));
-        var label_first_case = "premier cas";
+        var label_first_case = "1er cas";
         var dx_dir = -1;
     }
 
