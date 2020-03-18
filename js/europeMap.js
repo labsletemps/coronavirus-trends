@@ -36,8 +36,8 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_
   var formatDate = d3.timeFormat("%b %Y");
   var parseDate = d3.timeFormat("%Y-%m-%d");
 
-  var startDate = new Date("2020-02-24"),
-      endDate = new Date("2020-03-15");
+  var startDate = new Date("2020-02-22"),
+      endDate = new Date("2020-03-14");
 
   var currentDate = startDate;
 
@@ -52,7 +52,6 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_
     return d.date == parseDate(startDate);
   })
  
- console.log(newDataCorona)
  var dataMap = {};
   newDataCorona.forEach(function(d){
     dataMap[d['alpha-3']] = {}
@@ -135,7 +134,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_
     svg.selectAll(".circles").remove();
 
     svg.selectAll(".circles")
-      .data(data.sort(function(a,b) { return +b.count - +a.count }).filter(function(d,i){ return i<1000 }))
+      .data(data.sort(function(a,b) { return +b.count - +a.count }).filter(function(d,i){ return i<500 }))
       .enter()
         .append("g")
           .attr("class", "circles")
@@ -145,7 +144,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_
           .attr("cx", function(d){ return projection([+d.lon, +d.lat])[0] })
           .attr("cy", function(d){ return projection([+d.lon, +d.lat])[1] })
           .attr("r", 1)
-            .transition().duration(20)
+            .transition().duration(200)
             .attr("r", function(d){ return size(+d.count)})
         .style("fill", function(d){ return colorScaleTweets(d.count) })
           .attr("stroke", function(d){ if(d.count>20){return "black"}else{return "none"}  })
@@ -154,108 +153,39 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_
   };
 
   /* SLIDER */
-  var moving = false;
-  var currentValue = 0;
-  var targetValue = 4;
-  var width_slider = width - 80;
+  var date1Button = d3.select("#date-22-02").style('top', '20%');
+  var date2Button = d3.select("#date-29-02").style('top', '20%');
+  var date3Button = d3.select("#date-07-03").style('top', '20%');
+  var date4Button = d3.select("#date-14-03").style('top', '20%');
 
-  var playButton = d3.select("#play-button").style('top', '20%');
- 
-  var x = d3.scaleTime()
-      .domain([startDate, endDate])
-      .range([0, targetValue])
-      .clamp(true);
-
-  var slider = d3.select("#sliderEuropeMap")
-   // Container class to make it responsive.
-   .classed("svg-container", true)
-   .append("svg")
-   // Responsive SVG needs these 2 attributes and no width and height attr.
-   .attr("preserveAspectRatio", "xMinYMin meet")
-   .attr("viewBox", "0 0 "+width+" 100")
-   // Class to make it responsive.
-   .classed("svg-content-responsive", true)
-   // Fill with a rectangle for visualization.
-   .append("g")
-   .attr("width", width)
-   .attr("height", 150)
-   .attr("class", "slider")
-    .attr("transform", "translate(" + 50 + "," + 100/2 + ")");
-
-
-  slider.append("line")
-      .attr("class", "track")
-      .attr("x1", 0)
-      .attr("x2", width_slider)
-      .call(d3.drag()
-          .on("start.interrupt", function() { slider.interrupt(); })
-          .on("start drag", function() {
-            currentValue = d3.event.x;
-            update(x.invert(currentValue));
-          })
-      )
-      .attr("class", "track-inset");
-
-  var x_l = d3.scaleTime()
-        .domain([startDate, endDate])
-        .range([0, width_slider])
-        .clamp(true);
-
-  slider.insert("g", ".track-overlay")
-      .attr("class", "ticks")
-      .attr("transform", "translate(0," + 18 + ")")
-    .selectAll("text")
-      .data(x_l.ticks(5))
-      .enter()
-      .append("text")
-      .attr("x", x_l)
-      .attr("y", 10)
-      .attr("text-anchor", "middle")
-      .text(function(d) { return formatDate(d); });
-
-  var handle = slider.insert("circle", ".track-overlay")
-      .attr("class", "handle")
-      .attr("r", 9);
-
-  var label = slider.append("text")
-      .attr("class", "label")
-      .attr("text-anchor", "middle")
-      .text(formatDateIntoDay(startDate))
-      .attr("transform", "translate(0," + (-25) + ")")
-
-
-  playButton
+  var parser = d3.timeParse("%d/%m/%y");
+  
+  date1Button
     .on("click", function() {
-      var button = d3.select(this);
-      if (button.text() == "Pause") {
-        moving = false;
-        clearInterval(timer);
-        button.text("Play");
-      } else {
-        moving = true;
-        timer = setInterval(step, 1000);
-        button.text("Pause");
-      }
-      console.log("Slider moving: " + moving);
+      update(parser("24/02/20"))
+  });
+    date2Button
+    .on("click", function() {
+      update(parser("02/03/20"))
+  });
+    date3Button
+    .on("click", function() {
+      update(parser("09/03/20"))
+  });
+  date4Button
+    .on("click", function() {
+      update(parser("16/03/20"))
   });
 
-  function step() {
-    update(x.invert(currentValue));
-    currentValue = currentValue + 1;//width/4;
-    if (currentValue > targetValue) {
-      moving = false;
-      currentValue = 0;
-      clearInterval(timer);
-      playButton.text("Play");
-    }
-  }
+  document.getElementById("date-22-02").click(); 
+
 
   function updateDatasets(h){
       currentDate = h;
       // filter data set and draw map and bubbles
       newDataTweets = dataTweets.filter(function(d) {
-        return d.date <= parseDate(d3.timeDay.offset(h, 7))
-                && d.date >= parseDate(d3.timeDay.offset(h, -7));
+        return d.date == parseDate(h)
+               
       })
 
       newDataCorona = dataCorona.filter(function(d) {
@@ -275,22 +205,13 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_
   }
 
   function update(h) {
-    // update position and text of label according to slider scale
-    handle.attr("cx", width_slider/targetValue * x(h));
-    label
-      .attr("x", width_slider/targetValue * x(h))
-      .text(formatDateIntoDay(h));
-
-
-    if (currentCountry)
-      displayDetail(currentCountry)
-
     updateDatasets(h);
     displayMap(dataMap);
     displayCircles(newDataTweets);
+    if(currentCountry != null)
+      displayDetail(currentCountry)
   }
-
-  update(startDate);
+updateDatasets(startdate);
 
   // Legend: from Bubblemap Template by Yan Holtz
   // https://www.d3-graph-gallery.com/graph/bubble_legend.html
