@@ -39,7 +39,7 @@ function media_graph(country) {
   var line_Infections = d3.line()
           .x(function(d) { return x(d.date); })
           .y(function(d) { return yl(d.Infections); });
-  var line_Medias = d3.line()
+  var line_Medias = d3.line().curve(d3.curveStepAfter)
           .x(function(d) { return x(d.date); })
           .y(function(d) { return yr(d.Medias); });
 
