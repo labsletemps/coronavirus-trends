@@ -27,7 +27,7 @@ var projection = d3.geoMercator()
     .scale(1000)
     .translate([ width/2, height/2 ])
 
-Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_week.csv"), d3.csv("/data/coronavirus_2020-03-18.csv")]).then(function(data) {
+Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_week.csv"), d3.csv("data/coronavirus_2020-03-18.csv")]).then(function(data) {
   var dataGeo = data[0];
   var dataTweets = data[1];
   var dataCorona = data[2];
@@ -51,7 +51,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_
   var newDataCorona = dataCorona.filter(function(d) {
     return d.date == parseDate(startDate);
   })
- 
+
  console.log(newDataCorona)
  var dataMap = {};
   newDataCorona.forEach(function(d){
@@ -102,7 +102,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_
     currentCountry = d;
     d3.select(".map-details")
     .html(function() {
-      var location = d.properties.name;  
+      var location = d.properties.name;
       var infos = d3.map(dataMap.get(d.id)) || d3.map();
       return `<h4>${location}</h4>
         <p><span class="stats">Cas confirmés cumulés</span> ${infos.get('Confirmed') || 0  }</p>
@@ -121,7 +121,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_
       })
       .attr("d", d3.geoPath()
       .projection(projection))
-      
+
   }
 
    // Add a scale for bubble size
@@ -160,7 +160,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_
   var width_slider = width - 80;
 
   var playButton = d3.select("#play-button").style('top', '20%');
- 
+
   var x = d3.scaleTime()
       .domain([startDate, endDate])
       .range([0, targetValue])
