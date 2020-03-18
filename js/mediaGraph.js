@@ -15,7 +15,7 @@ function media_graph(country) {
   // set the dimensions and margins of the graph
   var get_width = parseInt(d3.select("#chartTop").style("width"));
   if (get_width>450) {
-      var margin = { top: 40, bottom: 10, left: 20, right: 20};
+      var margin = { top: 40, bottom: 10, left: 30, right: 20};
   } else {
       var margin = { top: 40, bottom: 10, left: 0, right: 0};
   }
