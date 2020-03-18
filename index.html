@@ -18,7 +18,7 @@
 	<!-- TODO: webpack, SCSS-->
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
-
+	<link rel="stylesheet" type="text/css" href="css/map.css" />
 </head>
 
 <body>
@@ -48,25 +48,34 @@
 		
 
 		<!-- bloc données – on peut bien sûr mettre en pleine largeur, au choix -->
-		<div class="row chart padding-bottom">
-			<div class="offset-md-2 col-md-8 col-sm-12 group-label text-center">
-				<h5>Supertitre</h5>
-				<p>Superpabeau mais j’arrangerai le style.</p>
-			</div>
-
-			<div class="offset-md-2 col-md-8 col-sm-12">
-				<p class="text-center no-margin"><b>Date:</b> <span class="date">mercredi 19 février 2020</span> <span class="horizontal-spacer"></span><i class="fa fa-undo reload" aria-hidden="true"></i></p>
-
-				<!-- Create an element where the map will take place -->
-				<button id="play-button">Play</button>
+		<div class="row padding-bottom">
+			<div class="col-lg-9 col-sm-12">
+				<!-- Create an element where the map will take place -->		
 				<svg id="sliderEuropeMap" width="730" height="100"></svg>
+				<button id="play-button">Play</button>
 				<svg id="europeMap" width="730" height="350"></svg>
-
-				<div class="source">
-					Source:<a target="_blank" href="https://gisanddata.maps.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6">Université Johns-Hopkins</a>, données retraitées par xyz, couvrant la période du x au x.
+			</div>
+			<div class="col-lg-3 col-sm-12">
+				<div class="map-details">
+					<h4></h4>
+					<p>Survoler/toucher un cercle pour plus d’informations.</p>
 				</div>
 			</div>
 		</div>
+
+		<!-- bloc texte -->
+		<div class="row text">
+			<div class="offset-md-2 col-md-8 col-sm-12">
+
+				<p class="lead">Des chercheurs de l’EPFL ont étudié les liens entre articles en ligne, recherches Google et mentions du virus sur les réseaux sociaux</p>
+
+				<p>Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. Paragraphe d’intro. </p>
+
+				<p>Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. Paragraphe asdf asdf. </p>
+
+			</div>
+		</div>
+		
 
 		<!-- bloc données – on peut bien sûr mettre en pleine largeur, au choix -->
 		<div class="row chart padding-bottom">
