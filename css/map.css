@@ -1,4 +1,30 @@
 /*  MAP Style */
+
+#map.svg-container {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  padding-bottom: 50%; /* aspect ratio */
+  vertical-align: top;
+  overflow: hidden;
+}
+
+#sliderEuropeMap.svg-container {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+
+  padding-bottom: 10%; /* aspect ratio */
+  vertical-align: bottom;
+  overflow: hidden;
+}
+.svg-content-responsive {
+  display: inline-block;
+  position: absolute;
+  top: 10px;
+  left: 0;
+}
+
 #map  {
   max-width: 900px;
   margin: 8px auto;

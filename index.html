@@ -49,13 +49,19 @@
 
 		<!-- bloc données – on peut bien sûr mettre en pleine largeur, au choix -->
 		<div class="row padding-bottom">
-			<div class="col-lg-9 col-sm-12">
-				<!-- Create an element where the map will take place -->		
-				<svg id="sliderEuropeMap" width="730" height="100"></svg>
-				<button id="play-button">Play</button>
-				<svg id="europeMap" width="730" height="350"></svg>
+			<div class="offset-md-1 col-lg-10 col-sm-12">
+			<center><button id="play-button">Play</button>	</center>
+		</div>
+		</div>
+		<div class="row">
+			<div class="offset-md-1 col-lg-10 col-sm-12">
+				<!-- Create an element where the map will take place -->
+				<div id="sliderEuropeMap"></div>	
+				<div id="map", class=""></div>
 			</div>
-			<div class="col-lg-3 col-sm-12">
+		</div>
+		<div class="row padding-bottom">
+			<div class="offset-md-1 col-lg-10 col-sm-12">
 				<div class="map-details">
 					<h4></h4>
 					<p>Survoler/toucher un cercle pour plus d’informations.</p>

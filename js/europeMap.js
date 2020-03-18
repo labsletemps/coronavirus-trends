@@ -1,18 +1,31 @@
 /*
- * Implemented with official template from https://www.d3-graph-gallery.com/graph/bubblemap_template.html,  Yan Holtz
+ * Bubble Map
+ * Implementation based on official template from https://www.d3-graph-gallery.com/graph/bubblemap_template.html,  Yan Holtz
 */ 
 
 // The svg
-var svg = d3.select("#europeMap"),
-    width = +svg.attr("width"),
-    height = +svg.attr("height");
+ var svg = d3.select("#map")
+   // Container class to make it responsive.
+   .classed("svg-container", true) 
+   .append("svg")
+   // Responsive SVG needs these 2 attributes and no width and height attr.
+   .attr("preserveAspectRatio", "xMinYMin meet")
+   .attr("viewBox", "0 0 1000 500")
+   // Class to make it responsive.
+   .classed("svg-content-responsive", true)
+   // Fill with a rectangle for visualization.
+   .append("g")
+   .attr("width", 1000)
+   .attr("height", 500);
+
+width = svg.attr('width');
+height = svg.attr('height');
 
 // Map and projection/Zoom
 var projection = d3.geoMercator()
-    .center([15,48])                
-    .scale(700)                       
+    .center([10,48])                
+    .scale(1000)                       
     .translate([ width/2, height/2 ])
-
 
 Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv"), d3.csv("/data/coronavirus.csv")]).then(function(data) {
 
@@ -53,7 +66,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
   dataMap = d3.map(dataMap)
 
   // Color scales
-  var colorScaleCorona = d3.scaleLinear().domain([0,1000])
+  var colorScaleCorona = d3.scaleLinear().domain([0,500])
     .range(["#b8b8b8", "red"]);
   var colorScaleTweets = d3.scaleLinear().domain([0,10000])
     .range(["#b8b8b8", "blue"]);
@@ -87,7 +100,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
       d3.event.preventDefault();
       displayDetail(d);
     }).on('mouseout', function(d) {
-      d3.select(this).style('stroke', 'None');
+      d3.select(this).style('stroke', 'white');
     }).on("click", function(d) {
       displayDetail(d);
     })
@@ -97,7 +110,6 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
     .attr("r",1)
     .remove();
 
-  // right details panel (mobile devices: bottom)
   function displayDetail(d) {
     currentCountry = d;
     d3.select(".map-details")
@@ -105,12 +117,6 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
       var location = d.properties.name;  
 
       var infos = d3.map(dataMap.get(location)) || d3.map();
-
-
-      // <p><span class="stats">Dernière mise à jour</span> ${d['Last Update']}</p>
-      // -> parse and convert time
-      // <p><span class="stats">Décès</span> ${d.Deaths}</p>
-      // <p><span class="stats">Rétablissements</span> ${d.Recovered}</p>
 
       return `<h4>${location}</h4>
         <p><span class="stats">Cas confirmés cumulés</span> ${infos.get('Confirmed') || 0  }</p>
@@ -158,7 +164,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
         .style("fill", function(d){ return colorScaleTweets(d.count) })
           .attr("stroke", function(d){ if(d.count>20){return "black"}else{return "none"}  })
           .attr("stroke-width", 1)
-          .attr("fill-opacity", .4);      
+          .attr("fill-opacity", 0.4);      
   };
 
   /* SLIDER */
@@ -166,7 +172,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
   var currentValue = 0;
   var targetValue = width - 80;
 
-  var playButton = d3.select("#play-button").style("top", "100px");
+  var playButton = d3.select("#play-button").style('top', '20%');
 
   var x = d3.scaleTime()
       .domain([startDate, endDate])
@@ -176,9 +182,21 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
 
  
   var slider = d3.select("#sliderEuropeMap")
-      .append("g")
-      .attr("class", "slider")
-      .attr("transform", "translate(" + 50 + "," + 50 + ")");
+   // Container class to make it responsive.
+   .classed("svg-container", true) 
+   .append("svg")
+   // Responsive SVG needs these 2 attributes and no width and height attr.
+   .attr("preserveAspectRatio", "xMinYMin meet")
+   .attr("viewBox", "0 0 "+width+" 100")
+   // Class to make it responsive.
+   .classed("svg-content-responsive", true)
+   // Fill with a rectangle for visualization.
+   .append("g")
+   .attr("width", width)
+   .attr("height", 150)
+   .attr("class", "slider")
+    .attr("transform", "translate(" + 50 + "," + 100/2 + ")");
+      
 
   slider.append("line")
       .attr("class", "track")
