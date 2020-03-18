@@ -27,7 +27,7 @@ var projection = d3.geoMercator()
     .scale(1000)
     .translate([ width/2, height/2 ])
 
-Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv"), d3.csv("/data/coronavirus_2020-03-18.csv")]).then(function(data) {
+Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_week.csv"), d3.csv("/data/coronavirus_2020-03-18.csv")]).then(function(data) {
   var dataGeo = data[0];
   var dataTweets = data[1];
   var dataCorona = data[2];
@@ -36,8 +36,8 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
   var formatDate = d3.timeFormat("%b %Y");
   var parseDate = d3.timeFormat("%Y-%m-%d");
 
-  var startDate = new Date("2020-02-22"),
-      endDate = new Date("2020-03-10");
+  var startDate = new Date("2020-02-24"),
+      endDate = new Date("2020-03-15");
 
   var currentDate = startDate;
 
@@ -156,16 +156,15 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
   /* SLIDER */
   var moving = false;
   var currentValue = 0;
-  var targetValue = width - 80;
+  var targetValue = 4;
+  var width_slider = width - 80;
 
   var playButton = d3.select("#play-button").style('top', '20%');
-
+ 
   var x = d3.scaleTime()
       .domain([startDate, endDate])
       .range([0, targetValue])
       .clamp(true);
-
-
 
   var slider = d3.select("#sliderEuropeMap")
    // Container class to make it responsive.
@@ -186,8 +185,8 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
 
   slider.append("line")
       .attr("class", "track")
-      .attr("x1", x.range()[0])
-      .attr("x2", x.range()[1])
+      .attr("x1", 0)
+      .attr("x2", width_slider)
       .call(d3.drag()
           .on("start.interrupt", function() { slider.interrupt(); })
           .on("start drag", function() {
@@ -197,14 +196,19 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
       )
       .attr("class", "track-inset");
 
+  var x_l = d3.scaleTime()
+        .domain([startDate, endDate])
+        .range([0, width_slider])
+        .clamp(true);
+
   slider.insert("g", ".track-overlay")
       .attr("class", "ticks")
       .attr("transform", "translate(0," + 18 + ")")
     .selectAll("text")
-      .data(x.ticks(4))
+      .data(x_l.ticks(5))
       .enter()
       .append("text")
-      .attr("x", x)
+      .attr("x", x_l)
       .attr("y", 10)
       .attr("text-anchor", "middle")
       .text(function(d) { return formatDate(d); });
@@ -229,7 +233,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
         button.text("Play");
       } else {
         moving = true;
-        timer = setInterval(step, 10);
+        timer = setInterval(step, 1000);
         button.text("Pause");
       }
       console.log("Slider moving: " + moving);
@@ -237,7 +241,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
 
   function step() {
     update(x.invert(currentValue));
-    currentValue = currentValue + (targetValue/151);
+    currentValue = currentValue + 1;//width/4;
     if (currentValue > targetValue) {
       moving = false;
       currentValue = 0;
@@ -250,7 +254,8 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
       currentDate = h;
       // filter data set and draw map and bubbles
       newDataTweets = dataTweets.filter(function(d) {
-        return d.date == parseDate(h);
+        return d.date <= parseDate(d3.timeDay.offset(h, 7))
+                && d.date >= parseDate(d3.timeDay.offset(h, -7));
       })
 
       newDataCorona = dataCorona.filter(function(d) {
@@ -271,12 +276,15 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
 
   function update(h) {
     // update position and text of label according to slider scale
-    handle.attr("cx", x(h));
+    handle.attr("cx", width_slider/targetValue * x(h));
     label
-      .attr("x", x(h))
+      .attr("x", width_slider/targetValue * x(h))
       .text(formatDateIntoDay(h));
+
+
     if (currentCountry)
       displayDetail(currentCountry)
+
     updateDatasets(h);
     displayMap(dataMap);
     displayCircles(newDataTweets);
