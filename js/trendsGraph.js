@@ -52,6 +52,7 @@ function trend_graph(country="CH") {
     .attr("transform", "translate(" + 0 + "," + margin.top + ")");
 
   // Get the data
+  // TODO: charger 1x les données + fonction update
   d3.csv("data/MediasVsGTrendsVsTweetsVsCorona_filt.csv").then(function(data) {
 
     // format the data
