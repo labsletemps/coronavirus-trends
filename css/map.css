@@ -1,0 +1,87 @@
+/*  MAP Style */
+#map  {
+  max-width: 900px;
+  margin: 8px auto;
+}
+#map svg{
+  width: 100%;
+}
+.map-details {
+  margin: 8px auto;
+  padding: .5em;
+  width: 100%;
+  word-wrap: break-word;
+}	
+
+.map-details h4 {
+  font-size: 1.2em;
+}
+.map-details p {
+  font-size: .9em;
+  margin: 0 0 3px 0;
+}
+
+
+.map-details .stats {
+  font-weight: bold;
+  color: #777;
+}
+.map-details .summary {
+  /* display: none; */
+}
+
+#play-button {
+  position: absolute;
+  top: 140px;
+  left: 50px;
+  background: #f08080;
+  padding-right: 26px;
+  border-radius: 3px;
+  border: none;
+  color: white;
+  margin: 0;
+  padding: 0 12px;
+  width: 70px;
+  cursor: pointer;
+  height: 30px;
+}
+
+#play-button:hover {
+  background-color: #696969;
+}    
+
+.ticks {
+  font-size: 10px;
+}
+
+.track,
+.track-inset,
+.track-overlay {
+  stroke-linecap: round;
+}
+
+.track {
+  stroke: #000;
+  stroke-opacity: 0.3;
+  stroke-width: 10px;
+}
+
+.track-inset {
+  stroke: #dcdcdc;
+  stroke-width: 8px;
+}
+
+.track-overlay {
+  pointer-events: stroke;
+  stroke-width: 50px;
+  stroke: transparent;
+  cursor: crosshair;
+}
+
+.handle {
+  fill: #fff;
+  stroke: #000;
+  stroke-opacity: 0.5;
+  stroke-width: 1.25px;
+}
+

@@ -1,3 +1,7 @@
+/*
+ * Implemented with official template from https://www.d3-graph-gallery.com/graph/bubblemap_template.html,  Yan Holtz
+*/ 
+
 // The svg
 var svg = d3.select("#europeMap"),
     width = +svg.attr("width"),
@@ -16,11 +20,53 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
   var dataTweets = data[1];
   var dataCorona = data[2];
 
+  var formatDateIntoDay = d3.timeFormat("%d/%m");
+  var formatDate = d3.timeFormat("%b %Y");
+  var parseDate = d3.timeFormat("%Y-%m-%d");
+
+  var startDate = new Date("2020-02-22"),
+      endDate = new Date("2020-03-10");
+
+  var currentDate = startDate;
+
+  var currentCountry = null;
+
+  // filter data set 
+  var newDataTweets = dataTweets.filter(function(d) {
+    return d.date == parseDate(startDate);
+  })
+
+  var newDataCorona = dataCorona.filter(function(d) {
+    return d.date == parseDate(startDate);
+  })
+
+ var dataMap = {};
+  newDataCorona.forEach(function(d){
+    dataMap[d.country] = {}
+    dataMap[d.country]['Date'] = d.date;
+    dataMap[d.country]['Confirmed'] = d.Confirmed;
+    dataMap[d.country]['Recovered'] = d.Recovered;
+    dataMap[d.country]['Deaths'] = d.Deaths;
+    dataMap[d.country]['Province/State'] = d['Province/State'];
+  });
+
+  dataMap = d3.map(dataMap)
+
   // Color scales
   var colorScaleCorona = d3.scaleLinear().domain([0,1000])
     .range(["#b8b8b8", "red"]);
   var colorScaleTweets = d3.scaleLinear().domain([0,10000])
     .range(["#b8b8b8", "blue"]);
+
+  var tooltip = d3.select("#tooltip")
+    .style("position", "absolute")
+    .style("top", height/2 + "px")
+    .style("left", "-200px")
+    .style("z-index", "5000")
+
+    .style("visibility", "visible")
+    .style("background", "#000")
+    .html("a simple tooltip");
 
   // Draw the map
   svg.append("g")
@@ -38,8 +84,12 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
     .style("stroke-width", "2px")
     .on('mouseover', function(d) {
       d3.select(this).style('stroke', 'black');
+      d3.event.preventDefault();
+      displayDetail(d);
     }).on('mouseout', function(d) {
       d3.select(this).style('stroke', 'None');
+    }).on("click", function(d) {
+      displayDetail(d);
     })
     .style("opacity", .3)
     .exit()
@@ -47,10 +97,35 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
     .attr("r",1)
     .remove();
 
+  // right details panel (mobile devices: bottom)
+  function displayDetail(d) {
+    currentCountry = d;
+    d3.select(".map-details")
+    .html(function() {
+      var location = d.properties.name;  
+
+      var infos = d3.map(dataMap.get(location)) || d3.map();
+
+
+      // <p><span class="stats">Dernière mise à jour</span> ${d['Last Update']}</p>
+      // -> parse and convert time
+      // <p><span class="stats">Décès</span> ${d.Deaths}</p>
+      // <p><span class="stats">Rétablissements</span> ${d.Recovered}</p>
+
+      return `<h4>${location}</h4>
+        <p><span class="stats">Cas confirmés cumulés</span> ${infos.get('Confirmed') || 0  }</p>
+        <p><span class="stats">Guérisons</span> ${infos.get('Recovered') || 0  }</p>
+        <p><span class="stats">Décès</span> ${infos.get('Deaths') || 0  }</p>
+        <p><span class="stats">Date</span> ${parseDate(currentDate)}</p>
+      `;})
+      .style('opacity', 1);
+    }
+
   // Update the map
-  var displayMap = function(data, test){
+  var displayMap = function(data){
     svg.selectAll("path").attr("fill", function (d) {
-      d.total = data.get(d.properties.name) || 0;
+      var infos = d3.map(data.get(d.properties.name)) || d3.map();
+      d.total = infos.get('Confirmed') || 0;
         return colorScaleCorona(d.total);
       })
       .attr("d", d3.geoPath()
@@ -65,39 +140,40 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
 
   // Add circles:
   var displayCircles = function(data) {
-    svg.selectAll(".tweets")
+    svg.selectAll(".circles").remove();
+
+    svg.selectAll(".circles")
       .data(data.sort(function(a,b) { return +b.count - +a.count }).filter(function(d,i){ return i<1000 }))
-      .enter().append("circle")
-        .attr("cx", function(d){ return projection([+d.lon, +d.lat])[0] })
-        .attr("cy", function(d){ return projection([+d.lon, +d.lat])[1] })
-        .attr("r", 1)
-          .transition().duration(400)
-          .attr("r", function(d){ return size(+d.count)})
+      .enter()
+        .append("g")
+          .attr("class", "circles")
+
+        .append("circle")
+          .attr("class", "circles")
+          .attr("cx", function(d){ return projection([+d.lon, +d.lat])[0] })
+          .attr("cy", function(d){ return projection([+d.lon, +d.lat])[1] })
+          .attr("r", 1)
+            .transition().duration(20)
+            .attr("r", function(d){ return size(+d.count)})
         .style("fill", function(d){ return colorScaleTweets(d.count) })
-        .attr("stroke", function(d){ if(d.count>20){return "black"}else{return "none"}  })
-        .attr("stroke-width", 1)
-        .attr("fill-opacity", .4);      
+          .attr("stroke", function(d){ if(d.count>20){return "black"}else{return "none"}  })
+          .attr("stroke-width", 1)
+          .attr("fill-opacity", .4);      
   };
 
   /* SLIDER */
-
-  var formatDateIntoDay = d3.timeFormat("%d/%m");
-  var formatDate = d3.timeFormat("%b %Y");
-  var parseDate = d3.timeFormat("%Y-%m-%d");
-
-  var startDate = new Date("2020-02-22"),
-      endDate = new Date("2020-03-10");
-
   var moving = false;
   var currentValue = 0;
   var targetValue = width - 80;
 
-  var playButton = d3.select("#play-button");
+  var playButton = d3.select("#play-button").style("top", "100px");
 
   var x = d3.scaleTime()
       .domain([startDate, endDate])
       .range([0, targetValue])
       .clamp(true);
+
+
  
   var slider = d3.select("#sliderEuropeMap")
       .append("g")
@@ -166,29 +242,87 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
     }
   }
 
+  function updateDatasets(h){
+      currentDate = h;
+      // filter data set and draw map and bubbles
+      newDataTweets = dataTweets.filter(function(d) {
+        return d.date == parseDate(h);
+      })
+
+      newDataCorona = dataCorona.filter(function(d) {
+        return d.date == parseDate(h);
+      })
+
+      dataMap = {};
+      newDataCorona.forEach(function(d){
+        dataMap[d.country] = {}
+        dataMap[d.country]['Date'] = d.date;
+        dataMap[d.country]['Confirmed'] = d.Confirmed;
+        dataMap[d.country]['Recovered'] = d.Recovered;
+        dataMap[d.country]['Deaths'] = d.Deaths;
+        dataMap[d.country]['Province/State'] = d['Province/State'];
+      });
+
+      dataMap = d3.map(dataMap)
+  }
+
   function update(h) {
     // update position and text of label according to slider scale
     handle.attr("cx", x(h));
     label
       .attr("x", x(h))
       .text(formatDateIntoDay(h));
-
-     // filter data set and draw map and bubbles
-      var newDataTweets = dataTweets.filter(function(d) {
-        return d.date == parseDate(h);
-      })
-
-      var newDataCorona = dataCorona.filter(function(d) {
-        return d.date == parseDate(h);
-      })
-     var dataMap = {};
-      newDataCorona.forEach(function(d){
-        dataMap[d.country] = d.Confirmed;
-      });
-
-    displayMap(d3.map(dataMap));
+    if (currentCountry)
+      displayDetail(currentCountry)
+    updateDatasets(h);
+    displayMap(dataMap);
     displayCircles(newDataTweets);
   }
 
   update(startDate);
+
+  // Legend: from Bubblemap Template by Yan Holtz
+  // https://www.d3-graph-gallery.com/graph/bubble_legend.html
+  // https://www.d3-graph-gallery.com/graph/bubblemap_template.html
+
+  var valuesToShow = [500, 5000, 15000]
+  var xCircle = width - 80
+  var xLabel = xCircle - 80;
+  var yCircle = height - 10;
+  svg
+    .selectAll("legend")
+    .data(valuesToShow)
+    .enter()
+    .append("circle")
+      .attr("cx", xCircle)
+      .attr("cy", function(d){ return yCircle - size(d) } )
+      .attr("r", function(d){ return size(d) })
+      .style("fill", "none")
+      .attr("stroke", "black")
+  // Add legend: segments
+  svg
+    .selectAll("legend")
+    .data(valuesToShow)
+    .enter()
+    .append("line")
+      .attr('x1', function(d){ return xCircle - size(d) } )
+      .attr('x2', xLabel + 10)
+      .attr('y1', function(d){ return yCircle - size(d) } )
+      .attr('y2', function(d){ return yCircle - size(d) } )
+      .attr('stroke', 'black')
+      .style('stroke-dasharray', ('2,2'))
+  // Add legend: labels
+  svg
+    .selectAll("legend")
+    .data(valuesToShow)
+    .enter()
+    .append("text")
+      .attr('x', xLabel)
+      .attr('y', function(d){ return yCircle - size(d) } )
+      .text( function(d){ 
+        return d + ' tweets' 
+      } )
+      .style("font-size", 12)
+      .attr('alignment-baseline', 'middle')
+      .attr('text-anchor', 'end')
 });
