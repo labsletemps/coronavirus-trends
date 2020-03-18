@@ -71,15 +71,12 @@
 		<!-- bloc données – on peut bien sûr mettre en pleine largeur, au choix -->
 		<div class="row chart padding-bottom">
 			<div class="offset-md-2 col-md-8 col-sm-12 group-label text-center">
-				<h5>Supertitre</h5>
-				<p>Superpabeau mais j’arrangerai le style.</p>
 			</div>
 
 			<div class="offset-md-2 col-md-8 col-sm-12">
-				<p class="text-center no-margin"><b>Date:</b> <span class="date">mercredi 19 février 2020</span> <span class="horizontal-spacer"></span><i class="fa fa-undo reload" aria-hidden="true"></i></p>
 
 				<div id="chartTop" class="chart-background"></div>
-        <select id="country-option">
+        <select id="country-option-public">
           <option value="CH">CH</option>
           <option value="IT">IT</option>
           <option value="DE">DE</option>
@@ -93,14 +90,16 @@
 
 		<div class="row chart padding-bottom">
 			<div class="offset-md-2 col-md-8 col-sm-12 group-label text-center">
-				<h5>Supertitre</h5>
-				<p>Superpabeau mais j’arrangerai le style.</p>
 			</div>
 
 			<div class="offset-md-2 col-md-8 col-sm-12">
-				<p class="text-center no-margin"><b>Date:</b> <span class="date">mercredi 19 février 2020</span> <span class="horizontal-spacer"></span><i class="fa fa-undo reload" aria-hidden="true"></i></p>
-
 				<div id="chartMedia" class="chart-background"></div>
+        <select id="country-option-media">
+          <option value="CH">CH</option>
+          <option value="IT">IT</option>
+          <option value="DE">DE</option>
+          <option value="FR">FR</option>
+        </select>
 				<div class="source">
 					Source:<a target="_blank" href="https://gisanddata.maps.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6">Université Johns-Hopkins</a>, données retraitées par xyz, couvrant la période du x au x.
 				</div>
@@ -132,8 +131,9 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
 	<script src="https://unpkg.com/d3-simple-slider"></script>
   <script src="lib/d3-annotation.min.js"></script>
-	<script src="js/main.js"></script>
   <script src="js/trendsGraph.js"></script>
+  <script src="js/mediaGraph.js"></script>
   <script src="js/europeMap.js"></script>
+	<script src="js/main.js"></script>
 </body>
 </html>

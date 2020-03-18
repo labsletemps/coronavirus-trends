@@ -136,7 +136,7 @@ function trend_graph(country="CH") {
   
     // Scale the range of the data
     x.domain(d3.extent(data, function(d) { return d.date; }));
-    //x.domain([new Date(2020,0,23),d3.max(data, function(d) {
+    //x.domain([,d3.max(data, function(d) {
   	//  return d.date; })])
 
     yl.domain([0, d3.max(data, function(d) { 
@@ -175,17 +175,17 @@ function trend_graph(country="CH") {
         .attr("class", "line")
         .style("stroke", "#e74c3c") 
         .attr("d", line_GTrend);
-    svg.append("path")
-        .data([data])
-        .attr("class", "line")
-        .style("stroke", "#fff") 
-        .style("stroke-width", "5px")
-        .attr("d", line_Medias);
-    svg.append("path")
-        .data([data])
-        .attr("class", "line")
-        .style("stroke", "#2ecc71") 
-        .attr("d", line_Medias);
+    //svg.append("path")
+    //    .data([data])
+    //    .attr("class", "line")
+    //    .style("stroke", "#fff") 
+    //    .style("stroke-width", "5px")
+    //    .attr("d", line_Medias);
+    //svg.append("path")
+    //    .data([data])
+    //    .attr("class", "line")
+    //    .style("stroke", "#2ecc71") 
+    //    .attr("d", line_Medias);
  
     // Add the X Axis
     svg.append("g")
@@ -200,35 +200,53 @@ function trend_graph(country="CH") {
         .attr("transform", "translate( " + (width-margin.right) + ", 0 )")
         .call(d3.axisRight(yr));
 
+    if (country=="CH") {
+        var date_first_case = x(new Date(2020,1,25));
+        var label_first_case = "premier cas";
+        var dx_dir = -1;
+    } else if (country=="DE") {
+        var date_first_case = x(new Date(2020,0,27));
+        var label_first_case = "premier cas";
+        var dx_dir = 0;
+    } else if (country=="FR") {
+        var date_first_case = x(new Date(2020,0,24));
+        var label_first_case = "premier cas";
+        var dx_dir = 0;
+    } else if (country=="IT"){
+        var date_first_case  = x(new Date(2020,0,31));
+        var label_first_case = "premier cas";
+        var dx_dir = -1;
+    }
+
     const annotations = [
       {
         note: {
-          label: "Here is the annotation label",
+          label: label_first_case,
         },
         color: ["#e83e8c"],
-        x: 40,
-        y: 230,
-        dy: -70,
-        dx: 0
+        x: date_first_case,
+        y: height,
+        dy: -200,
+        dx: dx_dir
       }
     ]
     
     // Add annotation to the chart
-    //const makeAnnotations = d3.annotation()
-    //  .annotations(annotations)
-    //d3.select("#chartTopSVG")
-    //  .append("g")
-    //  .call(makeAnnotations)
+    const makeAnnotations = d3.annotation()
+      .annotations(annotations)
+    d3.select("#chartTopSVG")
+      .append("g")
+      .call(makeAnnotations)
 
     // Handmade legend
     var legend_pos_y = 280; 
     svg.append("line").attr("x1",20).attr("y1",legend_pos_y).attr("x2",30).attr("y2",legend_pos_y).style("stroke", "#3498db").style("stroke-width", "5px")
     svg.append("line").attr("x1",100).attr("x2",110).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#e74c3c").style("stroke-width", "5px")
-    svg.append("line").attr("x1",230).attr("x2",240).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#2ecc71").style("stroke-width", "5px")
+    //svg.append("line").attr("x1",230).attr("x2",240).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#2ecc71").style("stroke-width", "5px")
     //svg.append("line").attr("x1",310).attr("x2",320).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#3498db").style("stroke-width", "2px").style("stroke-dasharray", ("3, 3"))
     svg.append("text").attr("x", 40).attr("y", legend_pos_y).text("Tweets").style("font-size", "13px").attr("alignment-baseline","middle")
     svg.append("text").attr("x", 120).attr("y", legend_pos_y).text("Google Trends").style("font-size", "13px").attr("alignment-baseline","middle")
-    svg.append("text").attr("x", 250).attr("y", legend_pos_y).text("Medias").style("font-size", "13px").attr("alignment-baseline","middle")
+    //svg.append("text").attr("x", 250).attr("y", legend_pos_y).text("Medias").style("font-size", "13px").attr("alignment-baseline","middle")
     //svg.append("text").attr("x",330).attr("y", legend_pos_y).text("Infections").style("font-size", "13px").attr("alignment-baseline","middle")
 
   });

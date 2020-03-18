@@ -28,33 +28,15 @@ function media_graph(country) {
     .range([margin.left, width-margin.right]);
 
   var yr = d3.scaleLinear().range([height, 0]);
-  var yl = d3.scaleLinear().range([height, 0]);
-
-  var line_Infections_CH = d3.line()
-      .x(function(d) { return x(d.date); })
-      .y(function(d) { return yl(d.Infections_CH); });
-  var line_Infections_FR = d3.line()
-      .x(function(d) { return x(d.date); })
-      .y(function(d) { return yl(d.Infections_FR); });
-  var line_Infections_DE = d3.line()
-      .x(function(d) { return x(d.date); })
-      .y(function(d) { return yl(d.Infections_DE); });
-  var line_Infections_IT = d3.line()
-      .x(function(d) { return x(d.date); })
-      .y(function(d) { return yl(d.Infections_IT); });
-
-  var line_Medias_CH = d3.line()
-      .x(function(d) { return x(d.date); })
-      .y(function(d) { return yr(d.Medias_CH); });
-  var line_Medias_FR = d3.line()
-      .x(function(d) { return x(d.date); })
-      .y(function(d) { return yr(d.Medias_FR); });
-  var line_Medias_DE = d3.line()
-      .x(function(d) { return x(d.date); })
-      .y(function(d) { return yr(d.Medias_DE); });
-  var line_Medias_IT = d3.line()
-      .x(function(d) { return x(d.date); })
-      .y(function(d) { return yr(d.Medias_IT); });
+  //var yl = d3.scaleLog().range([height, 0]);
+  var yl = d3.scaleLog().clamp(true).range([height, 0]).nice();
+  
+  var line_Infections = d3.line()
+          .x(function(d) { return x(d.date); })
+          .y(function(d) { return yl(d.Infections); });
+  var line_Medias = d3.line()
+          .x(function(d) { return x(d.date); })
+          .y(function(d) { return yr(d.Medias); });
 
   var svg = d3
     .select("#chartMedia")
@@ -71,7 +53,7 @@ function media_graph(country) {
         d.date = parseTime(d.date);
          if (country=="CH") {
             d.Infections  = +d.Infections_CH;
-            d.Medias = +d.Medias_CH; 
+            d.Medias = +d.Medias_CH;
         } else if (country=="DE") {
             d.Infections  = +d.Infections_DE;
             d.Medias = +d.Medias_DE; 
@@ -82,7 +64,6 @@ function media_graph(country) {
             d.Infections  = +d.Infections_IT;
             d.Medias = +d.Medias_IT; 
         }
-
     });
   
     // Scale the range of the data
@@ -90,8 +71,8 @@ function media_graph(country) {
     //x.domain([new Date(2020,0,23),d3.max(data, function(d) {
   	//  return d.date; })])
 
-    yl.domain([0, d3.max(data, function(d) { 
-  	  return Math.max(d.Infections_CH,d.Infections_FR,d.Infections_DE,d.Infections_IT); })]);
+    yl.domain([0.1, d3.max(data, function(d) { 
+  	  return Math.max(d.Infections); })]);
     yr.domain([0, d3.max(data, function(d) {
   	  return Math.max(d.Medias); })]);
 
@@ -102,19 +83,18 @@ function media_graph(country) {
         .style("stroke", "#3498db")
         .style("stroke-dasharray", ("3, 3"))
         .style("stroke-width", "2px")
-        .attr("d", line_Infections_FR);
-
+        .attr("d", line_Infections);
     svg.append("path")
         .data([data])
         .attr("class", "line")
         .style("stroke", "#fff") 
         .style("stroke-width", "5px")
-        .attr("d", line_Medias_CH);
+        .attr("d", line_Medias);
     svg.append("path")
         .data([data])
         .attr("class", "line")
         .style("stroke", "#3498db") 
-        .attr("d", line_Medias_CH);
+        .attr("d", line_Medias);
 
     // Add the X Axis
     svg.append("g")
@@ -124,7 +104,7 @@ function media_graph(country) {
     // Add the Y Axis
     svg.append("g")
         .attr('transform', 'translate(' + (margin.left) + ',0)')
-        .call(d3.axisLeft(yl));
+        .call(d3.axisLeft(yl).tickValues([1,10,100,1000,10000]).tickArguments([6,".0s"]));
     svg.append("g")
         .attr("transform", "translate( " + (width-margin.right) + ", 0 )")
         .call(d3.axisRight(yr));
@@ -137,7 +117,7 @@ function media_graph(country) {
         color: ["#e83e8c"],
         x: 40,
         y: 230,
-        dy: -70,
+        dy: -150,
         dx: 0
       }
     ]
@@ -152,13 +132,9 @@ function media_graph(country) {
     // Handmade legend
     var legend_pos_y = 280; 
     svg.append("line").attr("x1",20).attr("y1",legend_pos_y).attr("x2",30).attr("y2",legend_pos_y).style("stroke", "#3498db").style("stroke-width", "5px")
-    svg.append("line").attr("x1",100).attr("x2",110).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#e74c3c").style("stroke-width", "5px")
-    svg.append("line").attr("x1",230).attr("x2",240).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#2ecc71").style("stroke-width", "5px")
-    //svg.append("line").attr("x1",310).attr("x2",320).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#3498db").style("stroke-width", "2px").style("stroke-dasharray", ("3, 3"))
-    svg.append("text").attr("x", 40).attr("y", legend_pos_y).text("Tweets").style("font-size", "13px").attr("alignment-baseline","middle")
-    svg.append("text").attr("x", 120).attr("y", legend_pos_y).text("Google Trends").style("font-size", "13px").attr("alignment-baseline","middle")
-    svg.append("text").attr("x", 250).attr("y", legend_pos_y).text("Medias").style("font-size", "13px").attr("alignment-baseline","middle")
-    //svg.append("text").attr("x",330).attr("y", legend_pos_y).text("Infections").style("font-size", "13px").attr("alignment-baseline","middle")
+    svg.append("line").attr("x1",150).attr("x2",165).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#3498db").style("stroke-width", "2px").style("stroke-dasharray", ("3, 3"))
+    svg.append("text").attr("x", 40).attr("y", legend_pos_y).text("Media articles").style("font-size", "13px").attr("alignment-baseline","middle")
+    svg.append("text").attr("x",170).attr("y", legend_pos_y).text("Infections").style("font-size", "13px").attr("alignment-baseline","middle")
 
   });
   

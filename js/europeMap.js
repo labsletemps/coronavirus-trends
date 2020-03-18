@@ -34,7 +34,8 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets.csv
     .attr("d", d3.geoPath()
         .projection(projection)
     )
-    .style("stroke", "None")
+    .style("stroke", "white")
+    .style("stroke-width", "2px")
     .on('mouseover', function(d) {
       d3.select(this).style('stroke', 'black');
     }).on('mouseout', function(d) {

@@ -9,13 +9,12 @@ Et on peut concaténer tous les scripts (avec webpack / CodeKit etc.), je peux l
 
 $( document ).ready(function() {
 
-    media_graph("FR");
-    trend_graph("FR");
+    media_graph("CH");
+    trend_graph("CH");
 
-    d3.select("#country-option").on("change", change)
-    function change() {
+    d3.select("#country-option-public").on("change", change_public)
+    function change_public() {
       $("#chartTop").empty();
-      console.log(this.selectedIndex);
       if (this.selectedIndex == 0){
         trend_graph("CH");
       } else if (this.selectedIndex == 1){
@@ -26,4 +25,19 @@ $( document ).ready(function() {
         trend_graph("FR");
       }
     }
+
+    d3.select("#country-option-media").on("change", change_media)
+    function change_media() {
+      $("#chartMedia").empty();
+      if (this.selectedIndex == 0){
+        media_graph("CH");
+      } else if (this.selectedIndex == 1){
+        media_graph("IT");
+      } else if (this.selectedIndex == 2){
+        media_graph("DE");
+      } else if (this.selectedIndex == 3){
+        media_graph("FR");
+      }
+    }
+
 });
