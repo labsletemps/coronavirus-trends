@@ -11,18 +11,24 @@ $( document ).ready(function() {
 
   var controller = new ScrollMagic.Controller();
 
-  var chartTrendScene = new ScrollMagic.Scene({triggerElement: "#trendsChart", duration: 1000})
+  var chartTrendScene = new ScrollMagic.Scene({triggerElement: "#trendsChart", duration: 300})
     .setClassToggle("#trendsChart", "bounce")
     .addTo(controller)
     .addIndicators({'name': 'chart-1'}) // debug
     .on("enter", function(){
       console.log('enter')
-      $("#trendsChart").empty();
-      trend_graph("IT");
+    })
+    .on("progress", function (event) {
+      if(event.progress > 0.8){
+        $('#public-FR').trigger('click');
+      }else if(event.progress > 0.4){
+        $('#public-DE').trigger('click');
+      }else if(event.progress > 0){
+        $('#public-IT').trigger('click');
+      }
     })
     .on("leave", function(){
-      console.log('leave')
-      // chart1.unload(['Apple Watch**']);
+      $('#public-CH').trigger('click');
     });
 
 
