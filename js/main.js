@@ -44,15 +44,24 @@ $( document ).ready(function() {
       })
       .on("progress", function (event) {
         console.log(event.progress)
-        if(event.progress > 0.8 && slideCounter != 4){
-          $('#date-4').trigger('click');
-          slideCounter = 4;
-        }else if(event.progress > 0.4  && slideCounter != 3){
-          $('#date-3').trigger('click');
-          slideCounter = 3;
-        }else if(event.progress > 0  && slideCounter != 2){
-          $('#date-2').trigger('click');
-          slideCounter = 2;
+        if(event.progress > 0.8){
+          if(slideCounter != 4){
+            console.log('Slide 4')
+            $('#date-4').trigger('click');
+            slideCounter = 4;
+          }
+        }else if(event.progress > 0.4){
+          if(slideCounter != 3){
+            console.log('Slide 3')
+            $('#date-3').trigger('click');
+            slideCounter = 3;
+          }
+        }else if(event.progress > 0){
+          if(slideCounter != 2){
+            console.log('Slide 2')
+            $('#date-2').trigger('click');
+            slideCounter = 2;
+          }
         }
       })
       .on("leave", function(event){
