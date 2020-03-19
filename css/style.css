@@ -266,6 +266,7 @@ li {
 
 .nav-link {
     padding: .2rem 0.5rem;
+    cursor: pointer;
 }
 
 .nav-item {
