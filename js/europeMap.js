@@ -109,7 +109,7 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
       var location = d.properties.name;
       var infos = d3.map(dataMap.get(d.id)) || d3.map();
       return `<h4>${location}</h4>
-        <p><span class="stats">Cas confirmés par million d'habitants</span> ${infos.get('ConfirmedRatio') || 0  }</p>
+        <p><span class="stats">Cas confirmés par million d'habitants</span> ${Math.round(infos.get('ConfirmedRatio') * 100) / 100 || 0  }</p>
         <p><span class="stats">Cas confirmés cumulés</span> ${infos.get('Confirmed') || 0  }</p>
         <p><span class="stats">Décès</span> ${infos.get('Deaths') || 0  }</p>
         <p><span class="stats">Date</span> ${parseDate(currentDate)}</p>
