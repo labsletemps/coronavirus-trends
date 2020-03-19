@@ -68,6 +68,10 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_
   var colorScaleTweets = d3.scaleLinear().domain([0,10000])
     .range(["#b8b8b8", "blue"]);
 
+  ///////////////////////////////////////////
+  ////////////////////MAP////////////////////
+  ///////////////////////////////////////////
+
   // Draw the map
   svg.append("g")
     .selectAll("path")
@@ -97,6 +101,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_
     .attr("r",1)
     .remove();
 
+  // Display Infos by country
   function displayDetail(d) {
     currentCountry = d;
     d3.select(".map-details")
@@ -122,6 +127,11 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_
       .projection(projection))
       
   }
+
+
+  ///////////////////////////////////////////
+  ///////////////////BUBLES//////////////////
+  ///////////////////////////////////////////
 
    // Add a scale for bubble size
   var valueExtent = d3.extent(dataTweets, function(d) { return +d.count; })
@@ -152,11 +162,20 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_
           .attr("fill-opacity", 0.4);
   };
 
-  /* SLIDER */
-  var date1Button = d3.select("#date-22-02").style('top', '20%');
-  var date2Button = d3.select("#date-29-02").style('top', '20%');
-  var date3Button = d3.select("#date-07-03").style('top', '20%');
-  var date4Button = d3.select("#date-14-03").style('top', '20%');
+  
+  ///////////////////////////////////////////
+  /////////////////SELECTOR//////////////////
+  ///////////////////////////////////////////
+  
+  var idBtn_1  =  'date-22-02';
+  var idBtn_2  =  'date-29-02';
+  var idBtn_3  =  'date-07-03';
+  var idBtn_4  =  'date-14-03';
+
+  var date1Button = d3.select("#" + idBtn_1).style('top', '20%');
+  var date2Button = d3.select("#" + idBtn_2).style('top', '20%');
+  var date3Button = d3.select("#" + idBtn_3).style('top', '20%');
+  var date4Button = d3.select("#" + idBtn_4).style('top', '20%');
 
   var parser = d3.timeParse("%d/%m/%y");
   
@@ -177,7 +196,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_
       update(parser("16/03/20"))
   });
 
-  document.getElementById("date-22-02").click(); 
+  document.getElementById(idBtn_1).click(); 
 
 
   function updateDatasets(h){
@@ -211,7 +230,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_
     if(currentCountry != null)
       displayDetail(currentCountry)
   }
-updateDatasets(startdate);
+//updateDatasets(startdate);
 
   // Legend: from Bubblemap Template by Yan Holtz
   // https://www.d3-graph-gallery.com/graph/bubble_legend.html
