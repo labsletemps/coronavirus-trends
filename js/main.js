@@ -26,18 +26,29 @@ $( document ).ready(function() {
     });
 
 
-    var mapScene = new ScrollMagic.Scene({triggerElement: "#map", duration: 1000})
-      .setClassToggle("#map", "bounce")
+    var mapScene = new ScrollMagic.Scene({triggerElement: "#mapTrigger", duration: "50%", offset: 300})
+      .setPin('#mapContainer')
       .addTo(controller)
       .addIndicators({'name': 'map'}) // debug
       .on("enter", function(){
         console.log('enter map')
-        updateMap('x')
       })
       .on("leave", function(){
-        console.log('leave map')
-        // chart1.unload(['Apple Watch**']);
+        $('#date-1').trigger('click');
       });
+
+      mapScene.on("progress", function (event) {
+        console.log(event.progress)
+        if(event.progress > 0.8){
+          $('#date-4').trigger('click');
+        }else if(event.progress > 0.6){
+          $('#date-3').trigger('click');
+        }else if(event.progress > 0.4){
+          $('#date-2').trigger('click');
+        }else if(event.progress > 0.2){
+          $('#date-1').trigger('click');
+        }
+    });
 
 
     media_graph("CH");

@@ -68,7 +68,7 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
   ////////////////////MAP////////////////////
   ///////////////////////////////////////////
 
-  // Color scales 
+  // Color scales
   var colorScaleCorona = d3.scaleLinear().domain([0,10])
     .range(["#b8b8b8", "red"]);
 
@@ -165,7 +165,7 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
           .attr("fill-opacity", 0.4);
   };
 
-  
+
   ///////////////////////////////////////////
   /////////////////SELECTOR//////////////////
   ///////////////////////////////////////////
@@ -200,7 +200,7 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
       update(parser(dates[3]))
   });
 
-  document.getElementById(idBtn_1).click(); 
+  document.getElementById(idBtn_1).click();
 
   function updateDatasets(h){
       currentDate = h;
