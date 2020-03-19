@@ -63,8 +63,8 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
   });
   dataMap = d3.map(dataMap)
 
-  // Color scales
-  var colorScaleCorona = d3.scaleLinear().domain([0,100])
+  // Color scales 
+ var colorScaleCorona = d3.scaleLinear().domain([0,50])
     .range(["#b8b8b8", "red"]);
   var colorScaleTweets = d3.scaleLinear().domain([0,10000])
     .range(["#b8b8b8", "blue"]);
@@ -168,34 +168,35 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
   ///////////////////////////////////////////
   /////////////////SELECTOR//////////////////
   ///////////////////////////////////////////
-  
-  var idBtn_1  =  'date-22-02';
-  var idBtn_2  =  'date-29-02';
-  var idBtn_3  =  'date-07-03';
-  var idBtn_4  =  'date-14-03';
+  var dates = ['19/02/20', '26/02/20', '04/03/20', '11/03/20']
 
-  var date1Button = d3.select("#" + idBtn_1).style('top', '20%');
-  var date2Button = d3.select("#" + idBtn_2).style('top', '20%');
-  var date3Button = d3.select("#" + idBtn_3).style('top', '20%');
-  var date4Button = d3.select("#" + idBtn_4).style('top', '20%');
+  var idBtn_1  =  'date-1';
+  var idBtn_2  =  'date-2';
+  var idBtn_3  =  'date-3';
+  var idBtn_4  =  'date-4';
+
+  var date1Button = d3.select("#" + idBtn_1).style('top', '20%').html(dates[0]);
+  var date2Button = d3.select("#" + idBtn_2).style('top', '20%').html(dates[1]);
+  var date3Button = d3.select("#" + idBtn_3).style('top', '20%').html(dates[2]);
+  var date4Button = d3.select("#" + idBtn_4).style('top', '20%').html(dates[3]);
 
   var parser = d3.timeParse("%d/%m/%y");
 
   date1Button
     .on("click", function() {
-      update(parser("24/02/20"))
+      update(parser(dates[0]))
   });
     date2Button
     .on("click", function() {
-      update(parser("02/03/20"))
+      update(parser(dates[1]))
   });
     date3Button
     .on("click", function() {
-      update(parser("09/03/20"))
+      update(parser(dates[2]))
   });
   date4Button
     .on("click", function() {
-      update(parser("16/03/20"))
+      update(parser(dates[3]))
   });
 
   document.getElementById(idBtn_1).click(); 
