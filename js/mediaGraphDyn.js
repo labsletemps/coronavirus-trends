@@ -56,7 +56,7 @@ if (get_width>480) {
       .attr("class","YAxis_Left_media")
       .call(d3.axisLeft(yl_media).tickValues([1,10,100,1000]).tickArguments([5,".0s"]));
   svg_media.append("g")
-      .attr("transform", "translate( " + (width-margin.right-35) + ", 0 )")
+      .attr("transform", "translate( " + (width-margin.right-10) + ", 0 )")
       .attr("class","YAxis_Right_media")
       .call(d3.axisRight(yr_media));
 }
@@ -174,7 +174,7 @@ function update_media_graph(country) {
      .x(function(d) { return x_media(d.date); })
      .y(function(d) { return yr_media(get_medias(country,d))}))
      .attr("fill", "none")
-     .attr("stroke", "red")
+     .attr("stroke", "steelblue")
      .attr("stroke-width", 2.5)
 
 

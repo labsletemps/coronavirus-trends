@@ -55,9 +55,9 @@ if (get_width>480) {
       .attr("class","YAxisLeft")
       .call(d3.axisLeft(yl));
   svg_tr.append("g")
-      .attr("transform", "translate( " + (width-margin.right-35) + ", 0 )")
+      .attr("transform", "translate( " + (width-margin.right-10) + ", 0 )")
       .attr("class","YAxisRight")
-      .call(d3.axisRight(yr));
+      .call(d3.axisRight(yr) );
 }
 
 // Handmade legend
