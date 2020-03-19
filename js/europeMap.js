@@ -139,18 +139,19 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
           .attr("class", "circles")
           .attr("cx", function(d){ return projection([+d.lon, +d.lat])[0] })
           .attr("cy", function(d){ return projection([+d.lon, +d.lat])[1] })
-          .attr("r", 1)
-            .transition().duration(200)
-              .attr("r", function(d){ return size(+d.count)})
+          //.attr("r", 1)
+          //  .transition().duration(200)
+          .attr("r", function(d){ return size(+d.count)})
         .style("fill", function(d){ return colorScaleTweets(d.count) })
           .attr("stroke", function(d){ if(d.count>20){return "black"}else{return "none"}  })
           .attr("stroke-width", 1)
           .attr("fill-opacity", 0.4);
-    circles.exit()
+    /*circles
+      .exit()
         .transition(d3.transition().duration(750))
           .attr("r", 1e-6)
         .remove();
-      
+      */
   };
 
 
