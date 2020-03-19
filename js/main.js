@@ -27,10 +27,11 @@ $( document ).ready(function() {
         $('#public-IT').trigger('click');
       }
     })
-    .on("leave", function(){
-      $('#public-CH').trigger('click');
+    .on("leave", function(event){
+      if(event.progress == 0){
+        $('#public-CH').trigger('click');
+      }
     });
-
 
     var mapScene = new ScrollMagic.Scene({triggerElement: "#mapTrigger", duration: "50%", offset: 300})
       .setPin('#mapContainer')
@@ -39,11 +40,7 @@ $( document ).ready(function() {
       .on("enter", function(){
         console.log('enter map')
       })
-      .on("leave", function(){
-        $('#date-1').trigger('click');
-      });
-
-      mapScene.on("progress", function (event) {
+      .on("progress", function (event) {
         console.log(event.progress)
         if(event.progress > 0.8){
           $('#date-4').trigger('click');
@@ -54,7 +51,12 @@ $( document ).ready(function() {
         }else if(event.progress > 0.2){
           $('#date-1').trigger('click');
         }
-    });
+      })
+      .on("leave", function(event){
+        if(event.progress == 0){
+          $('#date-1').trigger('click');
+        }
+      });
 
 
     media_graph("CH");
