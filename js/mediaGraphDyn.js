@@ -49,7 +49,7 @@ if (get_width>480) {
   svg_media.append("g")
       .attr("transform", "translate( " + (width-margin.right) + ", 0 )")
       .attr("class","YAxis_Right_media")
-      .call(d3.axisRight(yr_media));
+      .call(d3.axisRight(yr_media).tickArguments([5,".0s"]));
   var tick_size = 0;
  } else {
   svg_media.append("g")
@@ -59,7 +59,7 @@ if (get_width>480) {
   svg_media.append("g")
       .attr("transform", "translate( " + (width-margin.right-15) + ", 0 )")
       .attr("class","YAxis_Right_media")
-      .call(d3.axisRight(yr_media));
+      .call(d3.axisRight(yr_media).tickArguments([5,".0s"]));
   var tick_size = 0;
 }
 
@@ -136,7 +136,7 @@ function update_media_graph(country) {
   svg_media.selectAll(".YAxis_Left_media")
     .transition()
     .duration(transTime)
-    .call(yAxisLeft_media.tickSize(tick_size));
+    .call(yAxisLeft_media.tickSize(tick_size).tickFormat(d3.format(".0s")));
 
   // Updata the line
   u.enter()
