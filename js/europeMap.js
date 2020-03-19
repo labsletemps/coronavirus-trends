@@ -51,8 +51,13 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
   ///////////////////////////////////////////
 
   // Color scales
-  var colorScaleCorona = d3.scaleLinear().domain([0,10])
-    .range(["#b8b8b8", "red"]);
+  //var colorScaleCorona = d3.scaleLinear()
+  //  .domain([0,10])
+  //  .range(["#b8b8b8", "red"]);
+  colorScaleCorona = d3.scalePow()
+    .exponent(0.5)
+    .domain([0, 100])
+    .range(["#ececec", "red"]);
 
   // Draw the map
   svg.append("g")
@@ -61,19 +66,19 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
     .enter()
     .append("path")
     .attr("fill", function (d) {
-    return colorScaleCorona(0);
+    return colorScaleCorona(1);
     })
     .attr("d", d3.geoPath()
         .projection(projection)
     )
-    .style("stroke", "white")
-    .style("stroke-width", "2px")
+    .style("stroke", "#abb7b7")
+    .style("stroke-width", "1px")
     .on('mouseover', function(d) {
       d3.select(this).style('stroke', 'black');
       d3.event.preventDefault();
       displayDetail(d);
     }).on('mouseout', function(d) {
-      d3.select(this).style('stroke', 'white');
+      d3.select(this).style('stroke', '#abb7b7');
     }).on("click", function(d) {
       displayDetail(d);
     })
@@ -115,6 +120,8 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
   ///////////////////////////////////////////
   ///////////////////BUBLES//////////////////
   ///////////////////////////////////////////
+
+  // Color Scale
   var colorScaleTweets = d3.scaleLinear().domain([0,10000])
     .range(["#b8b8b8", "blue"]);
 
@@ -129,12 +136,11 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
     svg.selectAll(".circles").remove();
 
     var circles = svg.selectAll(".circle")
-          .data(data.sort(function(a,b) { return +b.count - +a.count }).filter(function(d,i){ return i<500 }));
+          .data(data.sort(function(a,b) { return +b.count - +a.count }).filter(function(d,i){ return i<1000 }));
     circles
       .enter()
         .append("g")
           .attr("class", "circles")
-
         .append("circle")
           .attr("class", "circles")
           .attr("cx", function(d){ return projection([+d.lon, +d.lat])[0] })
@@ -142,8 +148,8 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
           //.attr("r", 1)
           //  .transition().duration(200)
           .attr("r", function(d){ return size(+d.count)})
-        .style("fill", function(d){ return colorScaleTweets(d.count) })
-          .attr("stroke", function(d){ if(d.count>20){return "blue"}else{return "none"}  })
+        .style("fill", function(d){ return "#67809f"})//colorScaleTweets(d.count) })
+          .attr("stroke", function(d){ if(d.count>100){return "black"}else{return "none"}  })
           .attr("stroke-width", 1)
           .attr("stroke-opacity", 0.7)
           .attr("fill-opacity", 0.4);
@@ -159,6 +165,7 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
   ///////////////////////////////////////////
   /////////////////SELECTOR//////////////////
   ///////////////////////////////////////////
+
   var dates = ['19/02/20', '26/02/20', '04/03/20', '11/03/20']
 
   var idBtn_1  =  'date-1';
@@ -178,23 +185,6 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
   document.getElementById(idBtn_3).onclick = function() {update(parser(dates[2]))};
   document.getElementById(idBtn_4).onclick = function() {update(parser(dates[3]))};
 
-  /*
-    .on("click", function() {
-      
-  });
-    date2Button
-    .on("click", function() {
-      update(parser(dates[1]))
-  });
-    date3Button
-    .on("click", function() {
-      update(parser(dates[2]))
-  });
-  date4Button
-    .on("click", function() {
-      update(parser(dates[3]))
-  });
-*/
   document.getElementById(idBtn_1).click();
 
   function updateDatasets(h){
@@ -249,7 +239,7 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
 // https://www.d3-graph-gallery.com/graph/bubble_legend.html
 // https://www.d3-graph-gallery.com/graph/bubblemap_template.html
 
-  var valuesToShow = [500, 7000, 20000]
+  var valuesToShow = [500, 10000, 30000]
   var xCircle = width - 80
   var xLabel = xCircle - 80;
   var yCircle = height - 40;
