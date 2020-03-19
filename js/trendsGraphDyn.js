@@ -250,7 +250,7 @@ function update_trend_graph(country) {
         color: ["#e83e8c"],
         x: x(new Date(2020,0,31)),
         y: 200,
-        dy: -140,
+        dy: -90,
         dx: -1
       },
       {
@@ -260,9 +260,20 @@ function update_trend_graph(country) {
         color: ["#e83e8c"],
         x: x(new Date(2020,1,21)),
         y: 200,
+        dy: -110,
+        dx: -1
+      },
+      {
+        note: {
+          label: "Piazza Pulita",
+        },
+        color: ["#e83e8c"],
+        x: x(new Date(2020,2,5)),
+        y: 200,
         dy: -140,
         dx: -1
       }
+
     ]
 
     // Add annotation to the chart
