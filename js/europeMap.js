@@ -51,9 +51,6 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
   ///////////////////////////////////////////
 
   // Color scales
-  //var colorScaleCorona = d3.scaleLinear()
-  //  .domain([0,10])
-  //  .range(["#b8b8b8", "red"]);
   colorScaleCorona = d3.scalePow()
     .exponent(0.5)
     .domain([0, 100])
@@ -238,6 +235,43 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
 // Legend: from Bubblemap Template by Yan Holtz
 // https://www.d3-graph-gallery.com/graph/bubble_legend.html
 // https://www.d3-graph-gallery.com/graph/bubblemap_template.html
+  
+  var labels = [0.5, 1, 10, 100]
+  var size_l = 20
+  var distance_from_top = (height - 50)
+  // Legend title
+  svg
+    .append("text")
+      .style("fill", "black")
+      .attr("x", 20)
+      .attr("y", distance_from_top - labels.length*(size_l+5) + (size_l/2))
+      .attr("width", 90)
+      .html("Cas confirmés/Mi d'habitants")
+      .style("font-size", 12)
+
+  // Add one dot in the legend for each name.
+  
+  svg.selectAll("mydots")
+    .data(labels)
+    .enter()
+    .append("rect")
+      .attr("x", 20)
+      .attr("y", function(d,i){ return distance_from_top - i*(size_l+5)}) // 100 is where the first dot appears. 25 is the distance between dots
+      .attr("width", size_l)
+      .attr("height", size_l)
+      .style("fill", function(d){ return colorScaleCorona(d)})
+
+  // Add one dot in the legend for each name.
+  svg.selectAll("mylabels")
+    .data(labels)
+    .enter()
+    .append("text")
+      .attr("x", 20 + size_l*1.2)
+      .attr("y", function(d,i){ return distance_from_top - i*(size_l+5) + (size_l/2)}) // 100 is where the first dot appears. 25 is the distance between dots
+      .style("fill", function(d){ return colorScaleCorona(d)})
+      .text(function(d){ return d})
+      .attr("text-anchor", "left")
+      .style("alignment-baseline", "middle")
 
   var valuesToShow = [500, 10000, 30000]
   var xCircle = width - 80
