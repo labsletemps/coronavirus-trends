@@ -34,41 +34,23 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
   var dataCorona = data[2];
 
   var formatDateIntoDay = d3.timeFormat("%d/%m");
-  var formatDate = d3.timeFormat("%b %Y");
   var parseDate = d3.timeFormat("%Y-%m-%d");
 
-  var startDate = new Date("2020-02-22"),
-      endDate = new Date("2020-03-14");
-
-  var currentDate = startDate;
-
+  var currentDate = null;
   var currentCountry = null;
 
-  // filter data set
-  var newDataTweets = dataTweets.filter(function(d) {
-    return d.date == parseDate(startDate);
-  })
+  // Initialize datasets map and filter variables
+  var newDataTweets = []
+  var tweetsMap = d3.map();
 
-  var newDataCorona = dataCorona.filter(function(d) {
-    return d.date == parseDate(startDate);
-  })
-
- var dataMap = {};
-  newDataCorona.forEach(function(d){
-    dataMap[d['alpha-3']] = {}
-    dataMap[d['alpha-3']]['Date'] = d.date;
-    dataMap[d['alpha-3']]['Confirmed'] = d.cumsum_cases;
-    dataMap[d['alpha-3']]['Name'] = d.country;
-    dataMap[d['alpha-3']]['Deaths'] = d.cumsum_deaths;
-    dataMap[d['alpha-3']]['ConfirmedRatio'] = d.cases_by_million;
-  });
-  dataMap = d3.map(dataMap)
+  var newDataCorona = []
+  var dataMap = d3.map();
 
   ///////////////////////////////////////////
   ////////////////////MAP////////////////////
   ///////////////////////////////////////////
 
-  // Color scales 
+  // Color scales
   var colorScaleCorona = d3.scaleLinear().domain([0,10])
     .range(["#b8b8b8", "red"]);
 
@@ -109,10 +91,11 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
       var location = d.properties.name;
       var infos = d3.map(dataMap.get(d.id)) || d3.map();
       return `<h4>${location}</h4>
+        <p><span class="stats">Nombre total de tweets geolocalisés par semaine</span> ${tweetsMap.get(d.id) || 0}</p>
         <p><span class="stats">Cas confirmés par million d'habitants</span> ${Math.round(infos.get('ConfirmedRatio') * 100) / 100 || 0  }</p>
         <p><span class="stats">Cas confirmés cumulés</span> ${infos.get('Confirmed') || 0  }</p>
         <p><span class="stats">Décès</span> ${infos.get('Deaths') || 0  }</p>
-        <p><span class="stats">Date</span> ${parseDate(currentDate)}</p>
+        <p><span class="stats">Date</span> ${formatDateIntoDay(currentDate)}</p>
       `;})
       .style('opacity', 1);
     }
@@ -128,7 +111,6 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
       .projection(projection))
 
   }
-
 
   ///////////////////////////////////////////
   ///////////////////BUBLES//////////////////
@@ -146,8 +128,9 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
   var displayCircles = function(data) {
     svg.selectAll(".circles").remove();
 
-    svg.selectAll(".circles")
-      .data(data.sort(function(a,b) { return +b.count - +a.count }).filter(function(d,i){ return i<500 }))
+    var circles = svg.selectAll(".circle")
+          .data(data.sort(function(a,b) { return +b.count - +a.count }).filter(function(d,i){ return i<500 }));
+    circles
       .enter()
         .append("g")
           .attr("class", "circles")
@@ -156,16 +139,22 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
           .attr("class", "circles")
           .attr("cx", function(d){ return projection([+d.lon, +d.lat])[0] })
           .attr("cy", function(d){ return projection([+d.lon, +d.lat])[1] })
-          .attr("r", 1)
-            .transition().duration(200)
-            .attr("r", function(d){ return size(+d.count)})
+          //.attr("r", 1)
+          //  .transition().duration(200)
+          .attr("r", function(d){ return size(+d.count)})
         .style("fill", function(d){ return colorScaleTweets(d.count) })
           .attr("stroke", function(d){ if(d.count>20){return "black"}else{return "none"}  })
           .attr("stroke-width", 1)
           .attr("fill-opacity", 0.4);
+    /*circles
+      .exit()
+        .transition(d3.transition().duration(750))
+          .attr("r", 1e-6)
+        .remove();
+      */
   };
 
-  
+
   ///////////////////////////////////////////
   /////////////////SELECTOR//////////////////
   ///////////////////////////////////////////
@@ -183,9 +172,14 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
 
   var parser = d3.timeParse("%d/%m/%y");
 
-  date1Button
+  document.getElementById(idBtn_1).onclick = function() {update(parser(dates[0]))};
+  document.getElementById(idBtn_2).onclick = function() {update(parser(dates[1]))};
+  document.getElementById(idBtn_3).onclick = function() {update(parser(dates[2]))};
+  document.getElementById(idBtn_4).onclick = function() {update(parser(dates[3]))};
+
+  /*
     .on("click", function() {
-      update(parser(dates[0]))
+      
   });
     date2Button
     .on("click", function() {
@@ -199,8 +193,8 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
     .on("click", function() {
       update(parser(dates[3]))
   });
-
-  document.getElementById(idBtn_1).click(); 
+*/
+  document.getElementById(idBtn_1).click();
 
   function updateDatasets(h){
       currentDate = h;
@@ -210,6 +204,16 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
 
       })
 
+      tweetsMap = {}
+      newDataTweets.forEach(function(d){
+        if (d['alpha-3'] in tweetsMap){
+          tweetsMap[d['alpha-3']] = parseInt(tweetsMap[d['alpha-3']]) + parseInt(d.count);
+        }
+        else{
+          tweetsMap[d['alpha-3']] = parseInt(d.count);
+        }
+      });
+      tweetsMap = d3.map(tweetsMap);
       newDataCorona = dataCorona.filter(function(d) {
         return d.date == parseDate(h);
       })

@@ -12,28 +12,51 @@ $( document ).ready(function() {
 
   var controller = new ScrollMagic.Controller();
 
-  var chartTrendScene = new ScrollMagic.Scene({triggerElement: "#trendsChart", duration: 1000})
+  var chartTrendScene = new ScrollMagic.Scene({triggerElement: "#trendsChart", duration: 300})
     .setClassToggle("#trendsChart", "bounce")
     .addTo(controller)
     .addIndicators({'name': 'chart-1'}) // debug
     .on("enter", function(){
-      $('#public-IT').click();
+      console.log('enter')
     })
-    .on("leave", function(){
-      $('#public-CH').click();
+    .on("progress", function (event) {
+      if(event.progress > 0.8){
+        $('#public-FR').trigger('click');
+      }else if(event.progress > 0.4){
+        $('#public-DE').trigger('click');
+      }else if(event.progress > 0){
+        $('#public-IT').trigger('click');
+      }
+    })
+    .on("leave", function(event){
+      if(event.progress == 0){
+        $('#public-CH').trigger('click');
+      }
     });
 
-    var mapScene = new ScrollMagic.Scene({triggerElement: "#map", duration: 1000})
-      .setClassToggle("#map", "bounce")
+    var mapScene = new ScrollMagic.Scene({triggerElement: "#mapTrigger", duration: "50%", offset: 300})
+      .setPin('#mapContainer')
       .addTo(controller)
       .addIndicators({'name': 'map'}) // debug
       .on("enter", function(){
         console.log('enter map')
-        updateMap('x')
       })
-      .on("leave", function(){
-        console.log('leave map')
-        // chart1.unload(['Apple Watch**']);
+      .on("progress", function (event) {
+        console.log(event.progress)
+        if(event.progress > 0.8){
+          $('#date-4').trigger('click');
+        }else if(event.progress > 0.6){
+          $('#date-3').trigger('click');
+        }else if(event.progress > 0.4){
+          $('#date-2').trigger('click');
+        }else if(event.progress > 0.2){
+          $('#date-1').trigger('click');
+        }
+      })
+      .on("leave", function(event){
+        if(event.progress == 0){
+          $('#date-1').trigger('click');
+        }
       });
 
   $('.nav  li').click(function(e) {
