@@ -30,9 +30,9 @@ var x_media = d3.scaleTime()
                 .range([margin.left, width-margin.right]);
 var xAxis_media = d3.axisBottom().scale(x_media);
 
-var yr_media = d3.scaleLinear().range([height, 0]);
+var yl_media = d3.scaleLinear().range([height, 0]);
 //var yl_media = d3.scaleLinear().range([height, 0]);
-var yl_media = d3.scaleLog().clamp(true).range([height, 0]).nice();
+var yr_media = d3.scaleLog().clamp(true).range([height, 0]).nice();
 
 var yAxisRight_media = d3.axisLeft().scale(yr_media);
 var yAxisLeft_media  = d3.axisLeft().scale(yl_media);
@@ -125,18 +125,18 @@ function update_media_graph(country) {
     .call(xAxis_media);
 
   // create the Y axis
-  yl_media.domain([0.1, d3.max(data_trend, function(d) { return get_infections(country,d)  }) ]);
-  svg_media.selectAll(".YAxis_Left_media")
-    .transition()
-    .duration(transTime)
-    //.call(yAxisLeft_media); 
-    .call(d3.axisLeft(yl_media).tickValues([1,10,100,1000]).tickArguments([5,".0s"]).tickSize(tick_size));
-
-  yr_media.domain([0, d3.max(data_trend, function(d) { return get_medias(country,d)  }) ]);
+  yr_media.domain([0.1, d3.max(data_trend, function(d) { return get_infections(country,d)  }) ]);
   svg_media.selectAll(".YAxis_Right_media")
     .transition()
     .duration(transTime)
-    .call(yAxisRight_media.tickSize(tick_size).tickArguments([5,".0s"]));
+    //.call(yAxisLeft_media); 
+    .call(d3.axisRight(yr_media).tickValues([1,10,100,1000]).tickArguments([5,".0s"]).tickSize(tick_size));
+
+  yl_media.domain([0, d3.max(data_trend, function(d) { return get_medias(country,d)  }) ]);
+  svg_media.selectAll(".YAxis_Left_media")
+    .transition()
+    .duration(transTime)
+    .call(yAxisLeft_media.tickSize(tick_size));
 
   // Updata the line
   u.enter()
@@ -147,7 +147,7 @@ function update_media_graph(country) {
    .duration(transTime)
    .attr("d", d3.line()
      .x(function(d) { return x_media(d.date); })
-     .y(function(d) { return yl_media(get_infections(country,d))}))
+     .y(function(d) { return yr_media(get_infections(country,d))}))
      .attr("fill", "none")
      .attr("stroke", "steelblue")
      .attr("stroke-width", 2.5)
@@ -161,7 +161,7 @@ function update_media_graph(country) {
    .duration(transTime)
    .attr("d", d3.line().curve(d3.curveStepAfter)
      .x(function(d) { return x_media(d.date); })
-     .y(function(d) { return yr_media(get_medias(country,d))}))
+     .y(function(d) { return yl_media(get_medias(country,d))}))
      .attr("fill", "none")
      .attr("stroke", "white")
      .attr("stroke-width", 4)
@@ -174,7 +174,7 @@ function update_media_graph(country) {
    .duration(transTime)
    .attr("d", d3.line().curve(d3.curveStepAfter)
      .x(function(d) { return x_media(d.date); })
-     .y(function(d) { return yr_media(get_medias(country,d))}))
+     .y(function(d) { return yl_media(get_medias(country,d))}))
      .attr("fill", "none")
      .attr("stroke", "steelblue")
      .attr("stroke-width", 2.5)
