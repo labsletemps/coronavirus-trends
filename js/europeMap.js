@@ -59,11 +59,12 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
     dataMap[d['alpha-3']]['Confirmed'] = d.cumsum_cases;
     dataMap[d['alpha-3']]['Name'] = d.country;
     dataMap[d['alpha-3']]['Deaths'] = d.cumsum_deaths;
+    dataMap[d['alpha-3']]['ConfirmedRatio'] = d.cases_by_million;
   });
   dataMap = d3.map(dataMap)
 
   // Color scales
-  var colorScaleCorona = d3.scaleLinear().domain([0,500])
+  var colorScaleCorona = d3.scaleLinear().domain([0,100])
     .range(["#b8b8b8", "red"]);
   var colorScaleTweets = d3.scaleLinear().domain([0,10000])
     .range(["#b8b8b8", "blue"]);
@@ -109,6 +110,7 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
       var location = d.properties.name;
       var infos = d3.map(dataMap.get(d.id)) || d3.map();
       return `<h4>${location}</h4>
+        <p><span class="stats">Cas confirmés par million d'habitants</span> ${infos.get('ConfirmedRatio') || 0  }</p>
         <p><span class="stats">Cas confirmés cumulés</span> ${infos.get('Confirmed') || 0  }</p>
         <p><span class="stats">Décès</span> ${infos.get('Deaths') || 0  }</p>
         <p><span class="stats">Date</span> ${parseDate(currentDate)}</p>
@@ -120,7 +122,7 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
   var displayMap = function(data){
     svg.selectAll("path").attr("fill", function (d) {
       var infos = d3.map(data.get(d.id));
-      d.total = infos.get('Confirmed') || 0;
+      d.total = infos.get('ConfirmedRatio') || 0;
         return colorScaleCorona(d.total);
       })
       .attr("d", d3.geoPath()
@@ -217,6 +219,7 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
       dataMap[d['alpha-3']]['Confirmed'] = d.cumsum_cases;
       dataMap[d['alpha-3']]['Name'] = d.country;
       dataMap[d['alpha-3']]['Deaths'] = d.cumsum_deaths;
+      dataMap[d['alpha-3']]['ConfirmedRatio'] = d.cases_by_million;
     });
 
     dataMap = d3.map(dataMap)
