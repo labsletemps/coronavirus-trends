@@ -39,9 +39,9 @@
 
 	/* google search */
 	video{
-		width: 300px;
+		width: 622px;
 		max-width: 100%;
-		margin-bottom: 1em;
+		margin: auto;
 	}
 
 
@@ -58,23 +58,31 @@
 	</div>
 	<div class="container">
 
+
 		<!-- bloc texte -->
 		<div class="row text">
 			<div class="offset-md-2 col-md-8 col-sm-12">
+
 				<p>(textes de travail)</p>
 				<h1 class="intro">Covid-19: histoire d’une médiatisation</h1>
 
 				<p class="lead">Une équipe de recherche de l’EPFL a étudié les liens entre articles en ligne, recherches Google et mentions du virus sur les réseaux sociaux</p>
 
-				<p>«Coronavirus symptômes», «virus», «svizzera coronavirus» ou simplement «symptômes»: ces recherches Google grimpent en flèche en Suisse, d’après le service Trends (tendances) de Google. Les internautes des cantons latins sont plus assidus que les alémaniques, avec un volume de recherche particulièrement élevé vers Lausanne, Genève et Coire.</p>
-
 				<!-- google search animation, wip -->
-				<div class="text-center">
-				<video id="corona-search" loop="" muted="" autoplay="" playsinline="">
-          <source src="img/corona_search.mp4" type="video/mp4">
-          Votre navigateur ne supporte pas les vidéos HTML.
-        </video>
-			</div>
+				<div class="text-center" id="corona-search">
+					<!-- desktop -->
+					<video class="d-none d-sm-block" loop="" muted="" autoplay="" playsinline="">
+          	<source src="img/corona_search_desktop.mp4?2" type="video/mp4">
+          	Votre navigateur ne supporte pas les vidéos HTML.
+        	</video>
+					<!-- mobile -->
+					<video class="d-block d-sm-none" loop="" muted="" autoplay="" playsinline="">
+          	<source src="img/corona_search.mp4" type="video/mp4">
+          	Votre navigateur ne supporte pas les vidéos HTML.
+        	</video>
+				</div>
+
+				<p>«Coronavirus symptômes», «virus», «svizzera coronavirus» ou simplement «symptômes»: ces recherches Google grimpent en flèche en Suisse, d’après le service Trends (tendances) de Google. Les internautes des cantons latins sont plus assidus que les alémaniques, avec un volume de recherche particulièrement élevé vers Lausanne, Genève et Coire.</p>
 
 				<p>Pour étudier comment le Covid-19 s’est médiatisé, une équipe de chercheurs des Laboratoire des systèmes d’information répartis de l’EPFL a comparé trois phénomènes: ces volumes de recherches, le volume des articles publiés en ligne par les médias, et celui des mentions du coronavirus sur Twitter.<p/>
 
