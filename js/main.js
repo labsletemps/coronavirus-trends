@@ -9,51 +9,44 @@ Et on peut concaténer tous les scripts (avec webpack / CodeKit etc.), je peux l
 
 $( document ).ready(function() {
 
-  var controller = new ScrollMagic.Controller();
+//  media_graph("CH");
+//  trend_graph("CH");
+//
+//  var controller = new ScrollMagic.Controller();
+//
+//  var chartTrendScene = new ScrollMagic.Scene({triggerElement: "#trendsChart", duration: 1000})
+//    .setClassToggle("#trendsChart", "bounce")
+//    .addTo(controller)
+//    .addIndicators({'name': 'chart-1'}) // debug
+//    .on("enter", function(){
+//      console.log('enter')
+//      $("#trendsChart").empty();
+//      //trend_graph("IT");
+//      $('#public-IT').click();
+//    })
+//    .on("leave", function(){
+//      console.log('leave')
+//      // chart1.unload(['Apple Watch**']);
+//    });
 
-  var chartTrendScene = new ScrollMagic.Scene({triggerElement: "#trendsChart", duration: 1000})
-    .setClassToggle("#trendsChart", "bounce")
-    .addTo(controller)
-    .addIndicators({'name': 'chart-1'}) // debug
-    .on("enter", function(){
-      console.log('enter')
-      $("#trendsChart").empty();
-      trend_graph("IT");
-    })
-    .on("leave", function(){
-      console.log('leave')
-      // chart1.unload(['Apple Watch**']);
-    });
-
-
-    media_graph("CH");
-    trend_graph("CH");
 
   $('.nav  li').click(function(e) {
     if(!$(e.target).hasClass('active')) {
       if (e.target.id == "public-CH"){
-        $("#trendsChart").empty();
-        trend_graph("CH");
+        update_trend_graph("CH");
       } else if (e.target.id == "public-IT"){
-        $("#trendsChart").empty();
-        trend_graph("IT");
+        update_trend_graph("IT");
       } else if (e.target.id == "public-DE"){
-        $("#trendsChart").empty();
-        trend_graph("DE");
+        update_trend_graph("DE");
       } else if (e.target.id == "public-FR"){
-        $("#trendsChart").empty();
-        trend_graph("FR");
+        update_trend_graph("FR");
       } else if (e.target.id == "media-CH"){
-        $("#chartMedia").empty();
         media_graph("CH");
       } else if (e.target.id == "media-IT"){
-        $("#chartMedia").empty();
         media_graph("IT");
       } else if (e.target.id == "media-DE"){
-        $("#chartMedia").empty();
         media_graph("DE");
       } else if (e.target.id == "media-FR"){
-        $("#chartMedia").empty();
         media_graph("FR");
       }
     }
