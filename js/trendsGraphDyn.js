@@ -204,14 +204,35 @@ function update_trend_graph(country) {
     const annotations = [
       {
         note: {
-          label: "1er cas en Suisse",
+          label: "1er cas, Suisse",
         },
         color: ["#e83e8c"],
         x: x(new Date(2020,1,25)),
         y: 200,
         dy: -140,
         dx: -1
-      }
+      },
+      {
+        note: {
+          label: "déclaration OMS",
+        },
+        color: ["#e83e8c"],
+        x: x(new Date(2020,0,25)),
+        y: 200,
+        dy: -110,
+        dx: 0
+      },
+      {
+        note: {
+          label: "1er cas, Italie",
+        },
+        color: ["#e83e8c"],
+        x: x(new Date(2020,0,31)),
+        y: 200,
+        dy: -60,
+        dx: 0
+      },
+
     ]
 
     // Add annotation to the chart
@@ -224,7 +245,7 @@ function update_trend_graph(country) {
       const annotations = [
       {
         note: {
-          label: "1er cas",
+          label: "1er cas, Italie",
         },
         color: ["#e83e8c"],
         x: x(new Date(2020,0,31)),
@@ -254,7 +275,7 @@ function update_trend_graph(country) {
       const annotations = [
       {
         note: {
-          label: "1er cas",
+          label: "1er cas, Allemagne",
         },
         color: ["#e83e8c"],
         x: x(new Date(2020,0,27)),
@@ -274,7 +295,7 @@ function update_trend_graph(country) {
        const annotations = [
       {
         note: {
-          label: "1er cas",
+          label: "1er cas, France",
         },
         color: ["#e83e8c"],
         x: x(new Date(2020,0,24)),

@@ -143,8 +143,9 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
           //  .transition().duration(200)
           .attr("r", function(d){ return size(+d.count)})
         .style("fill", function(d){ return colorScaleTweets(d.count) })
-          .attr("stroke", function(d){ if(d.count>20){return "black"}else{return "none"}  })
+          .attr("stroke", function(d){ if(d.count>20){return "blue"}else{return "none"}  })
           .attr("stroke-width", 1)
+          .attr("stroke-opacity", 0.7)
           .attr("fill-opacity", 0.4);
     /*circles
       .exit()
