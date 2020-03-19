@@ -28,7 +28,7 @@ $( document ).ready(function() {
       }
     })
     .on("leave", function(event){
-      if(event.progress == 0{
+      if(event.progress == 0){
         $('#public-CH').trigger('click');
       }
     });
@@ -51,9 +51,9 @@ $( document ).ready(function() {
         }else if(event.progress > 0.2){
           $('#date-1').trigger('click');
         }
-      });
+      })
       .on("leave", function(event){
-        if(event.progress == 0{
+        if(event.progress == 0){
           $('#date-1').trigger('click');
         }
       });
