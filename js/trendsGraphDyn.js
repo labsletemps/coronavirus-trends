@@ -214,10 +214,10 @@ function update_trend_graph(country) {
       },
       {
         note: {
-          label: "déclaration OMS",
+          label: "Wuhan lockdown",
         },
         color: ["#e83e8c"],
-        x: x(new Date(2020,0,25)),
+        x: x(new Date(2020,0,23)),
         y: 200,
         dy: -110,
         dx: 0
