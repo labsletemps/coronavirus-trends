@@ -16,7 +16,7 @@ var height = 240 - margin.top - margin.bottom;
 // parse the date / time
 var parseTime = d3.timeParse("%Y-%m-%d");
 
-var svg = d3
+var svg_tr = d3
   .select("#trendsChart")
   .append("svg")
   .attr("width", width + margin.left + margin.right)
@@ -36,25 +36,25 @@ var yl = d3.scaleLinear().range([height, 0]);
 var yAxisRight = d3.axisLeft().scale(yr);
 var yAxisLeft  = d3.axisLeft().scale(yl);
 
-svg.append("g")
+svg_tr.append("g")
   .attr("transform", "translate(0," + height + ")")
   .attr("class","XAxis")
 
 if (get_width>480) {
-  svg.append("g")
+  svg_tr.append("g")
       .attr('transform', 'translate(' + (margin.left) + ',0)')
       .attr("class","YAxisLeft")
       .call(d3.axisLeft(yl));
-  svg.append("g")
+  svg_tr.append("g")
       .attr("transform", "translate( " + (width-margin.right) + ", 0 )")
       .attr("class","YAxisRight")
       .call(d3.axisRight(yr));
 } else {
-  svg.append("g")
+  svg_tr.append("g")
       .attr('transform', 'translate(' + (margin.left+20) + ',0)')
       .attr("class","YAxisLeft")
       .call(d3.axisLeft(yl));
-  svg.append("g")
+  svg_tr.append("g")
       .attr("transform", "translate( " + (width-margin.right-35) + ", 0 )")
       .attr("class","YAxisRight")
       .call(d3.axisRight(yr));
@@ -62,10 +62,10 @@ if (get_width>480) {
 
 // Handmade legend
 var legend_pos_y = 223;
-svg.append("line").attr("x1",20).attr("y1",legend_pos_y).attr("x2",30).attr("y2",legend_pos_y).style("stroke", "#3498db").style("stroke-width", "5px")
-svg.append("line").attr("x1",100).attr("x2",110).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#e74c3c").style("stroke-width", "5px")
-svg.append("text").attr("x", 40).attr("y", legend_pos_y).text("Tweets").style("font-size", "13px").attr("alignment-baseline","middle")
-svg.append("text").attr("x", 120).attr("y", legend_pos_y).text("Google Trends").style("font-size", "13px").attr("alignment-baseline","middle")
+svg_tr.append("line").attr("x1",20).attr("y1",legend_pos_y).attr("x2",30).attr("y2",legend_pos_y).style("stroke", "#3498db").style("stroke-width", "5px")
+svg_tr.append("line").attr("x1",100).attr("x2",110).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#e74c3c").style("stroke-width", "5px")
+svg_tr.append("text").attr("x", 40).attr("y", legend_pos_y).text("Tweets").style("font-size", "13px").attr("alignment-baseline","middle")
+svg_tr.append("text").attr("x", 120).attr("y", legend_pos_y).text("Google Trends").style("font-size", "13px").attr("alignment-baseline","middle")
 
 var data_trend;
 d3.csv("data/MediasVsGTrendsVsTweetsVsCorona_filt.csv").then(function(_data) {
@@ -107,30 +107,46 @@ function get_tweet(country,d) {
 }
 
 function update_trend_graph(country) {
-  var u = svg.selectAll(".lineTweet")
+  var u = svg_tr.selectAll(".lineTweet")
     .data([data_trend], function(d){ return d.date });
-  var ut = svg.selectAll(".lineTrends")
+  var ut = svg_tr.selectAll(".lineTrends")
+    .data([data_trend], function(d){ return d.date });
+  var ub = svg_tr.selectAll(".lineTweetBehind")
+    .data([data_trend], function(d){ return d.date });
+  var utb = svg_tr.selectAll(".lineTrendsBehind")
     .data([data_trend], function(d){ return d.date });
 
    // Create the X axis:
   x.domain(d3.extent(data_trend, function(d) { return d.date; }));
-  svg.selectAll(".XAxis").transition()
+  svg_tr.selectAll(".XAxis").transition()
     .duration(transTime)
     .call(xAxis);
 
   // create the Y axis
   yr.domain([0, d3.max(data_trend, function(d) { return get_tweet(country,d)  }) ]);
-  svg.selectAll(".YAxisRight")
+  svg_tr.selectAll(".YAxisRight")
     .transition()
     .duration(transTime)
     .call(yAxisRight);
   yl.domain([0, d3.max(data_trend, function(d) { return get_trend(country,d) }) ]);
-  svg.selectAll(".YAxisLeft")
+  svg_tr.selectAll(".YAxisLeft")
     .transition()
     .duration(transTime)
     .call(yAxisLeft);
 
   // Updata the line
+  ub.enter()
+   .append("path")
+   .attr("class","lineTweetBehind")
+   .merge(ub)
+   .transition()
+   .duration(transTime)
+   .attr("d", d3.line()
+     .x(function(d) { return x(d.date); })
+     .y(function(d) { return yr(get_tweet(country,d))}))
+     .attr("fill", "none")
+     .attr("stroke", "steelblue")
+     .attr("stroke-width", 2.5)
   u.enter()
    .append("path")
    .attr("class","lineTweet")
@@ -144,6 +160,18 @@ function update_trend_graph(country) {
      .attr("stroke", "steelblue")
      .attr("stroke-width", 2.5)
 
+  utb.enter()
+   .append("path")
+   .attr("class","lineTrendsBehind")
+   .merge(utb)
+   .transition()
+   .duration(transTime)
+   .attr("d", d3.line()
+     .x(function(d) { return x(d.date); })
+     .y(function(d) { return yl(get_trend(country,d))}))
+     .attr("fill", "none")
+     .attr("stroke", "white")
+     .attr("stroke-width", 4)
   ut.enter()
    .append("path")
    .attr("class","lineTrends")
@@ -157,4 +185,96 @@ function update_trend_graph(country) {
      .attr("stroke", "red")
      .attr("stroke-width", 2.5)
 
+  $( ".annotations" ).remove();
+  if(country=="CH") {
+    const annotations = [
+      {
+        note: {
+          label: "1er cas en Suisse",
+        },
+        color: ["#e83e8c"],
+        x: x(new Date(2020,1,25)),
+        y: 200,
+        dy: -140,
+        dx: -1
+      }
+    ]
+
+    // Add annotation to the chart
+    const makeAnnotations = d3.annotation()
+      .annotations(annotations)
+    d3.select("#trendsChartSVG")
+      .append("g")
+      .call(makeAnnotations)
+  } else if (country=="IT") {
+      const annotations = [
+      {
+        note: {
+          label: "1er cas",
+        },
+        color: ["#e83e8c"],
+        x: x(new Date(2020,0,31)),
+        y: 200,
+        dy: -140,
+        dx: -1
+      },
+      {
+        note: {
+          label: "16 cas, Lombardie",
+        },
+        color: ["#e83e8c"],
+        x: x(new Date(2020,1,21)),
+        y: 200,
+        dy: -140,
+        dx: -1
+      }
+    ]
+
+    // Add annotation to the chart
+    const makeAnnotations = d3.annotation()
+      .annotations(annotations)
+    d3.select("#trendsChartSVG")
+      .append("g")
+      .call(makeAnnotations)
+  } else if (country=="DE") {
+      const annotations = [
+      {
+        note: {
+          label: "1er cas",
+        },
+        color: ["#e83e8c"],
+        x: x(new Date(2020,0,27)),
+        y: 200,
+        dy: -140,
+        dx: 0
+      }
+    ]
+
+    // Add annotation to the chart
+    const makeAnnotations = d3.annotation()
+      .annotations(annotations)
+    d3.select("#trendsChartSVG")
+      .append("g")
+      .call(makeAnnotations)
+  } else if (country=="FR") {
+       const annotations = [
+      {
+        note: {
+          label: "1er cas",
+        },
+        color: ["#e83e8c"],
+        x: x(new Date(2020,0,24)),
+        y: 200,
+        dy: -140,
+        dx: 0
+      }
+    ]
+
+    // Add annotation to the chart
+    const makeAnnotations = d3.annotation()
+      .annotations(annotations)
+    d3.select("#trendsChartSVG")
+      .append("g")
+      .call(makeAnnotations) 
+  }
 }

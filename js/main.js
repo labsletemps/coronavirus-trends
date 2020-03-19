@@ -9,26 +9,32 @@ Et on peut concaténer tous les scripts (avec webpack / CodeKit etc.), je peux l
 
 $( document ).ready(function() {
 
-//  media_graph("CH");
-//  trend_graph("CH");
-//
-//  var controller = new ScrollMagic.Controller();
-//
-//  var chartTrendScene = new ScrollMagic.Scene({triggerElement: "#trendsChart", duration: 1000})
-//    .setClassToggle("#trendsChart", "bounce")
-//    .addTo(controller)
-//    .addIndicators({'name': 'chart-1'}) // debug
-//    .on("enter", function(){
-//      console.log('enter')
-//      $("#trendsChart").empty();
-//      //trend_graph("IT");
-//      $('#public-IT').click();
-//    })
-//    .on("leave", function(){
-//      console.log('leave')
-//      // chart1.unload(['Apple Watch**']);
-//    });
 
+  var controller = new ScrollMagic.Controller();
+
+  var chartTrendScene = new ScrollMagic.Scene({triggerElement: "#trendsChart", duration: 1000})
+    .setClassToggle("#trendsChart", "bounce")
+    .addTo(controller)
+    .addIndicators({'name': 'chart-1'}) // debug
+    .on("enter", function(){
+      $('#public-IT').click();
+    })
+    .on("leave", function(){
+      $('#public-CH').click();
+    });
+
+    var mapScene = new ScrollMagic.Scene({triggerElement: "#map", duration: 1000})
+      .setClassToggle("#map", "bounce")
+      .addTo(controller)
+      .addIndicators({'name': 'map'}) // debug
+      .on("enter", function(){
+        console.log('enter map')
+        updateMap('x')
+      })
+      .on("leave", function(){
+        console.log('leave map')
+        // chart1.unload(['Apple Watch**']);
+      });
 
   $('.nav  li').click(function(e) {
     if(!$(e.target).hasClass('active')) {
@@ -41,13 +47,13 @@ $( document ).ready(function() {
       } else if (e.target.id == "public-FR"){
         update_trend_graph("FR");
       } else if (e.target.id == "media-CH"){
-        media_graph("CH");
+        update_media_graph("CH");
       } else if (e.target.id == "media-IT"){
-        media_graph("IT");
+        update_media_graph("IT");
       } else if (e.target.id == "media-DE"){
-        media_graph("DE");
+        update_media_graph("DE");
       } else if (e.target.id == "media-FR"){
-        media_graph("FR");
+        update_media_graph("FR");
       }
     }
   });

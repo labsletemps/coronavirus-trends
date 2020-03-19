@@ -1,5 +1,6 @@
 /*
  * Bubble Map
+ * Author: Francois Quellec
  * Implementation based on official template from https://www.d3-graph-gallery.com/graph/bubblemap_template.html,  Yan Holtz
 */
 
@@ -59,14 +60,17 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
     dataMap[d['alpha-3']]['Confirmed'] = d.cumsum_cases;
     dataMap[d['alpha-3']]['Name'] = d.country;
     dataMap[d['alpha-3']]['Deaths'] = d.cumsum_deaths;
+    dataMap[d['alpha-3']]['ConfirmedRatio'] = d.cases_by_million;
   });
   dataMap = d3.map(dataMap)
 
-  // Color scales
-  var colorScaleCorona = d3.scaleLinear().domain([0,500])
+  ///////////////////////////////////////////
+  ////////////////////MAP////////////////////
+  ///////////////////////////////////////////
+
+  // Color scales 
+  var colorScaleCorona = d3.scaleLinear().domain([0,10])
     .range(["#b8b8b8", "red"]);
-  var colorScaleTweets = d3.scaleLinear().domain([0,10000])
-    .range(["#b8b8b8", "blue"]);
 
   // Draw the map
   svg.append("g")
@@ -91,12 +95,13 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
     }).on("click", function(d) {
       displayDetail(d);
     })
-    .style("opacity", .5)
+    .style("opacity", .6)
     .exit()
     .transition().duration(200)
     .attr("r",1)
     .remove();
 
+  // Display Infos by country
   function displayDetail(d) {
     currentCountry = d;
     d3.select(".map-details")
@@ -104,6 +109,7 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
       var location = d.properties.name;
       var infos = d3.map(dataMap.get(d.id)) || d3.map();
       return `<h4>${location}</h4>
+        <p><span class="stats">Cas confirmés par million d'habitants</span> ${Math.round(infos.get('ConfirmedRatio') * 100) / 100 || 0  }</p>
         <p><span class="stats">Cas confirmés cumulés</span> ${infos.get('Confirmed') || 0  }</p>
         <p><span class="stats">Décès</span> ${infos.get('Deaths') || 0  }</p>
         <p><span class="stats">Date</span> ${parseDate(currentDate)}</p>
@@ -115,7 +121,7 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
   var displayMap = function(data){
     svg.selectAll("path").attr("fill", function (d) {
       var infos = d3.map(data.get(d.id));
-      d.total = infos.get('Confirmed') || 0;
+      d.total = infos.get('ConfirmedRatio') || 0;
         return colorScaleCorona(d.total);
       })
       .attr("d", d3.geoPath()
@@ -123,13 +129,20 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
 
   }
 
+
+  ///////////////////////////////////////////
+  ///////////////////BUBLES//////////////////
+  ///////////////////////////////////////////
+  var colorScaleTweets = d3.scaleLinear().domain([0,10000])
+    .range(["#b8b8b8", "blue"]);
+
    // Add a scale for bubble size
   var valueExtent = d3.extent(dataTweets, function(d) { return +d.count; })
   var size = d3.scaleSqrt()
     .domain(valueExtent)
     .range([ 1, 50])  // Size in pixel
 
-  // Add circles:
+  // Add/Update circles:
   var displayCircles = function(data) {
     svg.selectAll(".circles").remove();
 
@@ -152,33 +165,42 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
           .attr("fill-opacity", 0.4);
   };
 
-  /* SLIDER */
-  var date1Button = d3.select("#date-22-02").style('top', '20%');
-  var date2Button = d3.select("#date-29-02").style('top', '20%');
-  var date3Button = d3.select("#date-07-03").style('top', '20%');
-  var date4Button = d3.select("#date-14-03").style('top', '20%');
+  
+  ///////////////////////////////////////////
+  /////////////////SELECTOR//////////////////
+  ///////////////////////////////////////////
+  var dates = ['19/02/20', '26/02/20', '04/03/20', '11/03/20']
+
+  var idBtn_1  =  'date-1';
+  var idBtn_2  =  'date-2';
+  var idBtn_3  =  'date-3';
+  var idBtn_4  =  'date-4';
+
+  var date1Button = d3.select("#" + idBtn_1).style('top', '20%').html(dates[0]);
+  var date2Button = d3.select("#" + idBtn_2).style('top', '20%').html(dates[1]);
+  var date3Button = d3.select("#" + idBtn_3).style('top', '20%').html(dates[2]);
+  var date4Button = d3.select("#" + idBtn_4).style('top', '20%').html(dates[3]);
 
   var parser = d3.timeParse("%d/%m/%y");
 
   date1Button
     .on("click", function() {
-      update(parser("24/02/20"))
+      update(parser(dates[0]))
   });
     date2Button
     .on("click", function() {
-      update(parser("02/03/20"))
+      update(parser(dates[1]))
   });
     date3Button
     .on("click", function() {
-      update(parser("09/03/20"))
+      update(parser(dates[2]))
   });
   date4Button
     .on("click", function() {
-      update(parser("16/03/20"))
+      update(parser(dates[3]))
   });
 
-  document.getElementById("date-22-02").click();
-
+  document.getElementById(idBtn_1).click(); 
 
   function updateDatasets(h){
       currentDate = h;
@@ -199,6 +221,7 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
       dataMap[d['alpha-3']]['Confirmed'] = d.cumsum_cases;
       dataMap[d['alpha-3']]['Name'] = d.country;
       dataMap[d['alpha-3']]['Deaths'] = d.cumsum_deaths;
+      dataMap[d['alpha-3']]['ConfirmedRatio'] = d.cases_by_million;
     });
 
     dataMap = d3.map(dataMap)
@@ -211,16 +234,20 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
     if(currentCountry != null)
       displayDetail(currentCountry)
   }
-updateDatasets(startdate);
 
-  // Legend: from Bubblemap Template by Yan Holtz
-  // https://www.d3-graph-gallery.com/graph/bubble_legend.html
-  // https://www.d3-graph-gallery.com/graph/bubblemap_template.html
 
-  var valuesToShow = [500, 5000, 15000]
+///////////////////////////////////////////
+//////////////////LEGEND///////////////////
+///////////////////////////////////////////
+
+// Legend: from Bubblemap Template by Yan Holtz
+// https://www.d3-graph-gallery.com/graph/bubble_legend.html
+// https://www.d3-graph-gallery.com/graph/bubblemap_template.html
+
+  var valuesToShow = [500, 7000, 20000]
   var xCircle = width - 80
   var xLabel = xCircle - 80;
-  var yCircle = height - 10;
+  var yCircle = height - 40;
   svg
     .selectAll("legend")
     .data(valuesToShow)
