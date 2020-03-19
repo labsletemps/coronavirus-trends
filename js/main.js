@@ -35,6 +35,28 @@ $( document ).ready(function() {
       }
     });
 
+    var chartMediaScene = new ScrollMagic.Scene({triggerElement: "#chartMedia", duration: 300})
+      .setClassToggle("#chartMedia", "bounce")
+      .addTo(controller)
+      .addIndicators({'name': 'chart-2'}) // debug
+      .on("enter", function(){
+        console.log('enter')
+      })
+      .on("progress", function (event) {
+        if(event.progress > 0.8){
+          $('#media-FR').trigger('click');
+        }else if(event.progress > 0.4){
+          $('#media-DE').trigger('click');
+        }else if(event.progress > 0){
+          $('#media-IT').trigger('click');
+        }
+      })
+      .on("leave", function(event){
+        if(event.progress == 0){
+          $('#media-CH').trigger('click');
+        }
+      });
+
     var mapScene = new ScrollMagic.Scene({triggerElement: "#mapTrigger", duration: "50%", offset: 300})
       .setPin('#mapContainer')
       .addTo(controller)
