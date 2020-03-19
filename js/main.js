@@ -11,6 +11,7 @@ $( document ).ready(function() {
 
 
   var controller = new ScrollMagic.Controller();
+  var slideCounter = 0;
 
   var chartTrendScene = new ScrollMagic.Scene({triggerElement: "#trendsChart", duration: 300})
     .setClassToggle("#trendsChart", "bounce")
@@ -44,18 +45,29 @@ $( document ).ready(function() {
       .on("progress", function (event) {
         console.log(event.progress)
         if(event.progress > 0.8){
-          $('#date-4').trigger('click');
-        }else if(event.progress > 0.6){
-          $('#date-3').trigger('click');
+          if(slideCounter != 4){
+            console.log('Slide 4')
+            $('#date-4').trigger('click');
+            slideCounter = 4;
+          }
         }else if(event.progress > 0.4){
-          $('#date-2').trigger('click');
-        }else if(event.progress > 0.2){
-          $('#date-1').trigger('click');
+          if(slideCounter != 3){
+            console.log('Slide 3')
+            $('#date-3').trigger('click');
+            slideCounter = 3;
+          }
+        }else if(event.progress > 0){
+          if(slideCounter != 2){
+            console.log('Slide 2')
+            $('#date-2').trigger('click');
+            slideCounter = 2;
+          }
         }
       })
       .on("leave", function(event){
-        if(event.progress == 0){
+        if(event.progress == 0  && slideCounter != 1){
           $('#date-1').trigger('click');
+           slideCounter = 1;
         }
       });
 

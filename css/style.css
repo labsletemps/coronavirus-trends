@@ -296,6 +296,28 @@ li {
 }
 
 /* style qu'on mettra après mise au point des graphiques */
+.highlight{
+  font-weight: bold;
+}
+.highlight-red{
+  background: rgba(231, 76, 60, 0.2);
+  color: rgb(231, 76, 60);
+}
+.highlight-blue{
+  background: rgba(52, 152, 219, 0.2);
+  color: rgb(52, 152, 219);
+}
+.legend{
+  font-size: .9em;
+}
+
+/* google search */
+video{
+  width: 622px;
+  max-width: 100%;
+  margin: auto;
+}
+
 /*
 .axis line {
 	fill: none;
