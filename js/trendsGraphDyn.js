@@ -242,7 +242,7 @@ function update_trend_graph(country) {
       .append("g")
       .call(makeAnnotations)
   } else if (country=="IT") {
-      const annotations = [
+      var annotations = [
       {
         note: {
           label: "1er cas",
@@ -264,6 +264,18 @@ function update_trend_graph(country) {
         dx: -1
       }
     ]
+    if (get_width>480) {
+        annotations.push({
+        note: {
+          label: "Piazza Pulita",
+        },
+        color: ["#e83e8c"],
+        x: x(new Date(2020,2,5)),
+        y: 200,
+        dy: -140,
+        dx: -1
+      });
+    }
 
     // Add annotation to the chart
     const makeAnnotations = d3.annotation()
