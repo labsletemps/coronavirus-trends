@@ -177,7 +177,4 @@ function update_media_graph(country) {
      .y(function(d) { return yl_media(get_medias(country,d))}))
      .attr("fill", "none")
      .attr("stroke", "steelblue")
-     .attr("stroke-width", 2.5)
-
-
 }

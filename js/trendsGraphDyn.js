@@ -204,7 +204,7 @@ function update_trend_graph(country) {
     const annotations = [
       {
         note: {
-          label: "1er cas en Suisse",
+          label: "1er cas, Suisse",
         },
         color: ["#e83e8c"],
         x: x(new Date(2020,1,25)),
@@ -224,7 +224,7 @@ function update_trend_graph(country) {
       },
       {
         note: {
-          label: "1er cas Italie",
+          label: "1er cas, Italie",
         },
         color: ["#e83e8c"],
         x: x(new Date(2020,0,31)),
@@ -245,7 +245,7 @@ function update_trend_graph(country) {
       const annotations = [
       {
         note: {
-          label: "1er cas",
+          label: "1er cas, Italie",
         },
         color: ["#e83e8c"],
         x: x(new Date(2020,0,31)),
@@ -275,7 +275,7 @@ function update_trend_graph(country) {
       const annotations = [
       {
         note: {
-          label: "1er cas",
+          label: "1er cas, Allemagne",
         },
         color: ["#e83e8c"],
         x: x(new Date(2020,0,27)),
@@ -295,7 +295,7 @@ function update_trend_graph(country) {
        const annotations = [
       {
         note: {
-          label: "1er cas",
+          label: "1er cas, France",
         },
         color: ["#e83e8c"],
         x: x(new Date(2020,0,24)),
