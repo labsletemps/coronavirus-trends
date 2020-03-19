@@ -1,5 +1,6 @@
 /*
  * Bubble Map
+ * Author: Francois Quellec
  * Implementation based on official template from https://www.d3-graph-gallery.com/graph/bubblemap_template.html,  Yan Holtz
 */
 
@@ -63,15 +64,13 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
   });
   dataMap = d3.map(dataMap)
 
-  // Color scales 
- var colorScaleCorona = d3.scaleLinear().domain([0,50])
-    .range(["#b8b8b8", "red"]);
-  var colorScaleTweets = d3.scaleLinear().domain([0,10000])
-    .range(["#b8b8b8", "blue"]);
-
   ///////////////////////////////////////////
   ////////////////////MAP////////////////////
   ///////////////////////////////////////////
+
+  // Color scales 
+  var colorScaleCorona = d3.scaleLinear().domain([0,10])
+    .range(["#b8b8b8", "red"]);
 
   // Draw the map
   svg.append("g")
@@ -96,7 +95,7 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
     }).on("click", function(d) {
       displayDetail(d);
     })
-    .style("opacity", .5)
+    .style("opacity", .6)
     .exit()
     .transition().duration(200)
     .attr("r",1)
@@ -134,6 +133,8 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
   ///////////////////////////////////////////
   ///////////////////BUBLES//////////////////
   ///////////////////////////////////////////
+  var colorScaleTweets = d3.scaleLinear().domain([0,10000])
+    .range(["#b8b8b8", "blue"]);
 
    // Add a scale for bubble size
   var valueExtent = d3.extent(dataTweets, function(d) { return +d.count; })
@@ -141,7 +142,7 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
     .domain(valueExtent)
     .range([ 1, 50])  // Size in pixel
 
-  // Add circles:
+  // Add/Update circles:
   var displayCircles = function(data) {
     svg.selectAll(".circles").remove();
 
@@ -233,16 +234,20 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
     if(currentCountry != null)
       displayDetail(currentCountry)
   }
-//updateDatasets(startdate);
 
-  // Legend: from Bubblemap Template by Yan Holtz
-  // https://www.d3-graph-gallery.com/graph/bubble_legend.html
-  // https://www.d3-graph-gallery.com/graph/bubblemap_template.html
 
-  var valuesToShow = [500, 5000, 15000]
+///////////////////////////////////////////
+//////////////////LEGEND///////////////////
+///////////////////////////////////////////
+
+// Legend: from Bubblemap Template by Yan Holtz
+// https://www.d3-graph-gallery.com/graph/bubble_legend.html
+// https://www.d3-graph-gallery.com/graph/bubblemap_template.html
+
+  var valuesToShow = [500, 7000, 20000]
   var xCircle = width - 80
   var xLabel = xCircle - 80;
-  var yCircle = height - 10;
+  var yCircle = height - 40;
   svg
     .selectAll("legend")
     .data(valuesToShow)
