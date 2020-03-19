@@ -36,6 +36,15 @@
 	.legend{
 		font-size: .9em;
 	}
+
+	/* google search */
+	video{
+		width: 300px;
+		max-width: 100%;
+		margin-bottom: 1em;
+	}
+
+
 	</style>
 </head>
 
@@ -58,7 +67,16 @@
 				<p class="lead">Une équipe de recherche de l’EPFL a étudié les liens entre articles en ligne, recherches Google et mentions du virus sur les réseaux sociaux</p>
 
 				<p>«Coronavirus symptômes», «virus», «svizzera coronavirus» ou simplement «symptômes»: ces recherches Google grimpent en flèche en Suisse, d’après le service Trends (tendances) de Google. Les internautes des cantons latins sont plus assidus que les alémaniques, avec un volume de recherche particulièrement élevé vers Lausanne, Genève et Coire.</p>
-				<p>Pour étudier comment le Covid-19 s’est médiatisé, une équipe de chercheur des Laboratoire des systèmes d’information répartis de l’EPFL a comparé trois phénomènes: ces volumes de recherches, le volume des articles publiés en ligne par les médias, et celui des mentions du coronavirus sur Twitter.<p/>
+
+				<!-- google search animation, wip -->
+				<div class="text-center">
+				<video id="corona-search" loop="" muted="" autoplay="" playsinline="">
+          <source src="img/corona_search.mp4" type="video/mp4">
+          Votre navigateur ne supporte pas les vidéos HTML.
+        </video>
+			</div>
+
+				<p>Pour étudier comment le Covid-19 s’est médiatisé, une équipe de chercheurs des Laboratoire des systèmes d’information répartis de l’EPFL a comparé trois phénomènes: ces volumes de recherches, le volume des articles publiés en ligne par les médias, et celui des mentions du coronavirus sur Twitter.<p/>
 
 			</div>
 		</div>
@@ -68,7 +86,7 @@
 		<div class="row text">
 			<div class="offset-md-2 col-md-8 col-sm-12">
 
-				<p>«La Suisse est un cas particulier puisque le premier cas a été annoncé près d’un mois après les autres pays considérés, remarque Jérémie Rappaz. Le grand volume d’<span class="highlight highlight-red">articles de presse</span> concernant le virus alors que celui-ci n’était pas présent sur le territoire a pu contribuer au sentiment des gens que la presse en fait trop.» [<span class="highlight highlight-blue">Twitter</span> c’est un problème de données ou c’est vraiment à zéro jusqu’au 23 février en Suisse!?]</p>
+				<p>«L'exemple de la Suisse est particulier puisque le premier cas a été annoncé un mois après ses voisins, remarque Jérémie Rappaz. Le grand volume d’<span class="highlight highlight-red">articles de presse</span> concernant le virus alors que celui-ci n’était pas présent sur le territoire a pu contribuer au sentiment des gens que la presse en fait trop.» [<span class="highlight highlight-blue">Twitter</span> c’est un problème de données ou c’est vraiment à zéro jusqu’au 23 février en Suisse!?]</p>
 
 				<p><i>Effet de scroll prévu: on passe sur chaque pays. Code couleur à ajouter peut-être </i></p>
 
@@ -82,22 +100,22 @@
 			</div>
 
 			<div class="offset-md-2 col-md-8 col-sm-12">
-				<h5>La flambée des cas en Italie a provoqué des pics des recherches dans les pays voisins</h5>
-				<p class="legend">Les recherches Google sont mesurées sur une échelle de 0 à 100. Un indice de 100 correspond à la recherche la plus fréquente.</p>
-				<div id="chartTop" class="chart-background"></div>
+				<h5>Flambée des cas en Italie et pics de recherches dans les pays voisins</h5>
+				<p class="legend">Les recherches Google sont mesurées sur une échelle relative allant de 0 (recherche très rare) à 100 (recherche la plus fréquente).</p>
+				<div id="trendsChart" class="chart-background"></div>
 
 				<ul class="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
 					<li class="nav-item">
-						<a class="nav-link active" id="public-CH" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Suisse</a>
+						<a class="nav-link active" id="public-CH" data-toggle="pill" role="tab" aria-controls="pills-home" aria-selected="true">Suisse</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" id="public-IT" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Italie</a>
+						<a class="nav-link" id="public-IT" data-toggle="pill" role="tab" aria-controls="pills-profile" aria-selected="false">Italie</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" id="public-DE" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Allemagne</a>
+						<a class="nav-link" id="public-DE" data-toggle="pill" role="tab" aria-controls="pills-contact" aria-selected="false">Allemagne</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" id="public-FR" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">France</a>
+						<a class="nav-link" id="public-FR" data-toggle="pill" role="tab" aria-controls="pills-contact" aria-selected="false">France</a>
 					</li>
 				</ul>
 				<!--<div class="source">
@@ -121,19 +139,18 @@
 
 			<div class="offset-md-2 col-md-8 col-sm-12">
 				<div id="chartMedia" class="chart-background"></div>
-
         <ul class="nav nav-pills mb-3 mt-3" id="pills-tab" role="tablist">
           <li class="nav-item">
-            <a class="nav-link active" id="media-CH" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Suisse</a>
+            <a class="nav-link active" id="media-CH" data-toggle="pill"  role="tab" aria-controls="pills-home" aria-selected="true">Suisse</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="media-IT" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Italie</a>
+            <a class="nav-link" id="media-IT" data-toggle="pill" role="tab" aria-controls="pills-profile" aria-selected="false">Italie</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="media-DE" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Allemagne</a>
+            <a class="nav-link" id="media-DE" data-toggle="pill" role="tab" aria-controls="pills-contact" aria-selected="false">Allemagne</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="media-FR" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">France</a>
+            <a class="nav-link" id="media-FR" data-toggle="pill" role="tab" aria-controls="pills-contact" aria-selected="false">France</a>
           </li>
         </ul>
 				<!--<div class="source">
@@ -220,7 +237,14 @@
 		</div>
 
 	</div><!-- end container -->
+	<!-- scrollmagic -->
+	<script src="lib/scrollmagic/main.min.js"></script>
+	<script src="lib/scrollmagic/animation.gsap.min.js"></script>
+	<script src="lib/scrollmagic/animation.velocity.min.js"></script>
+	<script src="lib/scrollmagic/debug.addIndicators.min.js"></script>
+
 	<script src="lib/jquery-3.4.1.slim.min.js"></script>
+	<script src="lib/d3.min.js"></script>
 	<script src="lib/d3.min.js"></script>
 	<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>

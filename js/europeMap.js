@@ -27,7 +27,7 @@ var projection = d3.geoMercator()
     .scale(1000)
     .translate([ width/2, height/2 ])
 
-Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_week.csv"), d3.csv("/data/coronavirus_2020-03-18.csv")]).then(function(data) {
+Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_week.csv"), d3.csv("data/coronavirus_2020-03-18.csv")]).then(function(data) {
   var dataGeo = data[0];
   var dataTweets = data[1];
   var dataCorona = data[2];
@@ -51,7 +51,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_
   var newDataCorona = dataCorona.filter(function(d) {
     return d.date == parseDate(startDate);
   })
- 
+
  var dataMap = {};
   newDataCorona.forEach(function(d){
     dataMap[d['alpha-3']] = {}
@@ -106,7 +106,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_
     currentCountry = d;
     d3.select(".map-details")
     .html(function() {
-      var location = d.properties.name;  
+      var location = d.properties.name;
       var infos = d3.map(dataMap.get(d.id)) || d3.map();
       return `<h4>${location}</h4>
         <p><span class="stats">Cas confirmés cumulés</span> ${infos.get('Confirmed') || 0  }</p>
@@ -125,7 +125,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_
       })
       .attr("d", d3.geoPath()
       .projection(projection))
-      
+
   }
 
 
@@ -178,7 +178,7 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_
   var date4Button = d3.select("#" + idBtn_4).style('top', '20%');
 
   var parser = d3.timeParse("%d/%m/%y");
-  
+
   date1Button
     .on("click", function() {
       update(parser("24/02/20"))
@@ -198,13 +198,12 @@ Promise.all([d3.json("/data/world_countries.json"), d3.csv("/data/geo_tweets_by_
 
   document.getElementById(idBtn_1).click(); 
 
-
   function updateDatasets(h){
       currentDate = h;
       // filter data set and draw map and bubbles
       newDataTweets = dataTweets.filter(function(d) {
         return d.date == parseDate(h)
-               
+
       })
 
       newDataCorona = dataCorona.filter(function(d) {
