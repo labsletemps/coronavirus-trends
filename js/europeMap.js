@@ -128,8 +128,9 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
   var displayCircles = function(data) {
     svg.selectAll(".circles").remove();
 
-    svg.selectAll(".circles")
-      .data(data.sort(function(a,b) { return +b.count - +a.count }).filter(function(d,i){ return i<500 }))
+    var circles = svg.selectAll(".circle")
+          .data(data.sort(function(a,b) { return +b.count - +a.count }).filter(function(d,i){ return i<500 }));
+    circles
       .enter()
         .append("g")
           .attr("class", "circles")
@@ -140,11 +141,16 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
           .attr("cy", function(d){ return projection([+d.lon, +d.lat])[1] })
           .attr("r", 1)
             .transition().duration(200)
-            .attr("r", function(d){ return size(+d.count)})
+              .attr("r", function(d){ return size(+d.count)})
         .style("fill", function(d){ return colorScaleTweets(d.count) })
           .attr("stroke", function(d){ if(d.count>20){return "black"}else{return "none"}  })
           .attr("stroke-width", 1)
           .attr("fill-opacity", 0.4);
+    circles.exit()
+        .transition(d3.transition().duration(750))
+          .attr("r", 1e-6)
+        .remove();
+      
   };
 
 
@@ -165,9 +171,14 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
 
   var parser = d3.timeParse("%d/%m/%y");
 
-  date1Button
+  document.getElementById(idBtn_1).onclick = function() {update(parser(dates[0]))};
+  document.getElementById(idBtn_2).onclick = function() {update(parser(dates[1]))};
+  document.getElementById(idBtn_3).onclick = function() {update(parser(dates[2]))};
+  document.getElementById(idBtn_4).onclick = function() {update(parser(dates[3]))};
+
+  /*
     .on("click", function() {
-      update(parser(dates[0]))
+      
   });
     date2Button
     .on("click", function() {
@@ -181,7 +192,7 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
     .on("click", function() {
       update(parser(dates[3]))
   });
-
+*/
   document.getElementById(idBtn_1).click();
 
   function updateDatasets(h){
