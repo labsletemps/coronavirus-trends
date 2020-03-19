@@ -246,6 +246,10 @@ li {
 	/*border-radius: 3px;*/
 }
 
+.annotation-note-label {
+  font-size: 12px;
+}
+
 .line {
   fill: transparent;
   stroke-width: 3px;
