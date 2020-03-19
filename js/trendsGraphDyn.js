@@ -199,7 +199,28 @@ function update_trend_graph(country) {
         y: 200,
         dy: -140,
         dx: -1
-      }
+      },
+      {
+        note: {
+          label: "déclaration OMS",
+        },
+        color: ["#e83e8c"],
+        x: x(new Date(2020,0,25)),
+        y: 200,
+        dy: -110,
+        dx: 0
+      },
+      {
+        note: {
+          label: "1er cas Italie",
+        },
+        color: ["#e83e8c"],
+        x: x(new Date(2020,0,31)),
+        y: 200,
+        dy: -60,
+        dx: 0
+      },
+
     ]
 
     // Add annotation to the chart
