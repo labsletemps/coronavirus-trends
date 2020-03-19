@@ -1,0 +1,15 @@
+{
+	"title": "Covid-19: histoire d’une médiatisation – Le Temps",
+	"description": "Une équipe de recherche de l’EPFL a étudié les liens entre articles en ligne, recherches Google et mentions du virus sur les réseaux sociaux",
+	"authors": "Jérémie Rappaz, François Quellec, Paul Ronga",
+	"imgSocial": "img/social.png",
+
+	"navBarStyle": "black",
+	"navBarOffset": "0",
+	"navBarLocked": false,
+	"pubDate": "2020-03-20T08:00:00+00:00",
+	"partner": {
+		"logo": "img/empty.png",
+		"link": "https://www.letemps.ch/"
+	}
+}

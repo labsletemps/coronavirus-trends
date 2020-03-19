@@ -1,3 +1,15 @@
+var locale = {
+  "dateTime": "%A %e %B %Y",
+  "date": "%d/%m/%Y",
+  "time": "%H:%M:%S",
+  "periods": ["AM", "PM"],
+  "days": ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"],
+  "shortDays": ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."],
+  "months": ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"],
+  "shortMonths": ["jan.", "fév.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."]
+}
+d3.timeFormatDefaultLocale(locale);
+
 var transTime = 1000;
 
 // set the dimensions and margins of the graph
@@ -28,7 +40,7 @@ var svg_tr = d3
 // set the ranges
 var x = d3.scaleTime()
           .range([margin.left, width-margin.right]);
-var xAxis = d3.axisBottom().scale(x);
+var xAxis = d3.axisBottom().scale(x).tickFormat(d3.timeFormat("%d %b"));
 
 var yr = d3.scaleLinear().range([height, 0]);
 var yl = d3.scaleLinear().range([height, 0]);
@@ -90,21 +102,21 @@ d3.csv("data/MediasVsGTrendsVsTweetsVsCorona_filt.csv").then(function(_data) {
         d.Tweets_IT      = +d.Tweets_IT;
         d.Medias_IT      = +d.Medias_IT;
         d.GTrend_IT      = +d.GTrend_IT;
-        return d 
+        return d
   }) ;
   update_trend_graph("CH");
 })
 
 function get_trend(country,d) {
-     if      (country=="CH") return d.GTrend_CH; 
-     else if (country=="IT") return d.GTrend_IT; 
-     else if (country=="DE") return d.GTrend_DE; 
+     if      (country=="CH") return d.GTrend_CH;
+     else if (country=="IT") return d.GTrend_IT;
+     else if (country=="DE") return d.GTrend_DE;
      else if (country=="FR") return d.GTrend_FR;
 }
 function get_tweet(country,d) {
-     if      (country=="CH") return d.Tweets_CH; 
-     else if (country=="IT") return d.Tweets_IT; 
-     else if (country=="DE") return d.Tweets_DE; 
+     if      (country=="CH") return d.Tweets_CH;
+     else if (country=="IT") return d.Tweets_IT;
+     else if (country=="DE") return d.Tweets_DE;
      else if (country=="FR") return d.Tweets_FR;
 }
 
@@ -192,14 +204,35 @@ function update_trend_graph(country) {
     const annotations = [
       {
         note: {
-          label: "1er cas en Suisse",
+          label: "1er cas, Suisse",
         },
         color: ["#e83e8c"],
         x: x(new Date(2020,1,25)),
         y: 200,
         dy: -140,
         dx: -1
-      }
+      },
+      {
+        note: {
+          label: "déclaration OMS",
+        },
+        color: ["#e83e8c"],
+        x: x(new Date(2020,0,25)),
+        y: 200,
+        dy: -110,
+        dx: 0
+      },
+      {
+        note: {
+          label: "1er cas, Italie",
+        },
+        color: ["#e83e8c"],
+        x: x(new Date(2020,0,31)),
+        y: 200,
+        dy: -60,
+        dx: 0
+      },
+
     ]
 
     // Add annotation to the chart
@@ -212,7 +245,7 @@ function update_trend_graph(country) {
       const annotations = [
       {
         note: {
-          label: "1er cas",
+          label: "1er cas, Italie",
         },
         color: ["#e83e8c"],
         x: x(new Date(2020,0,31)),
@@ -242,7 +275,7 @@ function update_trend_graph(country) {
       const annotations = [
       {
         note: {
-          label: "1er cas",
+          label: "1er cas, Allemagne",
         },
         color: ["#e83e8c"],
         x: x(new Date(2020,0,27)),
@@ -262,7 +295,7 @@ function update_trend_graph(country) {
        const annotations = [
       {
         note: {
-          label: "1er cas",
+          label: "1er cas, France",
         },
         color: ["#e83e8c"],
         x: x(new Date(2020,0,24)),
@@ -277,6 +310,6 @@ function update_trend_graph(country) {
       .annotations(annotations)
     d3.select("#trendsChartSVG")
       .append("g")
-      .call(makeAnnotations) 
+      .call(makeAnnotations)
   }
 }
