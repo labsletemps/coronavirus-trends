@@ -34,35 +34,17 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
   var dataCorona = data[2];
 
   var formatDateIntoDay = d3.timeFormat("%d/%m");
-  var formatDate = d3.timeFormat("%b %Y");
   var parseDate = d3.timeFormat("%Y-%m-%d");
 
-  var startDate = new Date("2020-02-22"),
-      endDate = new Date("2020-03-14");
-
-  var currentDate = startDate;
-
+  var currentDate = null;
   var currentCountry = null;
 
-  // filter data set
-  var newDataTweets = dataTweets.filter(function(d) {
-    return d.date == parseDate(startDate);
-  })
+  // Initialize datasets map and filter variables
+  var newDataTweets = []
+  var tweetsMap = d3.map();
 
-  var newDataCorona = dataCorona.filter(function(d) {
-    return d.date == parseDate(startDate);
-  })
-
- var dataMap = {};
-  newDataCorona.forEach(function(d){
-    dataMap[d['alpha-3']] = {}
-    dataMap[d['alpha-3']]['Date'] = d.date;
-    dataMap[d['alpha-3']]['Confirmed'] = d.cumsum_cases;
-    dataMap[d['alpha-3']]['Name'] = d.country;
-    dataMap[d['alpha-3']]['Deaths'] = d.cumsum_deaths;
-    dataMap[d['alpha-3']]['ConfirmedRatio'] = d.cases_by_million;
-  });
-  dataMap = d3.map(dataMap)
+  var newDataCorona = []
+  var dataMap = d3.map();
 
   ///////////////////////////////////////////
   ////////////////////MAP////////////////////
@@ -109,10 +91,11 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
       var location = d.properties.name;
       var infos = d3.map(dataMap.get(d.id)) || d3.map();
       return `<h4>${location}</h4>
+        <p><span class="stats">Nombre total de tweets geolocalisés par semaine</span> ${tweetsMap.get(d.id) || 0}</p>
         <p><span class="stats">Cas confirmés par million d'habitants</span> ${Math.round(infos.get('ConfirmedRatio') * 100) / 100 || 0  }</p>
         <p><span class="stats">Cas confirmés cumulés</span> ${infos.get('Confirmed') || 0  }</p>
         <p><span class="stats">Décès</span> ${infos.get('Deaths') || 0  }</p>
-        <p><span class="stats">Date</span> ${parseDate(currentDate)}</p>
+        <p><span class="stats">Date</span> ${formatDateIntoDay(currentDate)}</p>
       `;})
       .style('opacity', 1);
     }
@@ -128,7 +111,6 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
       .projection(projection))
 
   }
-
 
   ///////////////////////////////////////////
   ///////////////////BUBLES//////////////////
@@ -210,6 +192,16 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
 
       })
 
+      tweetsMap = {}
+      newDataTweets.forEach(function(d){
+        if (d['alpha-3'] in tweetsMap){
+          tweetsMap[d['alpha-3']] = parseInt(tweetsMap[d['alpha-3']]) + parseInt(d.count);
+        }
+        else{
+          tweetsMap[d['alpha-3']] = parseInt(d.count);
+        }
+      });
+      tweetsMap = d3.map(tweetsMap);
       newDataCorona = dataCorona.filter(function(d) {
         return d.date == parseDate(h);
       })
