@@ -273,6 +273,28 @@ li {
   margin: 0;
 }
 
+.YAxis_Right_media {
+  color: lightgrey;
+}
+.YAxis_Left_media {
+  color: lightgrey;
+}
+.YAxisRight {
+  color: lightgrey;
+}
+.YAxisLeft {
+  color: lightgrey;
+}
+.XAxisLeft {
+  color: lightgrey;
+}
+.XAxis {
+  color: lightgrey;
+}
+.XAxis_media {
+  color: lightgrey;
+}
+
 /* style qu'on mettra après mise au point des graphiques */
 /*
 .axis line {

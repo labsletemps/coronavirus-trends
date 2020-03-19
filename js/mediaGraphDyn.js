@@ -50,15 +50,17 @@ if (get_width>480) {
       .attr("transform", "translate( " + (width-margin.right) + ", 0 )")
       .attr("class","YAxis_Right_media")
       .call(d3.axisRight(yr_media));
+  var tick_size = 0;
  } else {
   svg_media.append("g")
       .attr('transform', 'translate(' + (margin.left+20) + ',0)')
       .attr("class","YAxis_Left_media")
       .call(d3.axisLeft(yl_media).tickValues([1,10,100,1000]).tickArguments([5,".0s"]));
   svg_media.append("g")
-      .attr("transform", "translate( " + (width-margin.right-10) + ", 0 )")
+      .attr("transform", "translate( " + (width-margin.right-15) + ", 0 )")
       .attr("class","YAxis_Right_media")
       .call(d3.axisRight(yr_media));
+  var tick_size = 0;
 }
 
 // Handmade legend
@@ -118,7 +120,7 @@ function update_media_graph(country) {
 
    // Create the X axis:
   x_media.domain(d3.extent(data_trend, function(d) { return d.date; }));
-  svg_media.selectAll(".XAxis").transition()
+  svg_media.selectAll(".XAxis_media").transition()
     .duration(transTime)
     .call(xAxis_media);
 
@@ -128,13 +130,13 @@ function update_media_graph(country) {
     .transition()
     .duration(transTime)
     //.call(yAxisLeft_media); 
-    .call(d3.axisLeft(yl_media).tickValues([1,10,100,1000]).tickArguments([5,".0s"]));
+    .call(d3.axisLeft(yl_media).tickValues([1,10,100,1000]).tickArguments([5,".0s"]).tickSize(tick_size));
 
   yr_media.domain([0, d3.max(data_trend, function(d) { return get_medias(country,d)  }) ]);
   svg_media.selectAll(".YAxis_Right_media")
     .transition()
     .duration(transTime)
-    .call(yAxisRight_media);
+    .call(yAxisRight_media.tickSize(tick_size).tickArguments([5,".0s"]));
 
   // Updata the line
   u.enter()

@@ -49,15 +49,17 @@ if (get_width>480) {
       .attr("transform", "translate( " + (width-margin.right) + ", 0 )")
       .attr("class","YAxisRight")
       .call(d3.axisRight(yr));
+  var tick_size = 0;
 } else {
   svg_tr.append("g")
       .attr('transform', 'translate(' + (margin.left+20) + ',0)')
       .attr("class","YAxisLeft")
       .call(d3.axisLeft(yl));
   svg_tr.append("g")
-      .attr("transform", "translate( " + (width-margin.right-10) + ", 0 )")
+      .attr("transform", "translate( " + (width-margin.right-15) + ", 0 )")
       .attr("class","YAxisRight")
       .call(d3.axisRight(yr) );
+  var tick_size = 0;
 }
 
 // Handmade legend
@@ -127,12 +129,12 @@ function update_trend_graph(country) {
   svg_tr.selectAll(".YAxisRight")
     .transition()
     .duration(transTime)
-    .call(yAxisRight);
+    .call(yAxisRight.tickSize(tick_size).tickArguments([5,".0s"]));
   yl.domain([0, d3.max(data_trend, function(d) { return get_trend(country,d) }) ]);
   svg_tr.selectAll(".YAxisLeft")
     .transition()
     .duration(transTime)
-    .call(yAxisLeft);
+    .call(yAxisLeft.tickSize(tick_size));
 
   // Updata the line
   ub.enter()
