@@ -26,6 +26,20 @@ $( document ).ready(function() {
     });
 
 
+    var mapScene = new ScrollMagic.Scene({triggerElement: "#map", duration: 1000})
+      .setClassToggle("#map", "bounce")
+      .addTo(controller)
+      .addIndicators({'name': 'map'}) // debug
+      .on("enter", function(){
+        console.log('enter map')
+        updateMap('x')
+      })
+      .on("leave", function(){
+        console.log('leave map')
+        // chart1.unload(['Apple Watch**']);
+      });
+
+
     media_graph("CH");
     trend_graph("CH");
 
