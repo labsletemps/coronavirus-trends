@@ -9,6 +9,7 @@ Et on peut concaténer tous les scripts (avec webpack / CodeKit etc.), je peux l
 
 $( document ).ready(function() {
 
+
   var controller = new ScrollMagic.Controller();
   var slideCounter = 0;
 
@@ -61,36 +62,24 @@ $( document ).ready(function() {
         }
       });
 
-
-    media_graph("CH");
-    trend_graph("CH");
-
   $('.nav  li').click(function(e) {
     if(!$(e.target).hasClass('active')) {
       if (e.target.id == "public-CH"){
-        $("#trendsChart").empty();
-        trend_graph("CH");
+        update_trend_graph("CH");
       } else if (e.target.id == "public-IT"){
-        $("#trendsChart").empty();
-        trend_graph("IT");
+        update_trend_graph("IT");
       } else if (e.target.id == "public-DE"){
-        $("#trendsChart").empty();
-        trend_graph("DE");
+        update_trend_graph("DE");
       } else if (e.target.id == "public-FR"){
-        $("#trendsChart").empty();
-        trend_graph("FR");
+        update_trend_graph("FR");
       } else if (e.target.id == "media-CH"){
-        $("#chartMedia").empty();
-        media_graph("CH");
+        update_media_graph("CH");
       } else if (e.target.id == "media-IT"){
-        $("#chartMedia").empty();
-        media_graph("IT");
+        update_media_graph("IT");
       } else if (e.target.id == "media-DE"){
-        $("#chartMedia").empty();
-        media_graph("DE");
+        update_media_graph("DE");
       } else if (e.target.id == "media-FR"){
-        $("#chartMedia").empty();
-        media_graph("FR");
+        update_media_graph("FR");
       }
     }
   });

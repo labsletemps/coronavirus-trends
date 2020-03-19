@@ -92,15 +92,6 @@ function trend_graph(country="CH") {
     yr.domain([0, d3.max(data, function(d) {
   	  return Math.max(d.Tweets,d.Medias); })]);
 
-    // Add the valueline path.
-    //svg.append("path")
-    //    .data([data])
-    //    .attr("class", "line")
-    //    .style("stroke", "#3498db")
-    //    .style("stroke-dasharray", ("3, 3"))
-    //    .style("stroke-width", "2px")
-    //    .attr("d", line_Infections);
-
     // Add the X Axis
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
@@ -146,18 +137,6 @@ function trend_graph(country="CH") {
         .attr("class", "line")
         .style("stroke", "#e74c3c")
         .attr("d", line_GTrend);
-    //svg.append("path")
-    //    .data([data])
-    //    .attr("class", "line")
-    //    .style("stroke", "#fff")
-    //    .style("stroke-width", "5px")
-    //    .attr("d", line_Medias);
-    //svg.append("path")
-    //    .data([data])
-    //    .attr("class", "line")
-    //    .style("stroke", "#2ecc71")
-    //    .attr("d", line_Medias);
-
 
 
     if (country=="CH") {
@@ -222,12 +201,8 @@ function trend_graph(country="CH") {
     var legend_pos_y = 223;
     svg.append("line").attr("x1",20).attr("y1",legend_pos_y).attr("x2",30).attr("y2",legend_pos_y).style("stroke", "#3498db").style("stroke-width", "5px")
     svg.append("line").attr("x1",100).attr("x2",110).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#e74c3c").style("stroke-width", "5px")
-    //svg.append("line").attr("x1",230).attr("x2",240).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#2ecc71").style("stroke-width", "5px")
-    //svg.append("line").attr("x1",310).attr("x2",320).attr("y1",legend_pos_y).attr("y2",legend_pos_y).style("stroke", "#3498db").style("stroke-width", "2px").style("stroke-dasharray", ("3, 3"))
     svg.append("text").attr("x", 40).attr("y", legend_pos_y).text("Tweets").style("font-size", "13px").attr("alignment-baseline","middle")
     svg.append("text").attr("x", 120).attr("y", legend_pos_y).text("Google Trends").style("font-size", "13px").attr("alignment-baseline","middle")
-    //svg.append("text").attr("x", 250).attr("y", legend_pos_y).text("Medias").style("font-size", "13px").attr("alignment-baseline","middle")
-    //svg.append("text").attr("x",330).attr("y", legend_pos_y).text("Infections").style("font-size", "13px").attr("alignment-baseline","middle")
 
   });
 
