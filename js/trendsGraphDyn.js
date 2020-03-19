@@ -245,7 +245,7 @@ function update_trend_graph(country) {
       const annotations = [
       {
         note: {
-          label: "1er cas, Italie",
+          label: "1er cas",
         },
         color: ["#e83e8c"],
         x: x(new Date(2020,0,31)),
@@ -262,18 +262,7 @@ function update_trend_graph(country) {
         y: 200,
         dy: -110,
         dx: -1
-      },
-      {
-        note: {
-          label: "Piazza Pulita",
-        },
-        color: ["#e83e8c"],
-        x: x(new Date(2020,2,5)),
-        y: 200,
-        dy: -140,
-        dx: -1
       }
-
     ]
 
     // Add annotation to the chart
