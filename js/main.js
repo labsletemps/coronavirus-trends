@@ -16,9 +16,9 @@ $( document ).ready(function() {
   var chartTrendScene = new ScrollMagic.Scene({triggerElement: "#trendsChart", duration: 300})
     .setClassToggle("#trendsChart", "bounce")
     .addTo(controller)
-    .addIndicators({'name': 'chart-1'}) // debug
+    // .addIndicators({'name': 'chart-1'}) // debug
     .on("enter", function(){
-      console.log('enter')
+      // console.log('enter')
     })
     .on("progress", function (event) {
       if(event.progress > 0.8){
@@ -38,9 +38,9 @@ $( document ).ready(function() {
     var chartMediaScene = new ScrollMagic.Scene({triggerElement: "#chartMedia", duration: 300})
       .setClassToggle("#chartMedia", "bounce")
       .addTo(controller)
-      .addIndicators({'name': 'chart-2'}) // debug
+      // .addIndicators({'name': 'chart-2'}) // debug
       .on("enter", function(){
-        console.log('enter')
+        // console.log('enter')
       })
       .on("progress", function (event) {
         if(event.progress > 0.8){
@@ -60,27 +60,27 @@ $( document ).ready(function() {
     var mapScene = new ScrollMagic.Scene({triggerElement: "#mapTrigger", duration: "50%", offset: 300})
       .setPin('#mapContainer')
       .addTo(controller)
-      .addIndicators({'name': 'map'}) // debug
+      // .addIndicators({'name': 'map'}) // debug
       .on("enter", function(){
-        console.log('enter map')
+        // console.log('enter map')
       })
       .on("progress", function (event) {
-        console.log(event.progress)
+        // console.log(event.progress)
         if(event.progress > 0.8){
           if(slideCounter != 4){
-            console.log('Slide 4')
+            // console.log('Slide 4')
             $('#date-4').trigger('click');
             slideCounter = 4;
           }
         }else if(event.progress > 0.4){
           if(slideCounter != 3){
-            console.log('Slide 3')
+            // console.log('Slide 3')
             $('#date-3').trigger('click');
             slideCounter = 3;
           }
         }else if(event.progress > 0){
           if(slideCounter != 2){
-            console.log('Slide 2')
+            // console.log('Slide 2')
             $('#date-2').trigger('click');
             slideCounter = 2;
           }
