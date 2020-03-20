@@ -235,7 +235,7 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
 // Legend: from Bubblemap Template by Yan Holtz
 // https://www.d3-graph-gallery.com/graph/bubble_legend.html
 // https://www.d3-graph-gallery.com/graph/bubblemap_template.html
-  
+
   var labels = [0.5, 1, 10, 100]
   var size_l = 20
   var distance_from_top = (height - 50)
@@ -246,11 +246,11 @@ Promise.all([d3.json("data/world_countries.json"), d3.csv("data/geo_tweets_by_we
       .attr("x", 20)
       .attr("y", distance_from_top - labels.length*(size_l+5) + (size_l/2))
       .attr("width", 90)
-      .html("Cas confirmés/Mi d'habitants")
+      .html("Cas confirmés/Mio. d'habitants")
       .style("font-size", 12)
 
   // Add one dot in the legend for each name.
-  
+
   svg.selectAll("mydots")
     .data(labels)
     .enter()
