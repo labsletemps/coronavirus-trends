@@ -214,7 +214,7 @@ function update_trend_graph(country) {
       },
       {
         note: {
-          label: "Wuhan lockdown",
+          label: "Wuhan confinée",
         },
         color: ["#e83e8c"],
         x: x(new Date(2020,0,23)),
@@ -267,7 +267,7 @@ function update_trend_graph(country) {
     if (get_width>480) {
         annotations.push({
         note: {
-          label: "Piazza Pulita",
+          label: "Piazzapulita",
         },
         color: ["#e83e8c"],
         x: x(new Date(2020,2,5)),
