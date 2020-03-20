@@ -193,6 +193,11 @@ h2 {
 	margin-bottom: 30px;
   font-weight: bold;
 }
+h3{
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 1.2em;
+}
 h5{
 	margin-top: 30px;
 	font-family: 'montserratsemi_bold';
@@ -297,15 +302,21 @@ li {
 
 /* style qu'on mettra après mise au point des graphiques */
 .highlight{
-  font-weight: bold;
+  border-bottom-width: 3px;
+  border-style: solid;
 }
 .highlight-red{
   background: rgba(231, 76, 60, 0.2);
   color: rgb(231, 76, 60);
+  border-color: 2px solid rgb(231, 76, 60);
 }
 .highlight-blue{
   background: rgba(52, 152, 219, 0.2);
   color: rgb(52, 152, 219);
+  border-color: 2px solid rgb(52, 152, 219);
+}
+.highlight-thin{
+  border-bottom-width: 1px;
 }
 .legend{
   font-size: .9em;
@@ -317,28 +328,3 @@ video{
   max-width: 100%;
   margin: auto;
 }
-
-/*
-.axis line {
-	fill: none;
-	shape-rendering: crispEdges;
-	stroke-width: 1px;
-}
-
-.axis text {
-	font-family: 'Raleway', sans-serif;
-	font-size: 13px;
-	pointer-events: none;
-	fill: #7e7e7e;
-}
-
-.y.axis text {
-	text-anchor: end !important;
-	font-size:14px;
-	fill: #7e7e7e;
-}
-
-.x .domain, .x line {
-	display: none;
-}
-*/
